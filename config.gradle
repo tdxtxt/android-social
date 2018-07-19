@@ -1,0 +1,22 @@
+ext {
+
+    android = [
+            compileSdkVersion: 27,
+            minSdkVersion    : 21,
+            targetSdkVersion : 27,
+            versionCode      : 1000,
+            versionName      : "1.0.0",
+    ]
+
+    dependencies = [
+            appcompat_v7      : 'com.android.support:appcompat-v7:27.0.0',
+            design            : 'com.android.support:design:27.0.0',
+            cardview          : 'com.android.support:cardview-v7:27.0.0',
+            recyclerview      : 'com.android.support:recyclerview-v7:27.0.0',
+            constraintlayout  : 'com.android.support.constraint:constraint-layout:1.1.2',
+            kotlin            : 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.30',
+
+            weibo            : 'com.sina.weibo.sdk:core:4.2.7:openDefaultRelease@aar',
+            wechat            : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+',
+    ]
+}
