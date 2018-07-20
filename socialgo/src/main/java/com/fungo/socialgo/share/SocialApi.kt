@@ -53,7 +53,7 @@ object SocialApi {
      * @param resultCode
      * @param data
      */
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         for ((_, value) in mMapSSOHandler) {
             value.onActivityResult(requestCode, resultCode, data)
         }

@@ -22,8 +22,7 @@ class WBShareCallbackActivity : Activity(), WbShareCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = SocialApi.get(this.applicationContext)
-        this.mSinaWBHandler = api.getSSOHandler(PlatformType.SINA_WB) as SinaWBHandler
+        this.mSinaWBHandler = SocialApi.getSSOHandler(PlatformType.SINA_WB) as SinaWBHandler
         this.mSinaWBHandler!!.onCreate(this, PlatformConfig.getPlatformConfig(PlatformType.SINA_WB))
 
         if (this.intent != null) {
@@ -34,8 +33,7 @@ class WBShareCallbackActivity : Activity(), WbShareCallback {
 
     override fun onNewIntent(paramIntent: Intent) {
         super.onNewIntent(paramIntent)
-        val api = SocialApi.get(this.applicationContext)
-        this.mSinaWBHandler = api.getSSOHandler(PlatformType.SINA_WB) as SinaWBHandler
+        this.mSinaWBHandler = SocialApi.getSSOHandler(PlatformType.SINA_WB) as SinaWBHandler
         this.mSinaWBHandler!!.onCreate(this, PlatformConfig.getPlatformConfig(PlatformType.SINA_WB))
 
         this.handleIntent(this.intent)

@@ -159,7 +159,7 @@ class WXHandler : SSOHandler() {
         return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()
     }
 
-    fun getWXApi(): IWXAPI? {
+    fun getWxApi(): IWXAPI? {
         return this.mWXApi
     }
 

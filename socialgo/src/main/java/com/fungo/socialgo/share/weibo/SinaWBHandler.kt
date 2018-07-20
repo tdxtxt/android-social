@@ -2,6 +2,7 @@ package com.fungo.socialgo.share.weibo
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import com.fungo.socialgo.share.config.PlatformConfig
 import com.fungo.socialgo.share.config.PlatformType
 import com.fungo.socialgo.share.config.SSOHandler
@@ -19,8 +20,10 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken
 import com.sina.weibo.sdk.auth.WbAuthListener
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage
 import com.sina.weibo.sdk.auth.sso.SsoHandler
+import com.sina.weibo.sdk.constant.WBConstants
+import com.sina.weibo.sdk.share.WbShareCallback
 import com.sina.weibo.sdk.share.WbShareHandler
-import java.util.HashMap
+import java.util.*
 
 /**
  * @author Pinger
@@ -28,7 +31,7 @@ import java.util.HashMap
  * 新浪微博回调处理
  */
 
-class SinaWBHandler: SSOHandler() {
+class SinaWBHandler : SSOHandler() {
 
 
     private var mContext: Context? = null
@@ -69,7 +72,6 @@ class SinaWBHandler: SSOHandler() {
 
         this.mSsoHandler = SsoHandler(activity)
 
-        val mediaType = mConfig?.name?:PlatformType.SINA_WB
         mSsoHandler?.authorize(object : WbAuthListener {
 
             override fun onSuccess(accessToken: Oauth2AccessToken) {
@@ -81,22 +83,22 @@ class SinaWBHandler: SSOHandler() {
                     map["refresh_token"] = accessToken.refreshToken
                     map["expire_time"] = "" + accessToken.expiresTime
 
-                    mAuthListener?.onComplete(mediaType, map)
+                    mAuthListener?.onComplete(getPlatformType(), map)
                 } else {
                     val errmsg = "errmsg=accessToken is not SessionValid"
                     SocialUtils.e(errmsg)
-                    mAuthListener?.onError(mediaType, errmsg)
+                    mAuthListener?.onError(getPlatformType(), errmsg)
                 }
             }
 
             override fun cancel() {
-                mAuthListener?.onCancel(mediaType)
+                mAuthListener?.onCancel(getPlatformType())
             }
 
             override fun onFailure(wbConnectErrorMessage: WbConnectErrorMessage) {
                 val errmsg = "errmsg=" + wbConnectErrorMessage.errorMessage
                 SocialUtils.e(errmsg)
-                mAuthListener?.onError(mediaType, errmsg)
+                mAuthListener?.onError(getPlatformType(), errmsg)
             }
         })
     }
@@ -123,11 +125,38 @@ class SinaWBHandler: SSOHandler() {
             imageObject.setImageObject(image)
             weiboMessage.imageObject = imageObject
         } else {
-                this.mShareListener?.onError(this.mConfig?.name?:PlatformType.SINA_WB, "weibo is not support this shareMedia")
+            this.mShareListener?.onError(getPlatformType(), "weibo is not support this shareMedia")
             return
         }
         mWbShareHandler?.shareMessage(weiboMessage, false)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        mSsoHandler?.authorizeCallBack(requestCode, resultCode, data)
+    }
+
+    fun onNewIntent(intent: Intent, callback: WbShareCallback) {
+        mWbShareHandler?.doResultIntent(intent, callback)
+    }
+
+    fun onResponse(responseCode: Int, responseMsg: String) {
+        when (responseCode) {
+            WBConstants.ErrorCode.ERR_OK -> if (this.mShareListener != null) {
+                this.mShareListener?.onComplete(getPlatformType())
+            }
+            WBConstants.ErrorCode.ERR_CANCEL -> if (this.mShareListener != null) {
+                this.mShareListener?.onCancel(getPlatformType())
+            }
+            WBConstants.ErrorCode.ERR_FAIL -> if (this.mShareListener != null) {
+                this.mShareListener?.onError(getPlatformType(), responseMsg)
+            }
+        }
+    }
+
+
+    private fun getPlatformType(): PlatformType {
+        return this.mConfig?.name ?: PlatformType.SINA_WB
+    }
 
 }

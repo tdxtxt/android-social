@@ -56,7 +56,7 @@ abstract class SSOHandler {
      * @param resultCode
      * @param data
      */
-    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
     }
 

@@ -226,7 +226,7 @@ class QQHandler : SSOHandler() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Tencent.onActivityResultData(requestCode, resultCode, data, null)
     }
 

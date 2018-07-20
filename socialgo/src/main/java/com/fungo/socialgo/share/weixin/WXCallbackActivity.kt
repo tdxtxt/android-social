@@ -25,33 +25,31 @@ class WXCallbackActivity : Activity(), IWXAPIEventHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = SocialApi.get(this.applicationContext)
-        this.mWXHandler = api.getSSOHandler(PlatformType.WEIXIN) as WXHandler
+        this.mWXHandler = SocialApi.getSSOHandler(PlatformType.WEIXIN) as WXHandler
         this.mWXHandler!!.onCreate(this.applicationContext, PlatformConfig.getPlatformConfig(PlatformType.WEIXIN))
 
-        this.mWXCircleHandler = api.getSSOHandler(PlatformType.WEIXIN_CIRCLE) as WXHandler
+        this.mWXCircleHandler = SocialApi.getSSOHandler(PlatformType.WEIXIN_CIRCLE) as WXHandler
         this.mWXCircleHandler!!.onCreate(this.applicationContext, PlatformConfig.getPlatformConfig(PlatformType.WEIXIN_CIRCLE))
 
-        this.mWXHandler!!.wxApi.handleIntent(this.intent, this)
+        this.mWXHandler?.getWxApi()?.handleIntent(this.intent, this)
     }
 
 
     override fun onNewIntent(paramIntent: Intent) {
         super.onNewIntent(paramIntent)
-        val api = SocialApi.get(this.applicationContext)
-        this.mWXHandler = api.getSSOHandler(PlatformType.WEIXIN) as WXHandler
+        this.mWXHandler = SocialApi.getSSOHandler(PlatformType.WEIXIN) as WXHandler
         this.mWXHandler!!.onCreate(this.applicationContext, PlatformConfig.getPlatformConfig(PlatformType.WEIXIN))
 
-        this.mWXCircleHandler = api.getSSOHandler(PlatformType.WEIXIN_CIRCLE) as WXHandler
+        this.mWXCircleHandler = SocialApi.getSSOHandler(PlatformType.WEIXIN_CIRCLE) as WXHandler
         this.mWXCircleHandler!!.onCreate(this.applicationContext, PlatformConfig.getPlatformConfig(PlatformType.WEIXIN_CIRCLE))
 
-        this.mWXHandler!!.wxApi.handleIntent(this.intent, this)
+        this.mWXHandler?.getWxApi()?.handleIntent(this.intent, this)
     }
 
     override fun onResp(resp: BaseResp?) {
         try {
-            this.mWXHandler?.wxEventHandler?.onResp(resp)
-            this.mWXCircleHandler?.wxEventHandler?.onResp(resp)
+            this.mWXHandler?.getWXEventHandler()?.onResp(resp)
+            this.mWXCircleHandler?.getWXEventHandler()?.onResp(resp)
         } catch (e: Exception) {
             SocialUtils.e(e.message)
         }
@@ -60,7 +58,7 @@ class WXCallbackActivity : Activity(), IWXAPIEventHandler {
     }
 
     override fun onReq(req: BaseReq?) {
-        this.mWXHandler?.wxEventHandler?.onReq(req)
+        this.mWXHandler?.getWXEventHandler()?.onReq(req)
         this.finish()
     }
 }

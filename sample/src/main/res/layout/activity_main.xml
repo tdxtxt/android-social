@@ -1,18 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:overScrollMode="ifContentScrolls"
+    android:scrollbars="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white"
+        android:padding="12dp">
 
-</android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvConsole"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/grey_f2"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            android:text="请点击按钮操作"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="登录"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/tvConsole" />
+
+        <Button
+            android:id="@+id/tvQQLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onQQLogin"
+            android:text="QQ登录"
+            app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+
+
+        <Button
+            android:id="@+id/tvWxLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onWxLogin"
+            android:text="微信登录"
+            app:layout_constraintLeft_toRightOf="@+id/tvQQLogin"
+            app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onSinaLogin"
+            android:text="微博登录"
+            app:layout_constraintLeft_toRightOf="@+id/tvWxLogin"
+            app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/grey_f2"
+            app:layout_constraintTop_toBottomOf="@+id/tvQQLogin" />
+
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="分享"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+
+        <RadioGroup
+            android:id="@+id/containerType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tvShare">
+
+            <RadioButton
+                android:id="@+id/rbTypeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文字" />
+
+
+            <RadioButton
+                android:id="@+id/rbTypeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片" />
+
+            <RadioButton
+                android:id="@+id/rbTypeTextImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图文" />
+
+
+            <RadioButton
+                android:id="@+id/rbTypeLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="网页" />
+
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/containerPlatform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/containerType">
+
+            <RadioButton
+                android:id="@+id/rbPlatformQQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ" />
+
+
+            <RadioButton
+                android:id="@+id/rbPlatformQzon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ空间" />
+
+            <RadioButton
+                android:id="@+id/rbPlatformWx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信" />
+
+
+            <RadioButton
+                android:id="@+id/rbPlatformWxFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="朋友圈" />
+
+
+            <RadioButton
+                android:id="@+id/rbPlatformSina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微博" />
+        </RadioGroup>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="onShare"
+            android:text="分享"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/containerPlatform" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
