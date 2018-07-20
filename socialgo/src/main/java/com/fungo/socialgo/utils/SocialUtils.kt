@@ -79,11 +79,11 @@ object SocialUtils {
 
     // ============== 日志 =============
 
-    fun e(msg: String) {
+    fun e(msg: String?) {
         println(msg)
     }
 
-    fun e(tag: String, msg: String) {
+    fun e(tag: String, msg: String?) {
         println("$tag：$msg")
     }
 

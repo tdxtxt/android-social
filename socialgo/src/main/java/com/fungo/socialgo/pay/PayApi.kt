@@ -11,22 +11,6 @@ import com.fungo.socialgo.utils.SocialUtils
 
 
 /**
- * Author: michaelx
- * Create: 2017/3/11.
- *
- *
- * Endcode: UTF-8
- *
- *
- * Blog:http://blog.csdn.net/xiong_it | https://xiong-it.github.io
- * github:https://github.com/xiong-it
- *
- *
- * Description: 支付SDK封装工具类.
- */
-
-
-/**
  * @author Pinger
  * @since 18-7-20 上午11:22
  *  支付SDK封装工具类
