@@ -52,9 +52,9 @@ class WXHandler : SSOHandler() {
 
                 val type = resp.type
                 when (type) {
-                //授权返回
+                    //授权返回
                     ConstantsAPI.COMMAND_SENDAUTH -> this@WXHandler.onAuthCallback(resp as SendAuth.Resp)
-                //分享返回
+                    //分享返回
                     ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX -> this@WXHandler.onShareCallback(resp as SendMessageToWX.Resp)
                 }
 
@@ -171,4 +171,10 @@ class WXHandler : SSOHandler() {
     fun getWXEventHandler(): IWXAPIEventHandler {
         return this.mEventHandler
     }
+
+    override fun isInstall(): Boolean {
+        return mWXApi?.isWXAppInstalled ?: false
+    }
+
+
 }

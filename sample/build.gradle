@@ -29,4 +29,6 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlin
 
     implementation project(":socialgo")
+
+    implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.0.4'
 }

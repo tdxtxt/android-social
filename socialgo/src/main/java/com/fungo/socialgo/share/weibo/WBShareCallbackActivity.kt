@@ -1,8 +1,8 @@
 package com.fungo.socialgo.share.weibo
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.fungo.socialgo.share.SocialApi
 import com.fungo.socialgo.share.config.PlatformConfig
 import com.fungo.socialgo.share.config.PlatformType
@@ -15,10 +15,9 @@ import com.sina.weibo.sdk.share.WbShareCallback
  * 微博分享后的回调
  */
 
-class WBShareCallbackActivity : Activity(), WbShareCallback {
+class WBShareCallbackActivity : AppCompatActivity(), WbShareCallback {
 
     private var mSinaWBHandler: SinaWBHandler? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,7 @@ class WBShareCallbackActivity : Activity(), WbShareCallback {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         this.mSinaWBHandler?.onActivityResult(requestCode, resultCode, data)
     }

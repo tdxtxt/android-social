@@ -2,16 +2,18 @@ package com.fungo.sample
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import com.fungo.imagego.listener.OnImageListener
+import com.fungo.imagego.loadBitmap
 import com.fungo.socialgo.share.SocialApi
 import com.fungo.socialgo.share.config.PlatformType
 import com.fungo.socialgo.share.listener.OnAuthListener
 import com.fungo.socialgo.share.listener.OnShareListener
-import com.fungo.socialgo.share.media.IShareMedia
-import com.fungo.socialgo.share.media.ShareTextMedia
+import com.fungo.socialgo.share.media.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var shareMedia: IShareMedia = ShareTextMedia("默认分享的文字")
 
 
-    private val mProgressDialog:ProgressDialog by lazy {
+    private val mProgressDialog: ProgressDialog by lazy {
         ProgressDialog(this)
     }
 
@@ -49,47 +51,43 @@ class MainActivity : AppCompatActivity() {
                     shareMedia = ShareTextMedia(getString(R.string.share_text))
                 }
                 R.id.rbTypeImage -> {
-//                    ImageManager.instance.loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareImageMedia()
-//                            (shareMedia as ShareImageMedia).image = bitmap
-//                        }
-//
-//                        override fun onFail(msg: String) {
-//                        }
-//                    })
+                    loadBitmap(this, mImageUrl, object : OnImageListener {
+                        override fun onFail(msg: String?) {
 
+                        }
 
+                        override fun onSuccess(bitmap: Bitmap?) {
+                            (shareMedia as ShareImageMedia).bitmap = bitmap!!
+                        }
+                    })
                 }
                 R.id.rbTypeTextImage -> {
-//                    ImageManager.instance.loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareTextImageMedia()
-//                            (shareMedia as ShareTextImageMedia).image = bitmap
-//                            (shareMedia as ShareTextImageMedia).text = getString(R.string.share_text)
-//                        }
-//
-//                        override fun onFail(msg: String) {
-//                        }
-//
-//                    })
+                    loadBitmap(this, mImageUrl, object : OnImageListener {
+                        override fun onSuccess(bitmap: Bitmap?) {
+                            (shareMedia as ShareTextImageMedia).image = bitmap!!
+                            (shareMedia as ShareTextImageMedia).text = getString(R.string.share_text)
+                        }
+
+                        override fun onFail(msg: String?) {
+                        }
+
+                    })
 
                 }
 
                 R.id.rbTypeLink -> {
-//                    ImageManager.instance.loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareWebMedia()
-//                            (shareMedia as ShareWebMedia).thumb = bitmap
-//                            (shareMedia as ShareWebMedia).description = getString(R.string.share_text)
-//                            (shareMedia as ShareWebMedia).webPageUrl = mShareUrl
-//                            (shareMedia as ShareWebMedia).title = getString(R.string.share_title)
-//                        }
-//
-//                        override fun onFail(msg: String) {
-//                        }
-//
-//                    })
+                    loadBitmap(this, mImageUrl, object : OnImageListener {
+                        override fun onSuccess(bitmap: Bitmap?) {
+                            (shareMedia as ShareWebMedia).thumb = bitmap!!
+                            (shareMedia as ShareWebMedia).description = getString(R.string.share_text)
+                            (shareMedia as ShareWebMedia).url = mShareUrl
+                            (shareMedia as ShareWebMedia).title = getString(R.string.share_title)
+                        }
+
+                        override fun onFail(msg: String?) {
+                        }
+
+                    })
 
                 }
             }
@@ -128,6 +126,24 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onWxLogin(view: View) {
+        mProgressDialog.show()
+        SocialApi.doOauthVerify(this,PlatformType.WEIXIN,object :OnAuthListener{
+            override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
+                performLoginSuccess(map)
+            }
+
+            override fun onError(platform_type: PlatformType, err_msg: String) {
+                mProgressDialog.dismiss()
+                tvConsole.text = "WX登录发生错误:$err_msg"
+            }
+
+            override fun onCancel(platform_type: PlatformType) {
+                mProgressDialog.dismiss()
+                tvConsole.text = "WX登录取消"
+            }
+
+        })
+
 
     }
 
@@ -187,8 +203,6 @@ class MainActivity : AppCompatActivity() {
         for (key in map.keys) {
             builder.append("$key : ").append("${map[key]}").append("\n")
         }
-
         tvConsole.text = builder.toString()
-
     }
 }

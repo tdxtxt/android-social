@@ -172,7 +172,7 @@ class QQHandler : SSOHandler() {
             } else if (shareMedia is ShareImageMedia) {  //图片分享
                 val (bitmap) = shareMedia
 
-                //图片保存本地
+                // 图片保存本地
                 SocialUtils.saveBitmapFile(bitmap, path)
 
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE)

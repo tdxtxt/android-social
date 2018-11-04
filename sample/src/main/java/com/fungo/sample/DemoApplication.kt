@@ -9,12 +9,13 @@ import com.fungo.socialgo.share.config.PlatformConfig
  *
  */
 
-class DemoApplication:Application() {
+class DemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         PlatformConfig.setQQ(AppConstant.QQ_APP_ID)
         PlatformConfig.setSinaWB(AppConstant.SINA_APP_KEY)
+        PlatformConfig.setWeixin(AppConstant.WX_APP_ID)
     }
 }

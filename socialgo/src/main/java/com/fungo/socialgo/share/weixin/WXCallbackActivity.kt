@@ -1,8 +1,8 @@
 package com.fungo.socialgo.share.weixin
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.fungo.socialgo.share.SocialApi
 import com.fungo.socialgo.share.config.PlatformConfig
 import com.fungo.socialgo.share.config.PlatformType
@@ -17,7 +17,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
  * 微信的回调类
  */
 
-class WXCallbackActivity : Activity(), IWXAPIEventHandler {
+class WXCallbackActivity : AppCompatActivity(), IWXAPIEventHandler {
 
     private var mWXHandler: WXHandler? = null
     private var mWXCircleHandler: WXHandler? = null

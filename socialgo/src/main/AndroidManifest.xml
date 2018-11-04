@@ -22,6 +22,20 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!--wx-->
+        <activity
+            android:name="com.fungo.socialgo.share.weixin.WXCallbackActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity-alias
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.fungo.socialgo.share.weixin.WXCallbackActivity" />
+
+
     </application>
 
 </manifest>

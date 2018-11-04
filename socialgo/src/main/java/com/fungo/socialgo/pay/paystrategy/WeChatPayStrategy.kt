@@ -35,10 +35,11 @@ class WeChatPayStrategy(private val params:PayParams, private val prePayInfo:Str
             return
         }
 
-        if (!wxApi.isWXAppSupportAPI) {
+        // TODO
+        /*if (!wxApi.isWXAppSupportAPI) {
             resultListener.onPayCallBack(PayApi.WECHAT_UNSUPPORT_ERR)
             return
-        }
+        }*/
         wxApi.registerApp(params.weChatAppID)
         registerPayResultBroadcast()
 
