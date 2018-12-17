@@ -1,8 +1,9 @@
-package com.babypat;
+package com.fungo.sample;
 
 import android.text.TextUtils;
 
-import com.march.socialsdk.adapter.impl.RequestAdapterImpl;
+
+import com.march.socialsdk.adapter.impl.DefaultRequestAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import okhttp3.Response;
  *
  * @author chendong
  */
-public class OkHttpRequestAdapter extends RequestAdapterImpl {
+public class OkHttpRequestAdapter extends DefaultRequestAdapter {
 
     private OkHttpClient mOkHttpClient;
 

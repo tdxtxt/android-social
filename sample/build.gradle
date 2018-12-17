@@ -7,10 +7,15 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
+        applicationId "com.fungo.sample"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        manifestPlaceholders = [
+                "qq_id": "1106936073",
+        ]
     }
 
     buildTypes {
@@ -29,4 +34,8 @@ dependencies {
     implementation rootProject.ext.dependencies.kotlin
 
     implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.0.4'
+
+    implementation project(":SocialSdkLibrary")
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

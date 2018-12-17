@@ -1,4 +1,4 @@
-package com.babypat;
+package com.fungo.sample;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

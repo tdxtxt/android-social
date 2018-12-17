@@ -3,7 +3,10 @@ package com.fungo.sample
 import android.app.Application
 import com.fungo.imagego.glide.GlideImageStrategy
 import com.fungo.imagego.strategy.ImageGoEngine
-import com.fungo.socialgo.social.PlatformConfig
+import com.march.socialsdk.SocialSdkConfig
+import com.march.socialsdk.SocialSdk
+
+
 
 /**
  * @author Pinger
@@ -16,10 +19,16 @@ class DemoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        PlatformConfig.setQQ(AppConstant.QQ_APP_ID)
-        PlatformConfig.setSinaWB(AppConstant.SINA_APP_KEY)
-        PlatformConfig.setWeixin(AppConstant.WX_APP_ID)
-
         ImageGoEngine.setImageStrategy(GlideImageStrategy())
+
+        val config = SocialSdkConfig.create(this)
+                .debug(true)
+                .qq(AppConstant.QQ_APP_ID)
+                .wechat(AppConstant.WX_APP_ID, AppConstant.WX_APP_SECRET)
+                .sina(AppConstant.SINA_APP_KEY)
+
+        SocialSdk.init(config)
+        SocialSdk.setJsonAdapter(GsonJsonAdapter())
+        SocialSdk.setRequestAdapter(OkHttpRequestAdapter())
     }
 }
