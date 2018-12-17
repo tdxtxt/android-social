@@ -9,17 +9,17 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.fungo.imagego.listener.OnImageListener
 import com.fungo.imagego.loadBitmap
-import com.fungo.socialgo.share.SocialApi
-import com.fungo.socialgo.share.config.PlatformType
-import com.fungo.socialgo.share.listener.OnAuthListener
-import com.fungo.socialgo.share.listener.OnShareListener
-import com.fungo.socialgo.share.media.*
+import com.fungo.socialgo.social.PlatformType
+import com.fungo.socialgo.social.SocialApi
+import com.fungo.socialgo.social.listener.AuthListener
+import com.fungo.socialgo.social.listener.ShareListener
+import com.fungo.socialgo.social.share_media.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private var platformType: PlatformType = PlatformType.QQ
-    private var shareMedia: IShareMedia = ShareTextMedia("默认分享的文字")
+    private var shareMedia: IShareMedia = ShareTextMedia()
 
 
     private val mProgressDialog: ProgressDialog by lazy {
@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity() {
         containerType.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rbTypeText -> {
-                    shareMedia = ShareTextMedia(getString(R.string.share_text))
+                    shareMedia = ShareTextMedia()
+
                 }
                 R.id.rbTypeImage -> {
                     loadBitmap(this, mImageUrl, object : OnImageListener {
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onSuccess(bitmap: Bitmap?) {
-                            (shareMedia as ShareImageMedia).bitmap = bitmap!!
+                            (shareMedia as ShareImageMedia).image = bitmap!!
                         }
                     })
                 }
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                         override fun onSuccess(bitmap: Bitmap?) {
                             (shareMedia as ShareWebMedia).thumb = bitmap!!
                             (shareMedia as ShareWebMedia).description = getString(R.string.share_text)
-                            (shareMedia as ShareWebMedia).url = mShareUrl
+                            (shareMedia as ShareWebMedia).webPageUrl = mShareUrl
                             (shareMedia as ShareWebMedia).title = getString(R.string.share_title)
                         }
 
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onQQLogin(view: View) {
         mProgressDialog.show()
-        SocialApi.doOauthVerify(this, PlatformType.QQ, object : OnAuthListener {
+        SocialApi.get(this).doOauthVerify(this, PlatformType.QQ, object : AuthListener {
             override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
                 performLoginSuccess(map)
             }
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onWxLogin(view: View) {
         mProgressDialog.show()
-        SocialApi.doOauthVerify(this,PlatformType.WEIXIN,object :OnAuthListener{
+        SocialApi.get(this).doOauthVerify(this, PlatformType.WEIXIN, object : AuthListener {
             override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
                 performLoginSuccess(map)
             }
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onSinaLogin(view: View) {
         mProgressDialog.show()
-        SocialApi.doOauthVerify(this, PlatformType.SINA_WB, object : OnAuthListener {
+        SocialApi.get(this).doOauthVerify(this, PlatformType.SINA_WB, object : AuthListener {
             override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
                 performLoginSuccess(map)
             }
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onShare(view: View) {
         mProgressDialog.show()
-        SocialApi.doShare(this, platformType, shareMedia, object : OnShareListener {
+        SocialApi.get(this).doShare(this, platformType, shareMedia, object : ShareListener {
             override fun onComplete(platform_type: PlatformType) {
                 mProgressDialog.dismiss()
                 tvConsole.text = "分享成功"
@@ -186,9 +187,19 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+
+    fun onPayWx(view: View) {
+
+    }
+
+
+    fun onPayAli(view: View) {
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        SocialApi.onActivityResult(requestCode, resultCode, data)
+        SocialApi.get(this).onActivityResult(requestCode, resultCode, data)
     }
 
 

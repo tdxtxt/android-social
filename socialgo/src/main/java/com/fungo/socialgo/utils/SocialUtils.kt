@@ -185,7 +185,7 @@ object SocialUtils {
     }
 
     /** 获取一个单线程池，所有任务将会被按照加入的顺序执行，免除了同步开销的问题  */
-    val singlePool: ExecutorService
+    private val singlePool: ExecutorService
         get() = Executors.newSingleThreadExecutor()
 
 

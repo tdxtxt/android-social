@@ -1,7 +1,7 @@
 package com.fungo.sample
 
 import android.app.Application
-import com.fungo.socialgo.share.config.PlatformConfig
+import com.fungo.socialgo.social.PlatformConfig
 
 /**
  * @author Pinger

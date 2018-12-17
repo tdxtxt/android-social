@@ -167,6 +167,7 @@
 
 
         <Button
+            android:id="@+id/btnShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -175,6 +176,53 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/containerPlatform" />
+
+
+
+
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/grey_f2"
+            app:layout_constraintTop_toBottomOf="@+id/btnShare" />
+
+        <TextView
+            android:id="@+id/tvPay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="支付"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+
+
+        <Button
+            android:id="@+id/btnPayWx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="onPayWx"
+            android:text="微信"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPay" />
+
+
+        <Button
+            android:id="@+id/btnPayAli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="onPayAli"
+            android:text="支付宝"
+            android:layout_marginLeft="12dp"
+            app:layout_constraintStart_toEndOf="@+id/btnPayWx"
+            app:layout_constraintTop_toBottomOf="@+id/tvPay" />
+
+
 
     </android.support.constraint.ConstraintLayout>
 
