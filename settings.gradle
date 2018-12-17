@@ -1,1 +1,1 @@
-include ':sample', ':socialgo'
+include ':sample', ':SocialSdkLibrary'

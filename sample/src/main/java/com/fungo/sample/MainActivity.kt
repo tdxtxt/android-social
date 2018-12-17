@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onSuccess(bitmap: Bitmap?) {
+                            shareMedia = ShareImageMedia()
                             (shareMedia as ShareImageMedia).image = bitmap!!
                         }
                     })
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.rbTypeTextImage -> {
                     loadBitmap(this, mImageUrl, object : OnImageListener {
                         override fun onSuccess(bitmap: Bitmap?) {
+                            shareMedia = ShareTextImageMedia()
                             (shareMedia as ShareTextImageMedia).image = bitmap!!
                             (shareMedia as ShareTextImageMedia).text = getString(R.string.share_text)
                         }
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.rbTypeLink -> {
                     loadBitmap(this, mImageUrl, object : OnImageListener {
                         override fun onSuccess(bitmap: Bitmap?) {
+                            shareMedia = ShareWebMedia()
                             (shareMedia as ShareWebMedia).thumb = bitmap!!
                             (shareMedia as ShareWebMedia).description = getString(R.string.share_text)
                             (shareMedia as ShareWebMedia).webPageUrl = mShareUrl
