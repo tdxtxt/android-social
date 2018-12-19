@@ -27,7 +27,7 @@ class DemoApplication : Application() {
                 .wechat(AppConstant.WX_APP_ID, AppConstant.WX_APP_SECRET)
                 .sina(AppConstant.SINA_APP_KEY)
 
-        SocialSdk.init(config)
+        SocialSdk.init(this,config)
         SocialSdk.setJsonAdapter(GsonJsonAdapter())
         SocialSdk.setRequestAdapter(OkHttpRequestAdapter())
     }

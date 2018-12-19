@@ -14,5 +14,5 @@ object AppConstant {
     const val SINA_APP_SECRET = "0390444ae665f63dddb131774e527849"
 
     const val WX_APP_ID = "wxf44e60cce52c4a0c"
-    const val WX_APP_SECRET = ""
+    const val WX_APP_SECRET = "xxxxxxx"
 }

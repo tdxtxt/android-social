@@ -11,6 +11,7 @@ import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.common.ThumbDataContinuation;
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
+import com.fungo.socialgo.listener.OnPayListener;
 import com.fungo.socialgo.model.ShareObj;
 import com.fungo.socialgo.platform.AbsPlatform;
 import com.fungo.socialgo.platform.IPlatform;
@@ -156,6 +157,11 @@ public class WbPlatform extends AbsPlatform {
     @Override
     public void login(Activity activity, OnLoginListener loginListener) {
         makeLoginHelper(activity).login(activity, loginListener);
+    }
+
+    @Override
+    public void doPay(Context context, String payParams, OnPayListener listener) {
+
     }
 
     @Override

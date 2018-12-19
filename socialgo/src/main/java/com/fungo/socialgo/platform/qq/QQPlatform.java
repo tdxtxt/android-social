@@ -11,6 +11,7 @@ import com.fungo.socialgo.SocialSdkConfig;
 import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
+import com.fungo.socialgo.listener.OnPayListener;
 import com.fungo.socialgo.listener.OnShareListener;
 import com.fungo.socialgo.model.ShareObj;
 import com.fungo.socialgo.platform.AbsPlatform;
@@ -282,5 +283,13 @@ public class QQPlatform extends AbsPlatform {
     public static String parseUiError(UiError e) {
         return "code = " + e.errorCode + " ,msg = " + e.errorMessage + " ,detail=" + e.errorDetail;
     }
+
+    @Override
+    public void doPay(Context context, String payParams, OnPayListener listener) {
+
+    }
+
+
+
 
 }

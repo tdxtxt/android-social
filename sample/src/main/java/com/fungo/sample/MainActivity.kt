@@ -2,7 +2,6 @@ package com.fungo.sample
 
 import android.Manifest
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -10,8 +9,10 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.fungo.socialgo.exception.SocialError
 import com.fungo.socialgo.listener.OnLoginListener
+import com.fungo.socialgo.listener.OnPayListener
 import com.fungo.socialgo.listener.OnShareListener
 import com.fungo.socialgo.manager.LoginManager
+import com.fungo.socialgo.manager.PayManager
 import com.fungo.socialgo.manager.ShareManager
 import com.fungo.socialgo.model.LoginResult
 import com.fungo.socialgo.model.ShareObj
@@ -148,16 +149,37 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onPayWx(view: View) {
-
+        PayManager.doPay(this, "xxxxx", Target.PAY_WX, PayListener())
     }
 
 
     fun onPayAli(view: View) {
-
+        PayManager.doPay(this, "xxxxx", Target.PAY_ALI, PayListener())
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
+    inner class PayListener : OnPayListener {
+
+        override fun onStart() {
+            tvConsole?.text = "支付开始"
+        }
+
+        override fun onSuccess() {
+            tvConsole?.text = "支付成功"
+        }
+
+        override fun onDealing() {
+            tvConsole?.text = "onDealing"
+        }
+
+        override fun onError(error: SocialError?) {
+            tvConsole?.text = "支付异常：${error?.errorMsg}"
+        }
+
+        override fun onCancel() {
+            tvConsole?.text = "支付取消"
+        }
     }
+
+
 }

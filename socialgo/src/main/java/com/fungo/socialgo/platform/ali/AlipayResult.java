@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.alipay;
+package com.fungo.socialgo.platform.ali;
 
 import android.text.TextUtils;
 

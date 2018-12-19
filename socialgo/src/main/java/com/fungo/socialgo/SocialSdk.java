@@ -10,6 +10,7 @@ import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.PlatformCreator;
 import com.fungo.socialgo.platform.Target;
+import com.fungo.socialgo.platform.wechat.pay.WXPay;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,11 +24,11 @@ import java.util.concurrent.Executors;
  */
 public class SocialSdk {
 
-    private static SocialSdkConfig              sSocialSdkConfig;
-    private static IJsonAdapter                 sJsonAdapter;
-    private static IRequestAdapter              sRequestAdapter;
+    private static SocialSdkConfig sSocialSdkConfig;
+    private static IJsonAdapter sJsonAdapter;
+    private static IRequestAdapter sRequestAdapter;
     private static SparseArray<PlatformCreator> sPlatformCreatorMap;
-    private static ExecutorService              sExecutorService;
+    private static ExecutorService sExecutorService;
 
     public static SocialSdkConfig getConfig() {
         if (sSocialSdkConfig == null) {
@@ -36,9 +37,17 @@ public class SocialSdk {
         return sSocialSdkConfig;
     }
 
-    public static void init(SocialSdkConfig config) {
+    public static void init(Context context, SocialSdkConfig config) {
         sSocialSdkConfig = config;
         actionRegisterPlatform();
+        initPay(context);
+    }
+
+    /**
+     * 微信支付初始化
+     */
+    private static void initPay(Context context) {
+        WXPay.init(context, sSocialSdkConfig.getWxAppId());
     }
 
 
@@ -54,7 +63,7 @@ public class SocialSdk {
                 new Target.Mapping(Target.PLATFORM_QQ, SocialConstants.QQ_CREATOR),
                 new Target.Mapping(Target.PLATFORM_WX, SocialConstants.WX_CREATOR),
                 new Target.Mapping(Target.PLATFORM_WB, SocialConstants.WB_CREATOR),
-                new Target.Mapping(Target.PLATFORM_DD, SocialConstants.DD_CREATOR),
+                new Target.Mapping(Target.PLATFORM_ALI, SocialConstants.ALI_CREATOR),
         };
         List<Integer> disablePlatforms = sSocialSdkConfig.getDisablePlatforms();
         for (Target.Mapping mapping : mappings) {

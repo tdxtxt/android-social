@@ -3,9 +3,10 @@ package com.fungo.socialgo.platform;
 import android.app.Activity;
 import android.content.Context;
 
-import com.fungo.socialgo.listener.PlatformLifecycle;
 import com.fungo.socialgo.listener.OnLoginListener;
+import com.fungo.socialgo.listener.OnPayListener;
 import com.fungo.socialgo.listener.OnShareListener;
+import com.fungo.socialgo.listener.PlatformLifecycle;
 import com.fungo.socialgo.model.ShareObj;
 
 /**
@@ -31,5 +32,8 @@ public interface IPlatform extends PlatformLifecycle {
 
     // 发起分享
     void share(Activity activity, int shareTarget, ShareObj shareMediaObj);
+
+    // 支付
+    void doPay(Context context, String payParams, OnPayListener listener);
 
 }

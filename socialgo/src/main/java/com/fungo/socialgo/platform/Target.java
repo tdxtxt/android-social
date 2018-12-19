@@ -13,37 +13,36 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class Target {
 
-    public static final int PLATFORM_QQ = 0x11; // qq 登录
-    public static final int PLATFORM_WX = 0x12; // 微信登录
-    public static final int PLATFORM_WB = 0x13; // 微博登录
-    public static final int PLATFORM_DD = 0x14; // 微博登录
+    public static final int PLATFORM_QQ = 0x11; // qq
+    public static final int PLATFORM_WX = 0x12; // 微信
+    public static final int PLATFORM_WB = 0x13; // 微博
+    public static final int PLATFORM_ALI = 0x14; // 支付宝
 
     public static final int LOGIN_QQ = 0x21; // qq 登录
     public static final int LOGIN_WX = 0x22; // 微信登录
     public static final int LOGIN_WB = 0x23; // 微博登录
 
-    public static final int SHARE_QQ_FRIENDS  = 0x31; // qq好友
-    public static final int SHARE_QQ_ZONE     = 0x32; // qq空间
-    public static final int SHARE_WX_FRIENDS  = 0x33; // 微信好友
-    public static final int SHARE_WX_ZONE     = 0x34; // 微信朋友圈
-    public static final int SHARE_WX_FAVORITE = 0x35; // 微信收藏
-    public static final int SHARE_WB          = 0x36; // 新浪微博
-    public static final int SHARE_DD          = 0x38; // dingding 分享
+    public static final int SHARE_QQ_FRIENDS = 0x31; // qq好友
+    public static final int SHARE_QQ_ZONE = 0x32; // qq空间
+    public static final int SHARE_WX_FRIENDS = 0x33; // 微信好友
+    public static final int SHARE_WX_ZONE = 0x34; // 微信朋友圈
+    public static final int SHARE_WB = 0x36; // 新浪微博
 
+    public static final int PAY_WX = 0x41;   //微信支付
+    public static final int PAY_ALI = 0x42;  // 阿里支付
 
     public static class Mapping {
-        public Mapping( int platform,String creator) {
+        public Mapping(int platform, String creator) {
             this.creator = creator;
             this.platform = platform;
         }
 
         public String creator;
-        public int    platform;
+        public int platform;
     }
 
     @IntDef({Target.SHARE_QQ_FRIENDS, Target.SHARE_QQ_ZONE,
-            Target.SHARE_WX_FRIENDS, Target.SHARE_WX_ZONE, Target.SHARE_WX_FAVORITE,
-            Target.SHARE_WB, Target.SHARE_DD})
+            Target.SHARE_WX_FRIENDS, Target.SHARE_WX_ZONE, Target.SHARE_WB})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ShareTarget {
 
@@ -56,7 +55,13 @@ public class Target {
 
     }
 
-    @IntDef({Target.PLATFORM_WX, Target.PLATFORM_QQ, Target.PLATFORM_WB, Target.PLATFORM_DD})
+    @IntDef({Target.PAY_WX, Target.PAY_ALI})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PayTarget {
+
+    }
+
+    @IntDef({Target.PLATFORM_WX, Target.PLATFORM_QQ, Target.PLATFORM_WB, Target.PLATFORM_ALI})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PlatformTarget {
 
@@ -73,14 +78,15 @@ public class Target {
             case Target.LOGIN_WX:
             case Target.SHARE_WX_FRIENDS:
             case Target.SHARE_WX_ZONE:
+            case Target.PAY_WX:
                 return PLATFORM_WX;
             case Target.LOGIN_WB:
             case Target.SHARE_WB:
             case Target.PLATFORM_WB:
                 return PLATFORM_WB;
-            case Target.SHARE_DD:
-            case Target.PLATFORM_DD:
-                return PLATFORM_DD;
+            case Target.PAY_ALI:
+            case Target.PLATFORM_ALI:
+                return PLATFORM_ALI;
             default:
                 return -1;
         }
@@ -112,9 +118,6 @@ public class Target {
                 break;
             case Target.SHARE_WB:
                 result = "微博普通分享";
-                break;
-            case Target.SHARE_DD:
-                result = "丁丁分享";
                 break;
             default:
                 result = "未知类型";

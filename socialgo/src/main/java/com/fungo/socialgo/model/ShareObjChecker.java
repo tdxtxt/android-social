@@ -60,8 +60,7 @@ public class ShareObjChecker {
                 if (FileUtil.isExist(obj.getMediaPath()) && isAny(shareTarget,Target.SHARE_QQ_ZONE,
                         Target.SHARE_WB,
                         Target.SHARE_QQ_FRIENDS,
-                        Target.SHARE_WX_FRIENDS,
-                        Target.SHARE_DD)) {
+                        Target.SHARE_WX_FRIENDS)) {
                     return isTitleSummaryValid(obj) && !Util.isAnyEmpty(obj.getMediaPath());
                 }
                 // 网络视频

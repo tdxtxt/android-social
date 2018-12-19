@@ -285,14 +285,10 @@ public class ShareManager {
                 break;
             case Target.SHARE_WX_FRIENDS:
             case Target.SHARE_WX_ZONE:
-            case Target.SHARE_WX_FAVORITE:
                 pkgName = SocialConstants.WECHAT_PKG;
                 break;
             case Target.SHARE_WB:
                 pkgName = SocialConstants.SINA_PKG;
-                break;
-            case Target.SHARE_DD:
-                pkgName = SocialConstants.DD_PKG;
                 break;
         }
         return !TextUtils.isEmpty(pkgName) && Util.openApp(context, pkgName);

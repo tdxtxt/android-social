@@ -10,6 +10,7 @@ import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.common.ThumbDataContinuation;
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
+import com.fungo.socialgo.listener.OnPayListener;
 import com.fungo.socialgo.model.LoginResult;
 import com.fungo.socialgo.model.ShareObj;
 import com.fungo.socialgo.platform.AbsPlatform;
@@ -43,9 +44,10 @@ import bolts.Task;
  * Describe : 微信平台
  * [分享与收藏文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317340&token=&lang=zh_CN)
  * [微信登录文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN)
- *
+ * <p>
  * 缩略图不超过 32kb
  * 源文件不超过 10M
+ *
  * @author chendong
  */
 public class WxPlatform extends AbsPlatform {
@@ -151,9 +153,9 @@ public class WxPlatform extends AbsPlatform {
                     mOnShareListener.onFailure(new SocialError(SocialError.CODE_SDK_ERROR, "分享被拒绝"));
                     break;
             }
-        }else  if(baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            if(WXPay.getInstance() != null) {
-                if(baseResp.errStr != null) {
+        } else if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            if (WXPay.getInstance() != null) {
+                if (baseResp.errStr != null) {
                     // TODO Log.e("wxpay", "errstr=" + baseResp.errStr);
                 }
                 WXPay.getInstance().onResp(baseResp.errCode);
@@ -171,6 +173,10 @@ public class WxPlatform extends AbsPlatform {
         mWeChatLoginHelper.login(mWxSecret, loginListener);
     }
 
+    @Override
+    public void doPay(Context context, String payParams, OnPayListener listener) {
+        WXPay.getInstance().doPay(payParams, listener);
+    }
 
     private int getShareToWhere(int shareTarget) {
         int where = SendMessageToWX.Req.WXSceneSession;
@@ -180,9 +186,6 @@ public class WxPlatform extends AbsPlatform {
                 break;
             case Target.SHARE_WX_ZONE:
                 where = SendMessageToWX.Req.WXSceneTimeline;
-                break;
-            case Target.SHARE_WX_FAVORITE:
-                where = SendMessageToWX.Req.WXSceneFavorite;
                 break;
         }
         return where;
