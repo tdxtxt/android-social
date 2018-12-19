@@ -11,7 +11,7 @@
 
         <!--用于发起请求和接受数据，同步生命周期-->
         <activity
-            android:name="com.fungo.socialgo.uikit.ActionActivity"
+            android:name=".social.uikit.ActionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
@@ -27,7 +27,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:targetActivity="com.fungo.socialgo.uikit.ActionActivity"
+            android:targetActivity=".social.uikit.ActionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <!--dd-->
         <activity-alias
@@ -35,7 +35,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:targetActivity="com.fungo.socialgo.uikit.ActionActivity"
+            android:targetActivity=".social.uikit.ActionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <!-- QQ、Qzone平台 -->

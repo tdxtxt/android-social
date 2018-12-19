@@ -8,14 +8,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.view.View
-import com.fungo.socialgo.exception.SocialError
-import com.fungo.socialgo.listener.OnLoginListener
-import com.fungo.socialgo.listener.OnShareListener
-import com.fungo.socialgo.manager.LoginManager
-import com.fungo.socialgo.manager.ShareManager
-import com.fungo.socialgo.model.LoginResult
-import com.fungo.socialgo.model.ShareObj
-import com.fungo.socialgo.platform.Target
+import com.fungo.socialgo.social.exception.SocialError
+import com.fungo.socialgo.social.listener.OnLoginListener
+import com.fungo.socialgo.social.listener.OnShareListener
+import com.fungo.socialgo.social.manager.LoginManager
+import com.fungo.socialgo.social.manager.ShareManager
+import com.fungo.socialgo.social.model.LoginResult
+import com.fungo.socialgo.social.model.ShareObj
+import com.fungo.socialgo.social.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -3,7 +3,7 @@ package com.fungo.sample;
 import android.text.TextUtils;
 
 
-import com.fungo.socialgo.adapter.impl.DefaultRequestAdapter;
+import com.fungo.socialgo.social.adapter.impl.DefaultRequestAdapter;
 
 import java.io.File;
 import java.io.IOException;
