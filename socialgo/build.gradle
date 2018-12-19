@@ -29,5 +29,8 @@ dependencies {
     implementation 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar' // 微博
     implementation files('libs/open_sdk_r5923_lite.jar') // QQ
     implementation files('libs/libddshare.jar') // 钉钉
+    
+    implementation files('libs/libammsdk.jar')
+    implementation files('libs/alipaySdk-20161009.jar')
 }
 
