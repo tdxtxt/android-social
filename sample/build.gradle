@@ -35,7 +35,7 @@ dependencies {
 
     implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.0.4'
 
-    implementation project(":SocialSdkLibrary")
+    implementation project(':socialgo')
 
     implementation 'com.google.code.gson:gson:2.8.5'
 }

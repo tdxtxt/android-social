@@ -1,20 +1,27 @@
 package com.fungo.sample
 
+import android.Manifest
 import android.app.ProgressDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.view.View
-import com.march.socialsdk.exception.SocialError
-import com.march.socialsdk.listener.OnLoginListener
-import com.march.socialsdk.manager.LoginManager
-import com.march.socialsdk.model.LoginResult
-import com.march.socialsdk.platform.Target
+import com.fungo.socialgo.exception.SocialError
+import com.fungo.socialgo.listener.OnLoginListener
+import com.fungo.socialgo.listener.OnShareListener
+import com.fungo.socialgo.manager.LoginManager
+import com.fungo.socialgo.manager.ShareManager
+import com.fungo.socialgo.model.LoginResult
+import com.fungo.socialgo.model.ShareObj
+import com.fungo.socialgo.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-//    private var platformType: PlatformType = PlatformType.QQ
-//    private var shareMedia: IShareMedia = ShareTextMedia()
+    private var platformType: Int = Target.SHARE_QQ_FRIENDS
+    private lateinit var shareMedia: ShareObj
 
 
     private val mProgressDialog: ProgressDialog by lazy {
@@ -28,196 +35,129 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        initView()
-//        initEvent()
+        initEvent()
+        initView()
     }
 
 
-//    private fun initView() {
-//        tvConsole.movementMethod = ScrollingMovementMethod.getInstance()
-//        rbTypeText.isChecked = true
-//        rbPlatformQQ.isChecked = true
-//    }
-//
-//    private fun initEvent() {
-//        containerType.setOnCheckedChangeListener { _, checkedId ->
-//            when (checkedId) {
-//                R.id.rbTypeText -> {
-//                    shareMedia = ShareTextMedia()
-//
-//                }
-//                R.id.rbTypeImage -> {
-//                    loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onFail(msg: String?) {
-//
-//                        }
-//
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareImageMedia()
-//                            (shareMedia as ShareImageMedia).image = bitmap!!
-//                        }
-//                    })
-//                }
-//                R.id.rbTypeTextImage -> {
-//                    loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareTextImageMedia()
-//                            (shareMedia as ShareTextImageMedia).image = bitmap!!
-//                            (shareMedia as ShareTextImageMedia).text = getString(R.string.share_text)
-//                        }
-//
-//                        override fun onFail(msg: String?) {
-//                        }
-//
-//                    })
-//
-//                }
-//
-//                R.id.rbTypeLink -> {
-//                    loadBitmap(this, mImageUrl, object : OnImageListener {
-//                        override fun onSuccess(bitmap: Bitmap?) {
-//                            shareMedia = ShareWebMedia()
-//                            (shareMedia as ShareWebMedia).thumb = bitmap!!
-//                            (shareMedia as ShareWebMedia).description = getString(R.string.share_text)
-//                            (shareMedia as ShareWebMedia).webPageUrl = mShareUrl
-//                            (shareMedia as ShareWebMedia).title = getString(R.string.share_title)
-//                        }
-//
-//                        override fun onFail(msg: String?) {
-//                        }
-//
-//                    })
-//
-//                }
-//            }
-//        }
-//
-//        containerPlatform.setOnCheckedChangeListener { _, checkedId ->
-//            when (checkedId) {
-//                R.id.rbPlatformQQ -> platformType = PlatformType.QQ
-//                R.id.rbPlatformQzon -> platformType = PlatformType.QZONE
-//                R.id.rbPlatformWx -> platformType = PlatformType.WEIXIN
-//                R.id.rbPlatformWxFriend -> platformType = PlatformType.WEIXIN_CIRCLE
-//                R.id.rbPlatformSina -> platformType = PlatformType.SINA_WB
-//            }
-//        }
-//    }
-//
-//
+    private fun initView() {
+        tvConsole.movementMethod = ScrollingMovementMethod.getInstance()
+        rbTypeText.isChecked = true
+        rbPlatformQQ.isChecked = true
+    }
+
+    private fun initEvent() {
+        containerType.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbTypeText -> {
+                    shareMedia = ShareObj.buildTextObj("我是文字分享的标题", "我是文字分享的内容")
+                }
+                R.id.rbTypeImage -> {
+                    shareMedia = ShareObj.buildImageObj(mImageUrl, "我是分享图片的描述")
+                }
+                R.id.rbTypeTextImage -> {
+                    shareMedia = ShareObj.buildImageObj(mImageUrl, getString(R.string.share_text))
+                }
+
+                R.id.rbTypeLink -> {
+                    shareMedia = ShareObj.buildWebObj(getString(R.string.share_title), getString(R.string.share_text), mImageUrl, mShareUrl)
+                }
+            }
+        }
+
+        containerPlatform.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbPlatformQQ -> platformType = Target.SHARE_QQ_FRIENDS
+                R.id.rbPlatformQzon -> platformType = Target.SHARE_QQ_ZONE
+                R.id.rbPlatformWx -> platformType = Target.SHARE_WX_ZONE
+                R.id.rbPlatformWxFriend -> platformType = Target.SHARE_WX_FRIENDS
+                R.id.rbPlatformSina -> platformType = Target.SHARE_WB
+            }
+        }
+    }
+
     fun onQQLogin(view: View) {
-        mProgressDialog.show()
+        LoginManager.login(this, Target.LOGIN_QQ, LoginListener())
+    }
 
-    LoginManager.login(this,Target.LOGIN_QQ,object :OnLoginListener{
+    fun onWxLogin(view: View) {
+        LoginManager.login(this, Target.LOGIN_WX, LoginListener())
+    }
+
+    fun onSinaLogin(view: View) {
+        LoginManager.login(this, Target.LOGIN_WB, LoginListener())
+    }
+
+    inner class LoginListener : OnLoginListener {
         override fun onStart() {
-
+            mProgressDialog.show()
+            tvConsole?.text = "登录开始"
         }
 
         override fun onSuccess(loginResult: LoginResult?) {
-            tvConsole.text = loginResult?.accessToken?.access_token
+            mProgressDialog.dismiss()
+            tvConsole?.text = loginResult?.socialUser?.toString()
         }
 
         override fun onCancel() {
             mProgressDialog.dismiss()
-            tvConsole.text = "QQ登录取消"
+            tvConsole?.text = "登录取消"
         }
 
         override fun onFailure(e: SocialError?) {
             mProgressDialog.dismiss()
-            tvConsole.text = "QQ登录发生错误:${e?.errorMsg}"
+            tvConsole?.text = "登录异常 + ${e?.errorMsg}"
         }
-    })
+    }
+
+
+    fun onShare(view: View) {
+        mProgressDialog.show()
+        ShareManager.share(this, platformType, shareMedia, object : OnShareListener {
+            override fun onStart(shareTarget: Int, obj: ShareObj?) {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享开始"
+            }
+
+            override fun onPrepareInBackground(shareTarget: Int, obj: ShareObj?): ShareObj {
+                return obj!!
+            }
+
+            override fun onSuccess() {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享成功"
+            }
+
+            override fun onFailure(e: SocialError?) {
+                tvConsole?.text = "分享失败"
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (e?.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+                    } else if (e?.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+                    }
+                }
+            }
+
+            override fun onCancel() {
+                tvConsole?.text = "分享取消"
+            }
+        })
+    }
+
+
+    fun onPayWx(view: View) {
 
     }
-//
-//
-//    fun onWxLogin(view: View) {
-//        mProgressDialog.show()
-//        SocialApi.get(this).doOauthVerify(this, PlatformType.WEIXIN, object : AuthListener {
-//            override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
-//                performLoginSuccess(map)
-//            }
-//
-//            override fun onError(platform_type: PlatformType, err_msg: String) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "WX登录发生错误:$err_msg"
-//            }
-//
-//            override fun onCancel(platform_type: PlatformType) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "WX登录取消"
-//            }
-//
-//        })
-//
-//
-//    }
-//
-//    fun onSinaLogin(view: View) {
-//        mProgressDialog.show()
-//        SocialApi.get(this).doOauthVerify(this, PlatformType.SINA_WB, object : AuthListener {
-//            override fun onComplete(platform_type: PlatformType, map: Map<String, String>) {
-//                performLoginSuccess(map)
-//            }
-//
-//            override fun onError(platform_type: PlatformType, err_msg: String) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "WB登录发生错误:$err_msg"
-//            }
-//
-//            override fun onCancel(platform_type: PlatformType) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "WB登录取消"
-//            }
-//        })
-//    }
-//
-//    fun onShare(view: View) {
-//        mProgressDialog.show()
-//        SocialApi.get(this).doShare(this, platformType, shareMedia, object : ShareListener {
-//            override fun onComplete(platform_type: PlatformType) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "分享成功"
-//            }
-//
-//            override fun onError(platform_type: PlatformType, err_msg: String) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "分享错误:$err_msg"
-//            }
-//
-//            override fun onCancel(platform_type: PlatformType) {
-//                mProgressDialog.dismiss()
-//                tvConsole.text = "取消分享"
-//            }
-//        })
-//    }
-//
-//
-//    fun onPayWx(view: View) {
-//
-//    }
-//
-//
-//    fun onPayAli(view: View) {
-//
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        SocialApi.get(this).onActivityResult(requestCode, resultCode, data)
-//    }
-//
-//
-    private fun performLoginSuccess(map: Map<String, String>) {
-        mProgressDialog.dismiss()
-        if (map.isEmpty()) {
-            tvConsole.text = "数据为空"
-            return
-        }
-        val builder = StringBuilder()
 
-        for (key in map.keys) {
-            builder.append("$key : ").append("${map[key]}").append("\n")
-        }
-        tvConsole.text = builder.toString()
+
+    fun onPayAli(view: View) {
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
     }
 }

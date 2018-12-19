@@ -7,11 +7,11 @@ package com.fungo.sample
  */
 object AppConstant {
 
-    const val QQ_APP_ID = "1106936073"
-    const val QQ_APP_IKEY = "5vG9ZTmAtVoOOxDk"
+    const val QQ_APP_ID = "101532293"
+    const val QQ_APP_IKEY = "5a74dbeca72bcaba7f5918fbda5426aa"
 
-    const val SINA_APP_KEY = "1840611664"
-    const val SINA_APP_SECRET = "986cb2dfc187a273360f533bf1a608e1"
+    const val SINA_APP_KEY = "2332189931"
+    const val SINA_APP_SECRET = "0390444ae665f63dddb131774e527849"
 
     const val WX_APP_ID = "wxf44e60cce52c4a0c"
     const val WX_APP_SECRET = ""

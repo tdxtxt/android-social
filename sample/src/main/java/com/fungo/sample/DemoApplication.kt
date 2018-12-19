@@ -3,8 +3,8 @@ package com.fungo.sample
 import android.app.Application
 import com.fungo.imagego.glide.GlideImageStrategy
 import com.fungo.imagego.strategy.ImageGoEngine
-import com.march.socialsdk.SocialSdkConfig
-import com.march.socialsdk.SocialSdk
+import com.fungo.socialgo.SocialSdkConfig
+import com.fungo.socialgo.SocialSdk
 
 
 
