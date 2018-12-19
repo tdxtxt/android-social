@@ -2,13 +2,14 @@ package com.fungo.socialgo.uikit;
 
 import android.app.Activity;
 
-// ding
-import com.android.dingtalk.share.ddsharemodule.IDDAPIEventHandler;
-// weibo
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.share.WbShareCallback;
-// wechat
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+
+// weibo
+// wechat
 
 /**
  * CreateAt : 2018/8/21
@@ -18,20 +19,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
  */
 public abstract class SocialReceiver extends Activity implements
         WbShareCallback,
-        IWXAPIEventHandler,
-        IDDAPIEventHandler {
+        IWXAPIEventHandler {
 
     abstract void handleResp(Object resp);
-
-    // ---------- for ding ding ---------
-    @Override
-    public void onReq(com.android.dingtalk.share.ddsharemodule.message.BaseReq baseReq) {
-    }
-
-    @Override
-    public void onResp(com.android.dingtalk.share.ddsharemodule.message.BaseResp baseResp) {
-        handleResp(baseResp);
-    }
 
     // ---------- for weibo ---------
     @Override
@@ -50,14 +40,13 @@ public abstract class SocialReceiver extends Activity implements
     }
 
     // ---------- for wechat ---------
-
     @Override
-    public void onResp(com.tencent.mm.opensdk.modelbase.BaseResp resp) {
+    public void onResp(BaseResp resp) {
         handleResp(resp);
     }
 
     @Override
-    public void onReq(com.tencent.mm.opensdk.modelbase.BaseReq baseReq) {
+    public void onReq(BaseReq baseReq) {
 
     }
 

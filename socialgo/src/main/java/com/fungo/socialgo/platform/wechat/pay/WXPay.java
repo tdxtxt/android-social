@@ -1,14 +1,12 @@
 package com.fungo.socialgo.platform.wechat.pay;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnPayListener;
-import com.tencent.mm.sdk.constants.Build;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,14 +22,13 @@ public class WXPay {
     private String mPayParam;
     private OnPayListener mListener;
 
-    public WXPay(Context context, String wx_appid) {
-        mWXApi = WXAPIFactory.createWXAPI(context, null);
-        mWXApi.registerApp(wx_appid);
+    public WXPay(IWXAPI wxApi) {
+        mWXApi = wxApi;
     }
 
-    public static void init(Context context, String wx_appid) {
+    public static void initWxApi(IWXAPI wxApi) {
         if (mWXPay == null) {
-            mWXPay = new WXPay(context, wx_appid);
+            mWXPay = new WXPay(wxApi);
         }
     }
 

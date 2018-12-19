@@ -76,6 +76,8 @@ public class WxPlatform extends AbsPlatform {
         this.mWxSecret = wxSecret;
         mWxApi = WXAPIFactory.createWXAPI(context, appId, true);
         mWxApi.registerApp(appId);
+        // 支付使用
+        WXPay.initWxApi(mWxApi);
     }
 
     @Override

@@ -40,14 +40,6 @@ public class SocialSdk {
     public static void init(Context context, SocialSdkConfig config) {
         sSocialSdkConfig = config;
         actionRegisterPlatform();
-        initPay(context);
-    }
-
-    /**
-     * 微信支付初始化
-     */
-    private static void initPay(Context context) {
-        WXPay.init(context, sSocialSdkConfig.getWxAppId());
     }
 
 
