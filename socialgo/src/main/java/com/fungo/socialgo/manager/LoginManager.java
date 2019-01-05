@@ -13,7 +13,7 @@ import com.fungo.socialgo.model.token.AccessToken;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.uikit.ActionActivity;
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 import java.lang.ref.WeakReference;
 /**
@@ -64,18 +64,18 @@ public class LoginManager {
         int actionType = intent.getIntExtra(PlatformManager.KEY_ACTION_TYPE, PlatformManager.INVALID_PARAM);
         int loginTarget = intent.getIntExtra(PlatformManager.KEY_LOGIN_TARGET, PlatformManager.INVALID_PARAM);
         if (actionType == PlatformManager.INVALID_PARAM) {
-            SocialLogUtil.e(TAG, "_actionLogin actionType无效");
+            SocialLogUtils.e(TAG, "_actionLogin actionType无效");
             return;
         }
         if (actionType != PlatformManager.ACTION_TYPE_LOGIN) {
             return;
         }
         if (loginTarget == PlatformManager.INVALID_PARAM) {
-            SocialLogUtil.e(TAG, "shareTargetType无效");
+            SocialLogUtils.e(TAG, "shareTargetType无效");
             return;
         }
         if (sListener == null) {
-            SocialLogUtil.e(TAG, "请设置 OnLoginListener");
+            SocialLogUtils.e(TAG, "请设置 OnLoginListener");
             return;
         }
         if (PlatformManager.getPlatform() == null) {

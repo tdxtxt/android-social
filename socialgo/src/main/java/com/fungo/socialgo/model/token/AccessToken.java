@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.fungo.socialgo.SocialSdk;
 import com.fungo.socialgo.platform.Target;
-import com.fungo.socialgo.util.JsonUtil;
+import com.fungo.socialgo.utils.SocialGoUtils;
 
 /**
  * CreateAt : 2017/5/21
@@ -94,7 +94,7 @@ public abstract class AccessToken {
 
     public static <T> T getToken(Context context, String key, Class<T> tokenClazz) {
         SharedPreferences sp = getSp(context);
-        return JsonUtil.getObject(sp.getString(key, null), tokenClazz);
+        return SocialGoUtils.getObject(sp.getString(key, null), tokenClazz);
     }
 
     public static void saveToken(final Context context, final String key, final Object token) {
@@ -103,7 +103,7 @@ public abstract class AccessToken {
             public void run() {
                 try {
                     SharedPreferences sp = getSp(context);
-                    String tokenJson = JsonUtil.getObject2Json(token);
+                    String tokenJson = SocialGoUtils.getObject2Json(token);
                     sp.edit().putString(key, tokenJson).apply();
                 } catch (Exception e) {
                     e.printStackTrace();

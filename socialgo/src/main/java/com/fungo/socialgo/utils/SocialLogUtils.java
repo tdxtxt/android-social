@@ -1,4 +1,4 @@
-package com.fungo.socialgo.util;
+package com.fungo.socialgo.utils;
 
 import android.util.Log;
 
@@ -14,7 +14,7 @@ import org.json.JSONObject;
  * @author chendong
  */
 
-public class SocialLogUtil {
+public class SocialLogUtils {
 
     public static final String TAG = "social-sdk";
 

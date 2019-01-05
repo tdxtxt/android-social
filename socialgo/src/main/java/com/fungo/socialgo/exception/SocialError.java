@@ -2,7 +2,7 @@ package com.fungo.socialgo.exception;
 
 import android.text.TextUtils;
 
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 /**
  * CreateAt : 2016/12/5
@@ -120,7 +120,7 @@ public class SocialError extends Exception {
     }
 
     public void printStackTrace() {
-        SocialLogUtil.e(TAG, toString());
+        SocialLogUtils.e(TAG, toString());
     }
 
     @Override

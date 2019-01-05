@@ -11,8 +11,8 @@ import com.fungo.socialgo.model.token.AccessToken;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.platform.weibo.model.SinaAccessToken;
 import com.fungo.socialgo.platform.weibo.model.SinaUser;
-import com.fungo.socialgo.util.JsonUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
@@ -46,10 +46,10 @@ class WbLoginHelper implements Recyclable {
      * @param token token
      */
     private void getUserInfo(final Oauth2AccessToken token) {
-        JsonUtil.startJsonRequest("https://api.weibo.com/2/users/show.json?access_token=" + token.getToken() + "&uid=" + token.getUid(), SinaUser.class, new JsonUtil.Callback<SinaUser>() {
+        SocialGoUtils.startJsonRequest("https://api.weibo.com/2/users/show.json?access_token=" + token.getToken() + "&uid=" + token.getUid(), SinaUser.class, new SocialGoUtils.Callback<SinaUser>() {
             @Override
             public void onSuccess(@NonNull SinaUser user) {
-                SocialLogUtil.e(TAG, JsonUtil.getObject2Json(user));
+                SocialLogUtils.e(TAG, SocialGoUtils.getObject2Json(user));
                 mOnLoginListener.onSuccess(new LoginResult(mLoginType, user, new SinaAccessToken(token)));
             }
 
@@ -93,7 +93,7 @@ class WbLoginHelper implements Recyclable {
                 public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
                     oauth2AccessToken.setBundle(null);
 
-                    SocialLogUtil.json("test", oauth2AccessToken.toString());
+                    SocialLogUtils.json("test", oauth2AccessToken.toString());
                     AccessToken.saveToken(activity, AccessToken.SINA_TOKEN_KEY, oauth2AccessToken);
                     listener.onSuccess(oauth2AccessToken);
                 }

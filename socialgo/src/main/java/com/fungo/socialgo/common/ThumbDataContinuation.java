@@ -2,7 +2,7 @@ package com.fungo.socialgo.common;
 
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnShareListener;
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -28,7 +28,7 @@ public abstract class ThumbDataContinuation implements Continuation<byte[], Obje
     @Override
     public Object then(Task<byte[]> task) throws Exception {
         if (task.isFaulted() || task.getResult() == null) {
-            SocialLogUtil.e(tag, "图片压缩失败 -> " + msg);
+            SocialLogUtils.e(tag, "图片压缩失败 -> " + msg);
             onShareListener.onFailure(new SocialError(SocialError.CODE_IMAGE_COMPRESS_ERROR, msg).exception(task.getError()));
         } else {
             onSuccess(task.getResult());

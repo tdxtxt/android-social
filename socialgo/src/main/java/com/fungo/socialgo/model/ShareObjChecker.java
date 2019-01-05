@@ -2,8 +2,7 @@ package com.fungo.socialgo.model;
 
 
 import com.fungo.socialgo.platform.Target;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.Util;
+import com.fungo.socialgo.utils.SocialGoUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -57,14 +56,14 @@ public class ShareObjChecker {
             case ShareObj.SHARE_TYPE_VIDEO:
             {
                 // 本地视频分享，qq空间、微博自己支持，qq好友、微信好友、钉钉 使用 intent 支持
-                if (FileUtil.isExist(obj.getMediaPath()) && isAny(shareTarget,Target.SHARE_QQ_ZONE,
+                if (SocialGoUtils.isExist(obj.getMediaPath()) && isAny(shareTarget,Target.SHARE_QQ_ZONE,
                         Target.SHARE_WB,
                         Target.SHARE_QQ_FRIENDS,
                         Target.SHARE_WX_FRIENDS)) {
-                    return isTitleSummaryValid(obj) && !Util.isAnyEmpty(obj.getMediaPath());
+                    return isTitleSummaryValid(obj) && !SocialGoUtils.isAnyEmpty(obj.getMediaPath());
                 }
                 // 网络视频
-                else if (FileUtil.isHttpPath(obj.getMediaPath())) {
+                else if (SocialGoUtils.isHttpPath(obj.getMediaPath())) {
                     return isUrlValid(obj) && isMusicVideoVoiceValid(obj) && isNetMedia(obj);
                 } else {
                     sErrMsgRef = new ErrMsgRef("本地不支持或者，不是本地也不是网络 ", obj);
@@ -86,7 +85,7 @@ public class ShareObjChecker {
     }
 
     private static boolean isTitleSummaryValid(ShareObj obj) {
-        boolean valid = !Util.isAnyEmpty(obj.getTitle(), obj.getSummary());
+        boolean valid = !SocialGoUtils.isAnyEmpty(obj.getTitle(), obj.getSummary());
         if (!valid) {
             sErrMsgRef = new ErrMsgRef("title summary 不能空", obj);
         }
@@ -95,7 +94,7 @@ public class ShareObjChecker {
 
     // 是否是网络视频
     private static boolean isNetMedia(ShareObj obj) {
-        boolean httpPath = FileUtil.isHttpPath(obj.getMediaPath());
+        boolean httpPath = SocialGoUtils.isHttpPath(obj.getMediaPath());
         if (!httpPath) {
             sErrMsgRef = new ErrMsgRef("ShareObj mediaPath 需要 网络路径", obj);
         }
@@ -105,7 +104,7 @@ public class ShareObjChecker {
     // url 合法
     private static boolean isUrlValid(ShareObj obj) {
         String targetUrl = obj.getTargetUrl();
-        boolean urlValid = !Util.isAnyEmpty(targetUrl) && FileUtil.isHttpPath(targetUrl);
+        boolean urlValid = !SocialGoUtils.isAnyEmpty(targetUrl) && SocialGoUtils.isHttpPath(targetUrl);
         if (!urlValid) {
             sErrMsgRef = new ErrMsgRef("url : " + targetUrl + "  不能为空，且必须带有http协议头", obj);
         }
@@ -114,14 +113,14 @@ public class ShareObjChecker {
 
     // 音频视频
     private static boolean isMusicVideoVoiceValid(ShareObj obj) {
-        return isTitleSummaryValid(obj) && !Util.isAnyEmpty(obj.getMediaPath()) && isThumbLocalPathValid(obj);
+        return isTitleSummaryValid(obj) && !SocialGoUtils.isAnyEmpty(obj.getMediaPath()) && isThumbLocalPathValid(obj);
     }
 
     // 本地文件存在
     private static boolean isThumbLocalPathValid(ShareObj obj) {
         String thumbImagePath = obj.getThumbImagePath();
-        boolean exist = FileUtil.isExist(thumbImagePath);
-        boolean picFile = FileUtil.isPicFile(thumbImagePath);
+        boolean exist = SocialGoUtils.isExist(thumbImagePath);
+        boolean picFile = SocialGoUtils.isPicFile(thumbImagePath);
         if (!exist || !picFile) {
             sErrMsgRef = new ErrMsgRef("path : " + thumbImagePath + "  " + (exist ? "" : "文件不存在") + (picFile ? "" : "不是图片文件"), obj);
         }

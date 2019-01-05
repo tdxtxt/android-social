@@ -4,9 +4,8 @@ import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
 import com.fungo.socialgo.adapter.IRequestAdapter;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
-import com.fungo.socialgo.util.StreamUtil;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -38,12 +37,12 @@ public class DefaultRequestAdapter implements IRequestAdapter {
             return null;
         File file = null;
         try {
-            file = new File(FileUtil.mapUrl2LocalPath(url));
-            if (!FileUtil.isExist(file)) {
-                return StreamUtil.saveStreamToFile(file, openStream(url, isHttps(url)));
+            file = new File(SocialGoUtils.mapUrl2LocalPath(url));
+            if (!SocialGoUtils.isExist(file)) {
+                return SocialGoUtils.saveStreamToFile(file, openStream(url, isHttps(url)));
             }
         } catch (Exception e) {
-            SocialLogUtil.e(e);
+            SocialLogUtils.e(e);
         } finally {
             close();
         }
@@ -55,9 +54,9 @@ public class DefaultRequestAdapter implements IRequestAdapter {
         if(TextUtils.isEmpty(url) || !url.startsWith("http"))
             return null;
         try {
-            return StreamUtil.saveStreamToString(openStream(url, isHttps(url)));
+            return SocialGoUtils.saveStreamToString(openStream(url, isHttps(url)));
         } catch (Exception e) {
-            SocialLogUtil.e(e);
+            SocialLogUtils.e(e);
         } finally {
             close();
         }
@@ -86,7 +85,7 @@ public class DefaultRequestAdapter implements IRequestAdapter {
         if (isHttps) {
             initHttpsConnection(mConnection);
         }
-        return StreamUtil.openGetHttpStream(mConnection);
+        return SocialGoUtils.openGetHttpStream(mConnection);
     }
 
     /**

@@ -18,9 +18,8 @@ import com.fungo.socialgo.platform.AbsPlatform;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.PlatformCreator;
 import com.fungo.socialgo.platform.Target;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
-import com.fungo.socialgo.util.Util;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
@@ -54,7 +53,7 @@ public class QQPlatform extends AbsPlatform {
         public IPlatform create(Context context, int target) {
             IPlatform platform = null;
             SocialSdkConfig config = SocialSdk.getConfig();
-            if (!Util.isAnyEmpty(config.getQqAppId(), config.getAppName())) {
+            if (!SocialGoUtils.isAnyEmpty(config.getQqAppId(), config.getAppName())) {
                 platform = new QQPlatform(context, config.getQqAppId(), config.getAppName());
             }
             return platform;
@@ -125,7 +124,7 @@ public class QQPlatform extends AbsPlatform {
 
     @Override
     protected void shareOpenApp(int shareTarget, Activity activity, ShareObj obj) {
-        boolean rst = Util.openApp(activity, SocialConstants.QQ_PKG);
+        boolean rst = SocialGoUtils.openApp(activity, SocialConstants.QQ_PKG);
         if (rst) {
             mOnShareListener.onSuccess();
         } else {
@@ -220,22 +219,22 @@ public class QQPlatform extends AbsPlatform {
     @Override
     public void shareVideo(int shareTarget, Activity activity, ShareObj obj) {
         if (shareTarget == Target.SHARE_QQ_FRIENDS) {
-            if (FileUtil.isHttpPath(obj.getMediaPath())) {
-                SocialLogUtil.e(TAG, "qq不支持分享网络视频，使用web分享代替");
+            if (SocialGoUtils.isHttpPath(obj.getMediaPath())) {
+                SocialLogUtils.e(TAG, "qq不支持分享网络视频，使用web分享代替");
                 obj.setTargetUrl(obj.getMediaPath());
                 shareWeb(shareTarget, activity, obj);
-            } else if (FileUtil.isExist(obj.getMediaPath())){
+            } else if (SocialGoUtils.isExist(obj.getMediaPath())){
                 shareVideoByIntent(activity, obj, SocialConstants.QQ_PKG, SocialConstants.QQ_FRIENDS_PAGE);
             } else{
                 this.mIUiListenerWrap.onError(new SocialError(SocialError.CODE_FILE_NOT_FOUND));
             }
         } else if (shareTarget == Target.SHARE_QQ_ZONE) {
             // qq 空间支持本地文件发布
-            if (FileUtil.isHttpPath(obj.getMediaPath())) {
-                SocialLogUtil.e(TAG, "qq空间网络视频，使用web形式分享");
+            if (SocialGoUtils.isHttpPath(obj.getMediaPath())) {
+                SocialLogUtils.e(TAG, "qq空间网络视频，使用web形式分享");
                 shareWeb(shareTarget, activity, obj);
-            } else if (FileUtil.isExist(obj.getMediaPath())) {
-                SocialLogUtil.e(TAG, "qq空间本地视频分享");
+            } else if (SocialGoUtils.isExist(obj.getMediaPath())) {
+                SocialLogUtils.e(TAG, "qq空间本地视频分享");
                 final Bundle params = new Bundle();
                 params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzonePublish.PUBLISH_TO_QZONE_TYPE_PUBLISHVIDEO);
                 params.putString(QzonePublish.PUBLISH_TO_QZONE_VIDEO_PATH, obj.getMediaPath());

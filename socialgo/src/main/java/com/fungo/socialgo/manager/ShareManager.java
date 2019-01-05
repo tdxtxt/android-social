@@ -19,9 +19,8 @@ import com.fungo.socialgo.model.ShareObjChecker;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.uikit.ActionActivity;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
-import com.fungo.socialgo.util.Util;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -64,7 +63,7 @@ public class ShareManager {
                 try {
                     temp = onShareListener.onPrepareInBackground(shareTarget, shareObj);
                 } catch (Exception e) {
-                    SocialLogUtil.t(e);
+                    SocialLogUtils.t(e);
                 }
                 if (temp != null) {
                     return temp;
@@ -99,13 +98,13 @@ public class ShareManager {
     private static void prepareImageInBackground(Context context, ShareObj shareObj) {
         String thumbImagePath = shareObj.getThumbImagePath();
         // 图片路径为网络路径，下载为本地图片
-        if (!TextUtils.isEmpty(thumbImagePath) && FileUtil.isHttpPath(thumbImagePath)) {
+        if (!TextUtils.isEmpty(thumbImagePath) && SocialGoUtils.isHttpPath(thumbImagePath)) {
             File file = SocialSdk.getRequestAdapter().getFile(thumbImagePath);
-            if (FileUtil.isExist(file)) {
+            if (SocialGoUtils.isExist(file)) {
                 shareObj.setThumbImagePath(file.getAbsolutePath());
             } else if (SocialSdk.getConfig().getDefImageResId() > 0) {
-                String localPath = FileUtil.mapResId2LocalPath(context, SocialSdk.getConfig().getDefImageResId());
-                if (FileUtil.isExist(localPath)) {
+                String localPath = SocialGoUtils.mapResId2LocalPath(context, SocialSdk.getConfig().getDefImageResId());
+                if (SocialGoUtils.isExist(localPath)) {
                     shareObj.setThumbImagePath(localPath);
                 }
             }
@@ -129,8 +128,8 @@ public class ShareManager {
         // 微博、本地、视频 需要写存储的权限
         if (shareTarget == Target.SHARE_WB
                 && shareObj.getShareObjType() == ShareObj.SHARE_TYPE_VIDEO
-                && !FileUtil.isHttpPath(shareObj.getMediaPath())
-                && !Util.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                && !SocialGoUtils.isHttpPath(shareObj.getMediaPath())
+                && !SocialGoUtils.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             onShareListener.onFailure(new SocialError(SocialError.CODE_STORAGE_WRITE_ERROR));
             return;
         }
@@ -163,20 +162,20 @@ public class ShareManager {
         if (actionType != PlatformManager.ACTION_TYPE_SHARE)
             return;
         if (shareTarget == PlatformManager.INVALID_PARAM) {
-            SocialLogUtil.e(TAG, "shareTargetType无效");
+            SocialLogUtils.e(TAG, "shareTargetType无效");
             return;
         }
         if (shareObj == null) {
-            SocialLogUtil.e(TAG, "shareObj == null");
+            SocialLogUtils.e(TAG, "shareObj == null");
             return;
         }
         if (sListener == null) {
-            SocialLogUtil.e(TAG, "请设置 OnShareListener");
+            SocialLogUtils.e(TAG, "请设置 OnShareListener");
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            SocialLogUtil.e(TAG, "没有获取到读存储卡的权限，这可能导致某些分享不能进行");
+            SocialLogUtils.e(TAG, "没有获取到读存储卡的权限，这可能导致某些分享不能进行");
         }
         if (PlatformManager.getPlatform() == null)
             return;
@@ -291,6 +290,6 @@ public class ShareManager {
                 pkgName = SocialConstants.SINA_PKG;
                 break;
         }
-        return !TextUtils.isEmpty(pkgName) && Util.openApp(context, pkgName);
+        return !TextUtils.isEmpty(pkgName) && SocialGoUtils.openApp(context, pkgName);
     }
 }

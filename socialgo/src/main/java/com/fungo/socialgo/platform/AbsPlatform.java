@@ -10,7 +10,7 @@ import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
 import com.fungo.socialgo.listener.OnShareListener;
 import com.fungo.socialgo.model.ShareObj;
-import com.fungo.socialgo.util.IntentShareUtil;
+import com.fungo.socialgo.utils.SocialGoUtils;
 
 /**
  * CreateAt : 2016/12/3
@@ -87,7 +87,7 @@ public abstract class AbsPlatform implements IPlatform {
     }
 
     protected void shareVideoByIntent(Activity activity, ShareObj obj, String pkg, String page) {
-        boolean result = IntentShareUtil.shareVideo(activity, obj.getMediaPath(), pkg, page);
+        boolean result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page);
         if (result) {
             this.mOnShareListener.onSuccess();
         } else {
@@ -96,7 +96,7 @@ public abstract class AbsPlatform implements IPlatform {
     }
 
     protected void shareTextByIntent(Activity activity, ShareObj obj, String pkg, String page) {
-        boolean result = IntentShareUtil.shareText(activity, obj.getTitle(), obj.getSummary(), pkg, page);
+        boolean result = SocialGoUtils.shareText(activity, obj.getTitle(), obj.getSummary(), pkg, page);
         if (result) {
             this.mOnShareListener.onSuccess();
         } else {

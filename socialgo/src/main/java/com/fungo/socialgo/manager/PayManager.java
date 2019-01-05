@@ -11,7 +11,7 @@ import com.fungo.socialgo.listener.OnPayListener;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.uikit.ActionActivity;
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialLogUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -56,7 +56,7 @@ public class PayManager {
             return;
 
         if (mListener == null) {
-            SocialLogUtil.e(TAG, "请设置 OnShareListener");
+            SocialLogUtils.e(TAG, "请设置 OnShareListener");
             return;
         }
 

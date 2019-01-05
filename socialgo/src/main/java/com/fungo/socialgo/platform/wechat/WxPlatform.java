@@ -18,10 +18,8 @@ import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.PlatformCreator;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.platform.wechat.pay.WXPay;
-import com.fungo.socialgo.util.BitmapUtil;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
-import com.fungo.socialgo.util.Util;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -63,7 +61,7 @@ public class WxPlatform extends AbsPlatform {
         public IPlatform create(Context context, int target) {
             IPlatform platform = null;
             SocialSdkConfig config = SocialSdk.getConfig();
-            if (!Util.isAnyEmpty(config.getWxAppId(), config.getWxSecretKey())) {
+            if (!SocialGoUtils.isAnyEmpty(config.getWxAppId(), config.getWxSecretKey())) {
                 platform = new WxPlatform(context, config.getWxAppId(), config.getWxSecretKey(), config.getAppName());
             }
             return platform;
@@ -229,7 +227,7 @@ public class WxPlatform extends AbsPlatform {
 
     @Override
     public void shareImage(final int shareTarget, final Activity activity, final ShareObj obj) {
-        BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+        SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                 .continueWith(new ThumbDataContinuation(TAG, "shareImage", mOnShareListener) {
                     @Override
                     public void onSuccess(byte[] thumbData) {
@@ -241,7 +239,7 @@ public class WxPlatform extends AbsPlatform {
 
     private void shareImage(final int shareTarget, String desc, final String localPath, byte[] thumbData) {
         if (shareTarget == Target.SHARE_WX_FRIENDS) {
-            if (FileUtil.isGifFile(localPath)) {
+            if (SocialGoUtils.isGifFile(localPath)) {
                 shareEmoji(shareTarget, localPath, desc, thumbData);
             } else {
                 shareImage(shareTarget, localPath, thumbData);
@@ -274,13 +272,13 @@ public class WxPlatform extends AbsPlatform {
 
     @Override
     public void shareApp(int shareTarget, Activity activity, ShareObj obj) {
-        SocialLogUtil.e(TAG, "微信不支持app分享，将以web形式分享");
+        SocialLogUtils.e(TAG, "微信不支持app分享，将以web形式分享");
         shareWeb(shareTarget, activity, obj);
     }
 
     @Override
     public void shareWeb(final int shareTarget, Activity activity, final ShareObj obj) {
-        BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+        SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                 .continueWith(new ThumbDataContinuation(TAG, "shareWeb", mOnShareListener) {
                     @Override
                     public void onSuccess(byte[] thumbData) {
@@ -299,7 +297,7 @@ public class WxPlatform extends AbsPlatform {
 
     @Override
     public void shareMusic(final int shareTarget, Activity activity, final ShareObj obj) {
-        BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+        SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                 .continueWith(new ThumbDataContinuation(TAG, "shareMusic", mOnShareListener) {
                     @Override
                     public void onSuccess(byte[] thumbData) {
@@ -319,15 +317,15 @@ public class WxPlatform extends AbsPlatform {
     @Override
     public void shareVideo(final int shareTarget, Activity activity, final ShareObj obj) {
         if (shareTarget == Target.SHARE_WX_FRIENDS) {
-            if (FileUtil.isHttpPath(obj.getMediaPath())) {
+            if (SocialGoUtils.isHttpPath(obj.getMediaPath())) {
                 shareWeb(shareTarget, activity, obj);
-            } else if (FileUtil.isExist(obj.getMediaPath())) {
+            } else if (SocialGoUtils.isExist(obj.getMediaPath())) {
                 shareVideoByIntent(activity, obj, SocialConstants.WECHAT_PKG, SocialConstants.WX_FRIEND_PAGE);
             } else {
                 mOnShareListener.onFailure(new SocialError(SocialError.CODE_FILE_NOT_FOUND));
             }
         } else {
-            BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+            SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                     .continueWith(new ThumbDataContinuation(TAG, "shareVideo", mOnShareListener) {
                         @Override
                         public void onSuccess(byte[] thumbData) {

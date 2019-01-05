@@ -17,10 +17,8 @@ import com.fungo.socialgo.platform.AbsPlatform;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.PlatformCreator;
 import com.fungo.socialgo.platform.Target;
-import com.fungo.socialgo.util.BitmapUtil;
-import com.fungo.socialgo.util.FileUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
-import com.fungo.socialgo.util.Util;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -62,7 +60,7 @@ public class WbPlatform extends AbsPlatform {
             String appName = config.getAppName();
             String redirectUrl = config.getSinaRedirectUrl();
             String scope = config.getSinaScope();
-            if (!Util.isAnyEmpty(appId, appName, redirectUrl, scope)) {
+            if (!SocialGoUtils.isAnyEmpty(appId, appName, redirectUrl, scope)) {
                 platform = new WbPlatform(context, appId, appName, redirectUrl, scope);
                 platform.setTarget(target);
             }
@@ -166,7 +164,7 @@ public class WbPlatform extends AbsPlatform {
 
     @Override
     protected void shareOpenApp(int shareTarget, Activity activity, ShareObj obj) {
-        boolean rst = Util.openApp(activity, SocialConstants.SINA_PKG);
+        boolean rst = SocialGoUtils.openApp(activity, SocialConstants.SINA_PKG);
         if (rst) {
             mOnShareListener.onSuccess();
         } else {
@@ -183,10 +181,10 @@ public class WbPlatform extends AbsPlatform {
 
     @Override
     public void shareImage(int shareTarget, final Activity activity, final ShareObj obj) {
-        if (FileUtil.isGifFile(obj.getThumbImagePath())) {
+        if (SocialGoUtils.isGifFile(obj.getThumbImagePath())) {
             makeOpenApiShareHelper(activity).post(activity, obj);
         } else {
-            BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+            SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                     .continueWith(new ThumbDataContinuation(TAG, "shareImage", mOnShareListener) {
                         @Override
                         public void onSuccess(byte[] thumbData) {
@@ -202,13 +200,13 @@ public class WbPlatform extends AbsPlatform {
 
     @Override
     public void shareApp(int shareTarget, Activity activity, ShareObj obj) {
-        SocialLogUtil.e(TAG, "sina不支持app分享，将以web形式分享");
+        SocialLogUtils.e(TAG, "sina不支持app分享，将以web形式分享");
         shareWeb(shareTarget, activity, obj);
     }
 
     @Override
     public void shareWeb(int shareTarget, final Activity activity, final ShareObj obj) {
-        BitmapUtil.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
+        SocialGoUtils.getStaticSizeBitmapByteByPathTask(obj.getThumbImagePath(), THUMB_IMAGE_SIZE)
                 .continueWith(new ThumbDataContinuation(TAG, "shareWeb", mOnShareListener) {
                     @Override
                     public void onSuccess(byte[] thumbData) {
@@ -228,7 +226,7 @@ public class WbPlatform extends AbsPlatform {
     @Override
     public void shareVideo(int shareTarget, final Activity activity, final ShareObj obj) {
         String mediaPath = obj.getMediaPath();
-        if (FileUtil.isExist(mediaPath)) {
+        if (SocialGoUtils.isExist(mediaPath)) {
             WeiboMultiMessage multiMessage = new WeiboMultiMessage();
             checkAddTextAndImageObj(multiMessage, obj, null);
             multiMessage.videoSourceObject = getVideoObj(obj, null);

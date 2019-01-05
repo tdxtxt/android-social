@@ -11,8 +11,8 @@ import com.fungo.socialgo.model.token.AccessToken;
 import com.fungo.socialgo.platform.Target;
 import com.fungo.socialgo.platform.qq.model.QQAccessToken;
 import com.fungo.socialgo.platform.qq.model.QQUser;
-import com.fungo.socialgo.util.JsonUtil;
-import com.fungo.socialgo.util.SocialLogUtil;
+import com.fungo.socialgo.utils.SocialGoUtils;
+import com.fungo.socialgo.utils.SocialLogUtils;
 import com.tencent.connect.UserInfo;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -83,8 +83,8 @@ class QQLoginHelper {
         @Override
         public void onComplete(Object o) {
             JSONObject jsonResponse = (JSONObject) o;
-            QQAccessToken qqToken = JsonUtil.getObject(jsonResponse.toString(), QQAccessToken.class);
-            SocialLogUtil.e(TAG, "获取到 qq token = ", qqToken);
+            QQAccessToken qqToken = SocialGoUtils.getObject(jsonResponse.toString(), QQAccessToken.class);
+            SocialLogUtils.e(TAG, "获取到 qq token = ", qqToken);
             if (qqToken == null) {
                 onLoginListener.onFailure(new SocialError(SocialError.CODE_PARSE_ERROR, TAG + "#LoginUiListener#qq token is null, data = " + qqToken));
                 return;
@@ -114,7 +114,7 @@ class QQLoginHelper {
         info.getUserInfo(new IUiListener() {
             @Override
             public void onComplete(Object object) {
-                QQUser qqUserInfo = JsonUtil.getObject(object.toString(), QQUser.class);
+                QQUser qqUserInfo = SocialGoUtils.getObject(object.toString(), QQUser.class);
                 if (qqUserInfo == null) {
                     if (onLoginListener != null) {
                         onLoginListener.onFailure(new SocialError(SocialError.CODE_PARSE_ERROR, TAG + "#getUserInfo#解析 qq user 错误, data = " + object.toString()));
