@@ -41,7 +41,6 @@ public class SocialConstants {
      * 建议使用默认回调页：https://api.weibo.com/oauth2/default.html
      */
     public static final String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
-//    public static final String REDIRECT_URL = "http://open.manfenmm.com/bbpp/app/weibo/common.php";
 
     /**
      * Scope 是 OAuth2.0 授权机制中 authorize 接口的一个参数。通过 Scope，平台将开放更多的微博
@@ -54,8 +53,4 @@ public class SocialConstants {
      * 关于 Scope 概念及注意事项，请查看：http://open.weibo.com/wiki/Scope
      */
     public static final String SCOPE = "all";
-//            "email,direct_messages_read,direct_messages_write,"
-//                    + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
-//                    + "follow_app_official_microblog," + "invitation_write";
-
 }
