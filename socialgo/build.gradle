@@ -7,8 +7,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
     }
 
     buildTypes {
@@ -25,10 +23,13 @@ dependencies {
 
     implementation 'com.parse.bolts:bolts-tasks:1.4.0' // 异步任务
 
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4' // 微信
-    implementation 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar' // 微博
-    implementation files('libs/open_sdk_r5923_lite.jar') // QQ
-
+    // 微信
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
+    // 微博
+    implementation 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
+    // QQ
+    implementation files('libs/open_sdk_r5923_lite.jar')
+    // 支付宝
     implementation files('libs/alipaySdk-20161009.jar')
 }
 

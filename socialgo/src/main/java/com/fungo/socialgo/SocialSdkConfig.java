@@ -2,7 +2,6 @@ package com.fungo.socialgo;
 
 import android.content.Context;
 
-import com.fungo.socialgo.R;
 import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.platform.Target;
 
@@ -22,34 +21,34 @@ public class SocialSdkConfig {
     private static final String SHARE_CACHE_DIR_NAME = "toShare";
 
     // 调试配置
-    private boolean       debug;
+    private boolean debug;
     // 应用名
-    private String        appName;
+    private String appName;
     // 微信配置
-    private String        wxAppId;
-    private String        wxSecretKey;
-    private boolean       onlyAuthCode;
+    private String wxAppId;
+    private String wxSecretKey;
+    private boolean onlyAuthCode;
     // qq 配置
-    private String        qqAppId;
+    private String qqAppId;
     // 微博配置
-    private String        sinaAppId;
-    private String        sinaRedirectUrl;
-    private String        sinaScope;
+    private String sinaAppId;
+    private String sinaRedirectUrl;
+    private String sinaScope;
     // 存储路径，不允许更改
-    private String        cacheDir;
+    private String cacheDir;
     // 钉钉配置
-    private String        ddAppId;
+    private String ddAppId;
     // 图片默认资源
-    private int           defImageResId;
+    private int defImageResId;
     private List<Integer> disablePlatforms;
 
     // 静态工厂
     public static SocialSdkConfig create(Context context) {
         SocialSdkConfig config = new SocialSdkConfig();
-        config.appName = context.getString(R.string.app_name);
         File shareDir = new File(context.getExternalCacheDir(), SHARE_CACHE_DIR_NAME);
         config.cacheDir = (shareDir.mkdirs() ? shareDir : context.getCacheDir()).getAbsolutePath();
         // init
+        config.appName = "android_app";
         config.disablePlatforms = new ArrayList<>();
         config.sinaRedirectUrl = SocialConstants.REDIRECT_URL;
         config.sinaScope = SocialConstants.SCOPE;
@@ -110,6 +109,11 @@ public class SocialSdkConfig {
 
     public SocialSdkConfig defImageResId(int defImageResId) {
         this.defImageResId = defImageResId;
+        return this;
+    }
+
+    public SocialSdkConfig appName(String appName) {
+        this.appName = appName;
         return this;
     }
 
