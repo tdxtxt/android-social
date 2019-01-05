@@ -9,14 +9,14 @@ ext {
     ]
 
     dependencies = [
-            appcompat_v7      : 'com.android.support:appcompat-v7:28.0.0',
-            design            : 'com.android.support:design:28.0.0',
-            cardview          : 'com.android.support:cardview-v7:28.0.0',
-            recyclerview      : 'com.android.support:recyclerview-v7:28.0.0',
-            constraintlayout  : 'com.android.support.constraint:constraint-layout:1.1.3',
-            kotlin            : 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.70',
+            appcompat       : 'androidx.appcompat:appcompat:1.0.2',
+            material        : 'com.google.android.material:material:1.0.0',
+            cardview        : 'androidx.cardview:cardview:1.0.0',
+            recyclerview    : 'androidx.recyclerview:recyclerview:1.0.0',
+            constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
+            kotlin          : 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11',
 
-            weibo            : 'com.sina.weibo.sdk:core:4.2.7:openDefaultRelease@aar',
-            wechat            : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+',
+            weibo           : 'com.sina.weibo.sdk:core:4.2.7:openDefaultRelease@aar',
+            wechat          : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+',
     ]
 }

@@ -92,7 +92,6 @@ public class WxPlatform extends AbsPlatform {
 
     @Override
     public void recycle() {
-
         mWxApi.detach();
         mWxApi = null;
     }
@@ -116,6 +115,8 @@ public class WxPlatform extends AbsPlatform {
                 case BaseResp.ErrCode.ERR_OK:
                     // 用户同意  authResp.country;  authResp.lang;  authResp.state;
                     SendAuth.Resp authResp = (SendAuth.Resp) resp;
+                    // 这个code如果需要使用微信充值功能的话，服务端需要使用
+                    // 这里为了安全暂时不提供出去
                     String authCode = authResp.code;
                     if (SocialSdk.getConfig().isOnlyAuthCode()) {
                         listener.onSuccess(new LoginResult(Target.LOGIN_WX, authCode));

@@ -1,7 +1,6 @@
 package com.fungo.socialgo.platform.wechat;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
@@ -16,6 +15,8 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * CreateAt : 2016/12/3

@@ -2,11 +2,12 @@ package com.fungo.socialgo.manager;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.fungo.socialgo.SocialSdk;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.Target;
+
+import androidx.annotation.NonNull;
 
 /**
  * CreateAt : 2017/5/19

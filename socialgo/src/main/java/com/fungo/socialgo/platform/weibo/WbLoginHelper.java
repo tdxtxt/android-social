@@ -2,7 +2,6 @@ package com.fungo.socialgo.platform.weibo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import com.fungo.socialgo.exception.SocialError;
 import com.fungo.socialgo.listener.OnLoginListener;
@@ -18,6 +17,8 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
+
+import androidx.annotation.NonNull;
 
 /**
  * CreateAt : 2016/12/5

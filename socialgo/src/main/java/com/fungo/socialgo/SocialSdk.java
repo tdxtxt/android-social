@@ -10,7 +10,6 @@ import com.fungo.socialgo.common.SocialConstants;
 import com.fungo.socialgo.platform.IPlatform;
 import com.fungo.socialgo.platform.PlatformCreator;
 import com.fungo.socialgo.platform.Target;
-import com.fungo.socialgo.platform.wechat.pay.WXPay;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -105,7 +104,6 @@ public class SocialSdk {
     ///////////////////////////////////////////////////////////////////////////
     // RequestAdapter
     ///////////////////////////////////////////////////////////////////////////
-
     public static IRequestAdapter getRequestAdapter() {
         if (sRequestAdapter == null) {
             sRequestAdapter = new DefaultRequestAdapter();

@@ -1,9 +1,10 @@
 package com.fungo.socialgo.platform;
 
-import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * CreateAt : 28/10/2017

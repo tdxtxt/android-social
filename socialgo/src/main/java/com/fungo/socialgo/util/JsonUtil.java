@@ -1,6 +1,5 @@
 package com.fungo.socialgo.util;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.fungo.socialgo.SocialSdk;
@@ -9,6 +8,7 @@ import com.fungo.socialgo.exception.SocialError;
 
 import java.util.concurrent.Callable;
 
+import androidx.annotation.NonNull;
 import bolts.Continuation;
 import bolts.Task;
 
@@ -29,7 +29,6 @@ public class JsonUtil {
 
         void onFailure(SocialError e);
     }
-
 
     public static <T> T getObject(String jsonString, Class<T> cls) {
         IJsonAdapter jsonAdapter = SocialSdk.getJsonAdapter();
@@ -82,7 +81,7 @@ public class JsonUtil {
         }, Task.UI_THREAD_EXECUTOR).continueWith(new Continuation<Boolean, Object>() {
             @Override
             public Object then(Task<Boolean> task) throws Exception {
-                if(task.isFaulted()) {
+                if (task.isFaulted()) {
                     callback.onFailure(new SocialError(SocialError.CODE_REQUEST_ERROR, "未 handle 的错误"));
                 }
                 return null;
