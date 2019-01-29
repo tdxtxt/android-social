@@ -7,12 +7,17 @@ package com.fungo.sample
  */
 object AppConstant {
 
-    const val QQ_APP_ID = "101532293"
-    const val QQ_APP_IKEY = "5a74dbeca72bcaba7f5918fbda5426aa"
+    // 微信开发者平台
+    const val WX_APP_ID = "wxce218a926cef5ca3"
+    const val WX_APP_SECRET = "f245a3c61c07b482e0a321aa08915680"
 
-    const val SINA_APP_KEY = "2332189931"
-    const val SINA_APP_SECRET = "0390444ae665f63dddb131774e527849"
+    // QQ 账号
+    const val QQ_APP_ID = "101548416"
+    const val QQ_APP_SECRET = "1f903fc203a6bbc7ba8549f6f65bdb8e"
 
-    const val WX_APP_ID = "wxf44e60cce52c4a0c"
-    const val WX_APP_SECRET = "xxxxxxx"
+    // 微博账号
+    const val SINA_APP_KEY = "3000948180"
+    const val SINA_APP_SECRET = "1d060741a9e79094f51ca445f80b9c98"
+
+
 }

@@ -15,14 +15,14 @@ import com.fungo.socialgo.manager.LoginManager
 import com.fungo.socialgo.manager.PayManager
 import com.fungo.socialgo.manager.ShareManager
 import com.fungo.socialgo.model.LoginResult
-import com.fungo.socialgo.model.ShareObj
+import com.fungo.socialgo.model.ShareEntity
 import com.fungo.socialgo.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private var platformType: Int = Target.SHARE_QQ_FRIENDS
-    private lateinit var shareMedia: ShareObj
+    private lateinit var shareMedia: ShareEntity
 
 
     private val mProgressDialog: ProgressDialog by lazy {
@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private var mImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1530450487&di=0adadc8f9b25f8f7176a4e79eca56580&src=http://img0.ph.126.net/HTy8QOnZk_jQ9T2wfOEvNA==/3141823690144359477.jpg"
     private var mShareUrl = "https://www.baidu.com/"
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +50,17 @@ class MainActivity : AppCompatActivity() {
         containerType.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rbTypeText -> {
-                    shareMedia = ShareObj.buildTextObj("我是文字分享的标题", "我是文字分享的内容")
+                    shareMedia = ShareEntity.buildTextObj("我是文字分享的标题", "我是文字分享的内容")
                 }
                 R.id.rbTypeImage -> {
-                    shareMedia = ShareObj.buildImageObj(mImageUrl, "我是分享图片的描述")
+                    shareMedia = ShareEntity.buildImageObj(mImageUrl, "我是分享图片的描述")
                 }
                 R.id.rbTypeTextImage -> {
-                    shareMedia = ShareObj.buildImageObj(mImageUrl, getString(R.string.share_text))
+                    shareMedia = ShareEntity.buildImageObj(mImageUrl, getString(R.string.share_text))
                 }
 
                 R.id.rbTypeLink -> {
-                    shareMedia = ShareObj.buildWebObj(getString(R.string.share_title), getString(R.string.share_text), mImageUrl, mShareUrl)
+                    shareMedia = ShareEntity.buildWebObj(getString(R.string.share_title), getString(R.string.share_text), mImageUrl, mShareUrl)
                 }
             }
         }
@@ -95,9 +94,9 @@ class MainActivity : AppCompatActivity() {
             tvConsole?.text = "登录开始"
         }
 
-        override fun onSuccess(loginResult: LoginResult?) {
+        override fun onSuccess(loginResult: LoginResult) {
             mProgressDialog.dismiss()
-            tvConsole?.text = loginResult?.socialUser?.toString()
+            tvConsole?.text = loginResult.socialUser?.toString()
         }
 
         override fun onCancel() {
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             tvConsole?.text = "登录取消"
         }
 
-        override fun onFailure(e: SocialError?) {
+        override fun onFailure(e: SocialError) {
             mProgressDialog.dismiss()
             tvConsole?.text = "登录异常 + ${e?.errorMsg}"
         }
@@ -115,30 +114,32 @@ class MainActivity : AppCompatActivity() {
     fun onShare(view: View) {
         mProgressDialog.show()
         ShareManager.share(this, platformType, shareMedia, object : OnShareListener {
-            override fun onStart(shareTarget: Int, obj: ShareObj?) {
+
+            override fun onFailure(e: SocialError) {
+                tvConsole?.text = "分享失败"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (e.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+                    } else if (e.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+                    }
+                }
+            }
+
+            override fun onPrepareInBackground(shareTarget: Int, obj: ShareEntity): ShareEntity? {
+                return obj
+            }
+
+
+            override fun onStart(shareTarget: Int, obj: ShareEntity) {
                 mProgressDialog.dismiss()
                 tvConsole?.text = "分享开始"
             }
 
-            override fun onPrepareInBackground(shareTarget: Int, obj: ShareObj?): ShareObj {
-                return obj!!
-            }
 
             override fun onSuccess() {
                 mProgressDialog.dismiss()
                 tvConsole?.text = "分享成功"
-            }
-
-            override fun onFailure(e: SocialError?) {
-                tvConsole?.text = "分享失败"
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (e?.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
-                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
-                    } else if (e?.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
-                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
-                    }
-                }
             }
 
             override fun onCancel() {
@@ -172,7 +173,7 @@ class MainActivity : AppCompatActivity() {
             tvConsole?.text = "onDealing"
         }
 
-        override fun onError(error: SocialError?) {
+        override fun onError(error: SocialError) {
             tvConsole?.text = "支付异常：${error?.errorMsg}"
         }
 
