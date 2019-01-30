@@ -25,46 +25,42 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler
 class WbLoginHelper(context: Activity) : Recyclable {
 
     private val mLoginType: Int = Target.LOGIN_WB
-    private var mOnLoginListener: OnLoginListener? = null
+    private var onLoginListener: OnLoginListener? = null
     private var mSsoHandler: SsoHandler = SsoHandler(context)
 
     /**
      * 获取用户信息
-     *
-     * @param token token
      */
     private fun getUserInfo(token: Oauth2AccessToken?) {
         SocialGoUtils.startJsonRequest("https://api.weibo.com/2/users/show.json?access_token=" + token?.token + "&uid=" + token?.uid, SinaUser::class.java, object : SocialGoUtils.Callback<SinaUser> {
             override fun onSuccess(data: SinaUser?) {
                 SocialLogUtils.e(SocialGoUtils.getObject2Json(data))
                 if (data != null && token != null) {
-                    mOnLoginListener?.onSuccess(LoginResult(mLoginType, data, SinaAccessToken(token)))
+                    onLoginListener?.onSuccess(LoginResult(mLoginType, data, SinaAccessToken(token)))
                 } else {
                     onFailure(SocialError(SocialError.CODE_DATA_EMPTY))
                 }
             }
 
             override fun onFailure(e: SocialError) {
-                mOnLoginListener?.onFailure(e)
+                onLoginListener?.onFailure(e)
             }
         })
     }
 
     fun login(activity: Activity, loginListener: OnLoginListener?) {
-        if (loginListener == null)
-            return
-        this.mOnLoginListener = loginListener
+        onLoginListener = loginListener
         justAuth(activity, object : WbAuthListener {
             override fun onSuccess(oauth2AccessToken: Oauth2AccessToken?) {
                 getUserInfo(oauth2AccessToken)
             }
 
             override fun cancel() {
-                loginListener.onCancel()
+                loginListener?.onCancel()
             }
 
             override fun onFailure(msg: WbConnectErrorMessage) {
-                loginListener.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#login#connect error," + msg.errorCode + " " + msg.errorMessage))
+                loginListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#login#connect error," + msg.errorCode + " " + msg.errorMessage))
             }
         })
     }

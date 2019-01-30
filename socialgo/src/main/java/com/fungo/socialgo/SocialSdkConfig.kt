@@ -4,7 +4,6 @@ import android.content.Context
 import com.fungo.socialgo.common.SocialConstants
 import com.fungo.socialgo.platform.Target
 import java.io.File
-import java.util.*
 
 
 /**
@@ -25,10 +24,10 @@ class SocialSdkConfig private constructor() {
 
     private var cacheDir: String? = null         // 存储路径，不允许更改
     private var defImageResId: Int = 0           // 图片默认资源
-    private var disablePlatforms: MutableList<Int>? = null
+    private var disablePlatforms = arrayListOf<Int>()
 
     fun disablePlatform(@Target.PlatformTarget platform: Int): SocialSdkConfig {
-        this.disablePlatforms!!.add(platform)
+        this.disablePlatforms.add(platform)
         return this
     }
 
@@ -84,7 +83,7 @@ class SocialSdkConfig private constructor() {
         return defImageResId
     }
 
-    fun getDisablePlatforms(): List<Int>? {
+    fun getDisablePlatforms(): List<Int> {
         return disablePlatforms
     }
 
@@ -152,7 +151,7 @@ class SocialSdkConfig private constructor() {
             config.cacheDir = (if (shareDir.mkdirs()) shareDir else context.cacheDir).absolutePath
             // init
             config.appName = "android_app"
-            config.disablePlatforms = ArrayList()
+            config.disablePlatforms.clear()
             config.sinaRedirectUrl = SocialConstants.REDIRECT_URL
             config.sinaScope = SocialConstants.SCOPE
             config.isDebug = false

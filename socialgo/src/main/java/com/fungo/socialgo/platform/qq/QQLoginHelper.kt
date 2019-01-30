@@ -32,7 +32,7 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
     private var loginUiListener: LoginUiListener? = null
 
     fun handleResultData(data: Intent?) {
-        Tencent.handleResultData(data, this.loginUiListener)
+        Tencent.handleResultData(data, loginUiListener)
     }
 
     // 登录
@@ -60,7 +60,7 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
             val qqToken = SocialGoUtils.getObject(jsonResponse.toString(), QQAccessToken::class.java)
             SocialLogUtils.e("获取到 qq token = ", qqToken)
             if (qqToken == null) {
-                listener!!.onFailure(SocialError(SocialError.CODE_PARSE_ERROR, "#LoginUiListener#qq token is null, data = $qqToken"))
+                listener?.onFailure(SocialError(SocialError.CODE_PARSE_ERROR, "#LoginUiListener#qq token is null, data = $qqToken"))
                 return
             }
             // 保存token
@@ -72,11 +72,11 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
 
 
         override fun onError(e: UiError) {
-            listener!!.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#LoginUiListener#获取用户信息失败 " + QQPlatform.parseUiError(e)))
+            listener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#LoginUiListener#获取用户信息失败 " + QQPlatform.parseUiError(e)))
         }
 
         override fun onCancel() {
-            listener!!.onCancel()
+            listener?.onCancel()
         }
     }
 
@@ -94,11 +94,11 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
             }
 
             override fun onError(e: UiError) {
-                listener!!.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#getUserInfo#qq获取用户信息失败  " + QQPlatform.parseUiError(e)))
+                listener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#getUserInfo#qq获取用户信息失败  " + QQPlatform.parseUiError(e)))
             }
 
             override fun onCancel() {
-                listener!!.onCancel()
+                listener?.onCancel()
             }
         })
     }

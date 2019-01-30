@@ -86,6 +86,36 @@ class SinaUser : BaseSocialUser() {
     private val mbrank: String? = null
     private val block_word: String? = null
 
+    override fun getUserId(): String {
+        return id ?: ""
+    }
+
+    override fun getUserNickName(): String {
+        return screen_name ?: ""
+    }
+
+    override fun getUserGender(): Int {
+        if ("m" == gender)
+            return BaseSocialUser.GENDER_BOY
+        return if ("f" == gender) BaseSocialUser.GENDER_GIRL else BaseSocialUser.GENDER_UNKONW
+    }
+
+    override fun getUserProvince(): String {
+        return province.toString() + ""
+    }
+
+    override fun getUserCity(): String {
+        return city.toString() + ""
+    }
+
+    override fun getUserHeadUrl(): String {
+        return avatar_large ?: ""
+    }
+
+    override fun getUserHeadUrlLarge(): String {
+        return avatar_hd ?: ""
+    }
+
     override fun toString(): String {
         return "WbUserInfo{" +
                 "id='" + id + '\''.toString() +
@@ -126,35 +156,5 @@ class SinaUser : BaseSocialUser() {
                 ", mbrank='" + mbrank + '\''.toString() +
                 ", block_word='" + block_word + '\''.toString() +
                 '}'.toString()
-    }
-
-    override fun getUserId(): String {
-        return id ?: ""
-    }
-
-    override fun getUserNickName(): String {
-        return screen_name ?: ""
-    }
-
-    override fun getUserGender(): Int {
-        if ("m" == gender)
-            return BaseSocialUser.GENDER_BOY
-        return if ("f" == gender) BaseSocialUser.GENDER_GIRL else BaseSocialUser.GENDER_UNKONW
-    }
-
-    override fun getUserProvince(): String {
-        return province.toString() + ""
-    }
-
-    override fun getUserCity(): String {
-        return city.toString() + ""
-    }
-
-    override fun getUserHeadUrl(): String {
-        return avatar_large ?: ""
-    }
-
-    override fun getUserHeadUrlLarge(): String {
-        return avatar_hd ?: ""
     }
 }

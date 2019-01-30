@@ -31,14 +31,13 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
  * [分享与收藏文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317340&token=&lang=zh_CN)
  * [微信登录文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=&lang=zh_CN)
  *
- *
  * 缩略图不超过 32kb
  * 源文件不超过 10M
  */
-class WxPlatform internal constructor(context: Context, appId: String?, private val wxSecret: String?, appName: String?) : AbsPlatform(appId, appName) {
+class WxPlatform constructor(context: Context, appId: String?, private val wxSecret: String?, appName: String?) : AbsPlatform(appId, appName) {
 
-    private var mWeChatLoginHelper: WxLoginHelper? = null
-    private var mWxApi: IWXAPI? = null
+    private lateinit var mWeChatLoginHelper: WxLoginHelper
+    private var mWxApi: IWXAPI = WXAPIFactory.createWXAPI(context, appId, true)
 
     class Creator : PlatformCreator {
         override fun create(context: Context, target: Int): IPlatform? {
@@ -52,10 +51,9 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
     }
 
     init {
-        mWxApi = WXAPIFactory.createWXAPI(context, appId, true)
-        mWxApi!!.registerApp(appId)
+        mWxApi.registerApp(appId)
         // 支付使用
-        WXPay.initWxApi(mWxApi!!)
+        WXPay.initWxApi(mWxApi)
     }
 
     override fun checkPlatformConfig(): Boolean {
@@ -63,17 +61,17 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
     }
 
     override fun isInstall(context: Context): Boolean {
-        return mWxApi != null && mWxApi!!.isWXAppInstalled
+        return mWxApi.isWXAppInstalled
     }
 
     override fun recycle() {
-        mWxApi?.detach()
-        mWxApi = null
+        mWxApi.detach()
     }
 
     override fun handleIntent(activity: Activity) {
-        if (activity is IWXAPIEventHandler)
-            mWxApi?.handleIntent(activity.intent, activity as IWXAPIEventHandler)
+        if (activity is IWXAPIEventHandler) {
+            mWxApi.handleIntent(activity.intent, activity as IWXAPIEventHandler)
+        }
     }
 
     override fun onResponse(resp: Any) {
@@ -83,7 +81,7 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
         when {
             resp.type == ConstantsAPI.COMMAND_SENDAUTH -> {
                 // 登录
-                val listener = mWeChatLoginHelper?.getLoginListener()
+                val listener = mWeChatLoginHelper.getLoginListener()
                 when (resp.errCode) {
                     BaseResp.ErrCode.ERR_OK -> {
                         // 用户同意  authResp.country;  authResp.lang;  authResp.state;
@@ -94,7 +92,7 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
                         if (SocialSdk.getConfig().isOnlyAuthCode()) {
                             listener?.onSuccess(LoginResult(Target.LOGIN_WX, authCode))
                         } else {
-                            mWeChatLoginHelper!!.getAccessTokenByCode(authCode)
+                            mWeChatLoginHelper.getAccessTokenByCode(authCode)
                         }
                     }
                     BaseResp.ErrCode.ERR_USER_CANCEL ->
@@ -106,23 +104,20 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
                 }
             }
             resp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX -> {
-                if (mOnShareListener == null) {
-                    return
-                }
                 // 分享
                 when (resp.errCode) {
                     BaseResp.ErrCode.ERR_OK ->
                         // 分享成功
-                        mOnShareListener!!.onSuccess()
+                        mShareListener?.onSuccess()
                     BaseResp.ErrCode.ERR_USER_CANCEL ->
                         // 分享取消
-                        mOnShareListener!!.onCancel()
+                        mShareListener?.onCancel()
                     BaseResp.ErrCode.ERR_SENT_FAILED ->
                         // 分享失败
-                        mOnShareListener!!.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "分享失败"))
+                        mShareListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "分享失败"))
                     BaseResp.ErrCode.ERR_AUTH_DENIED ->
                         // 分享被拒绝
-                        mOnShareListener!!.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "分享被拒绝"))
+                        mShareListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "分享被拒绝"))
                 }
             }
             resp.type == ConstantsAPI.COMMAND_PAY_BY_WX -> WXPay.getInstance().onResp(resp.errCode)
@@ -130,12 +125,12 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
     }
 
     override fun login(activity: Activity, listener: OnLoginListener?) {
-        if (mWxApi?.isWXAppSupportAPI == false) {
+        if (!mWxApi.isWXAppSupportAPI) {
             listener?.onFailure(SocialError(SocialError.CODE_VERSION_LOW))
             return
         }
         mWeChatLoginHelper = WxLoginHelper(activity, mWxApi, appId)
-        mWeChatLoginHelper!!.login(wxSecret, listener)
+        mWeChatLoginHelper.login(wxSecret, listener)
     }
 
     override fun doPay(context: Context, params: String, listener: OnPayListener?) {
@@ -157,18 +152,18 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
         req.transaction = buildTransaction(sign)
         req.message = msg
         req.scene = getShareToWhere(shareTarget)
-        val sendResult = mWxApi!!.sendReq(req)
+        val sendResult = mWxApi.sendReq(req)
         if (!sendResult) {
-            mOnShareListener!!.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "$TAG#sendMsgToWx失败，可能是参数错误"))
+            mShareListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "$TAG#sendMsgToWx失败，可能是参数错误"))
         }
     }
 
     override fun shareOpenApp(shareTarget: Int, activity: Activity, entity: ShareEntity) {
-        val rst = mWxApi?.openWXApp() ?: false
+        val rst = mWxApi.openWXApp()
         if (rst) {
-            mOnShareListener?.onSuccess()
+            mShareListener?.onSuccess()
         } else {
-            mOnShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR))
+            mShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR))
         }
     }
 
@@ -184,17 +179,16 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
 
     public override fun shareImage(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                .continueWith(object : ThumbDataContinuation(TAG, "shareImage", mOnShareListener!!) {
+                .continueWith(object : ThumbDataContinuation(TAG, "shareImage", mShareListener) {
                     override fun onSuccess(thumbData: ByteArray) {
                         shareImage(shareTarget, entity.getSummary(), entity.getThumbImagePath(), thumbData)
                     }
                 }, Task.UI_THREAD_EXECUTOR)
     }
 
-
-    private fun shareImage(shareTarget: Int, desc: String, localPath: String?, thumbData: ByteArray) {
+    private fun shareImage(shareTarget: Int, desc: String, localPath: String, thumbData: ByteArray) {
         if (shareTarget == Target.SHARE_WX_FRIENDS) {
-            if (SocialGoUtils.isGifFile(localPath!!)) {
+            if (SocialGoUtils.isGifFile(localPath)) {
                 shareEmoji(shareTarget, localPath, desc, thumbData)
             } else {
                 shareImage(shareTarget, localPath, thumbData)
@@ -204,7 +198,7 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
         }
     }
 
-    private fun shareImage(shareTarget: Int, localPath: String?, thumbData: ByteArray) {
+    private fun shareImage(shareTarget: Int, localPath: String, thumbData: ByteArray) {
         // 文件大小不大于10485760  路径长度不大于10240
         val imgObj = WXImageObject()
         imgObj.imagePath = localPath
@@ -232,7 +226,7 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
 
     public override fun shareWeb(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                .continueWith(object : ThumbDataContinuation(TAG, "shareWeb", mOnShareListener!!) {
+                .continueWith(object : ThumbDataContinuation(TAG, "shareWeb", mShareListener) {
                     override fun onSuccess(thumbData: ByteArray) {
                         val webPage = WXWebpageObject()
                         webPage.webpageUrl = entity.getTargetUrl()
@@ -249,7 +243,7 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
 
     public override fun shareMusic(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                .continueWith(object : ThumbDataContinuation(TAG, "shareMusic", mOnShareListener!!) {
+                .continueWith(object : ThumbDataContinuation(TAG, "shareMusic", mShareListener) {
                     override fun onSuccess(thumbData: ByteArray) {
                         val music = WXMusicObject()
                         music.musicUrl = entity.getMediaPath()
@@ -271,11 +265,11 @@ class WxPlatform internal constructor(context: Context, appId: String?, private 
             } else if (SocialGoUtils.isExist(entity.getMediaPath())) {
                 shareVideoByIntent(activity, entity, SocialConstants.WECHAT_PKG, SocialConstants.WX_FRIEND_PAGE)
             } else {
-                mOnShareListener!!.onFailure(SocialError(SocialError.CODE_FILE_NOT_FOUND))
+                mShareListener?.onFailure(SocialError(SocialError.CODE_FILE_NOT_FOUND))
             }
         } else {
             SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                    .continueWith(object : ThumbDataContinuation(TAG, "shareVideo", mOnShareListener!!) {
+                    .continueWith(object : ThumbDataContinuation(TAG, "shareVideo", mShareListener) {
                         override fun onSuccess(thumbData: ByteArray) {
                             val video = WXVideoObject()
                             video.videoUrl = entity.getMediaPath()

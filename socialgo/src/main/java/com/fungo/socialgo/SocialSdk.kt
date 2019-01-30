@@ -17,15 +17,15 @@ import java.util.concurrent.Executors
  * 登录分享组件入口
  *
  * 初始化和设置配置，注册平台
+ * 默认注册QQ，微信，微博和支付宝这四个平台
  */
-
 object SocialSdk {
 
     private var sSocialSdkConfig: SocialSdkConfig? = null
     private var jsonAdapter: IJsonAdapter? = null
     private var requestAdapter: IRequestAdapter? = null
 
-    private var sPlatformCreatorMap: SparseArray<PlatformCreator>? = null
+    private var sPlatformCreatorMap = SparseArray<PlatformCreator>()
     private var sExecutorService: ExecutorService? = null
 
     fun getExecutor(): ExecutorService {
@@ -53,18 +53,19 @@ object SocialSdk {
     // Platform 注册
     ///////////////////////////////////////////////////////////////////////////
     private fun actionRegisterPlatform() {
-        if (sPlatformCreatorMap == null) {
-            sPlatformCreatorMap = SparseArray()
-        }
-        val mappings = arrayOf(Target.Mapping(Target.PLATFORM_QQ, SocialConstants.QQ_CREATOR), Target.Mapping(Target.PLATFORM_WX, SocialConstants.WX_CREATOR), Target.Mapping(Target.PLATFORM_WB, SocialConstants.WB_CREATOR), Target.Mapping(Target.PLATFORM_ALI, SocialConstants.ALI_CREATOR))
-        val disablePlatforms = sSocialSdkConfig!!.getDisablePlatforms()
+        sPlatformCreatorMap.clear()
+        val mappings = arrayOf(
+                Target.Mapping(Target.PLATFORM_QQ, SocialConstants.QQ_CREATOR),
+                Target.Mapping(Target.PLATFORM_WX, SocialConstants.WX_CREATOR),
+                Target.Mapping(Target.PLATFORM_WB, SocialConstants.WB_CREATOR),
+                Target.Mapping(Target.PLATFORM_ALI, SocialConstants.ALI_CREATOR))
+        val disablePlatforms = getConfig().getDisablePlatforms()
         for (mapping in mappings) {
-            if (!disablePlatforms!!.contains(mapping.platform)) {
+            if (!disablePlatforms.contains(mapping.platform)) {
                 val creator = makeCreator(mapping.creator)
                 if (creator != null) {
-                    sPlatformCreatorMap!!.put(mapping.platform, creator)
+                    sPlatformCreatorMap.put(mapping.platform, creator)
                 }
-
             }
         }
     }
@@ -80,7 +81,7 @@ object SocialSdk {
 
 
     fun getPlatform(context: Context, target: Int): IPlatform? {
-        val creator = sPlatformCreatorMap?.get(target)
+        val creator = sPlatformCreatorMap.get(target)
         return creator?.create(context, target)
     }
 

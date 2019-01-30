@@ -27,28 +27,6 @@ class QQUser : BaseSocialUser() {
     private val level: String? = null
     private val is_yellow_year_vip: String? = null
 
-    override fun toString(): String {
-        return "QQUserInfo{" +
-                "ret=" + ret +
-                ", msg='" + msg + '\''.toString() +
-                ", is_lost=" + is_lost +
-                ", nickname='" + nickname + '\''.toString() +
-                ", gender='" + gender + '\''.toString() +
-                ", province='" + province + '\''.toString() +
-                ", city='" + city + '\''.toString() +
-                ", figureurl='" + figureurl + '\''.toString() +
-                ", figureurl_1='" + figureurl_1 + '\''.toString() +
-                ", figureurl_2='" + figureurl_2 + '\''.toString() +
-                ", figureurl_qq_1='" + figureurl_qq_1 + '\''.toString() +
-                ", figureurl_qq_2='" + figureurl_qq_2 + '\''.toString() +
-                ", is_yellow_vip='" + is_yellow_vip + '\''.toString() +
-                ", vip='" + vip + '\''.toString() +
-                ", yellow_vip_level='" + yellow_vip_level + '\''.toString() +
-                ", level='" + level + '\''.toString() +
-                ", is_yellow_year_vip='" + is_yellow_year_vip + '\''.toString() +
-                '}'.toString()
-    }
-
     override fun getUserId(): String {
         return openId ?: ""
     }
@@ -70,7 +48,6 @@ class QQUser : BaseSocialUser() {
         } else BaseSocialUser.GENDER_UNKONW
     }
 
-
     override fun getUserProvince(): String {
         return province ?: ""
     }
@@ -85,5 +62,27 @@ class QQUser : BaseSocialUser() {
 
     override fun getUserHeadUrlLarge(): String {
         return figureurl_qq_2 ?: ""
+    }
+
+    override fun toString(): String {
+        return "QQUserInfo{" +
+                "ret=" + ret +
+                ", msg='" + msg + '\''.toString() +
+                ", is_lost=" + is_lost +
+                ", nickname='" + nickname + '\''.toString() +
+                ", gender='" + gender + '\''.toString() +
+                ", province='" + province + '\''.toString() +
+                ", city='" + city + '\''.toString() +
+                ", figureurl='" + figureurl + '\''.toString() +
+                ", figureurl_1='" + figureurl_1 + '\''.toString() +
+                ", figureurl_2='" + figureurl_2 + '\''.toString() +
+                ", figureurl_qq_1='" + figureurl_qq_1 + '\''.toString() +
+                ", figureurl_qq_2='" + figureurl_qq_2 + '\''.toString() +
+                ", is_yellow_vip='" + is_yellow_vip + '\''.toString() +
+                ", vip='" + vip + '\''.toString() +
+                ", yellow_vip_level='" + yellow_vip_level + '\''.toString() +
+                ", level='" + level + '\''.toString() +
+                ", is_yellow_year_vip='" + is_yellow_year_vip + '\''.toString() +
+                '}'.toString()
     }
 }

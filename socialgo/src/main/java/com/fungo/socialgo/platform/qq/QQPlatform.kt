@@ -35,11 +35,11 @@ import java.util.*
  *
  * 登录分享文档 http://wiki.open.qq.com/wiki/QQ%E7%94%A8%E6%88%B7%E8%83%BD%E5%8A%9B
  */
-class QQPlatform internal constructor(context: Context, appId: String?, appName: String?) : AbsPlatform(appId, appName) {
+class QQPlatform constructor(context: Context, appId: String?, appName: String?) : AbsPlatform(appId, appName) {
 
     private var mTencentApi: Tencent = Tencent.createInstance(appId, context)
-    private var mQQLoginHelper: QQLoginHelper? = null
-    private var mIUiListenerWrap: IUiListenerWrap? = null
+    private lateinit var mQQLoginHelper: QQLoginHelper
+    private lateinit var mIUiListenerWrap: IUiListenerWrap
 
     class Creator : PlatformCreator {
         override fun create(context: Context, target: Int): IPlatform? {
@@ -67,10 +67,9 @@ class QQPlatform internal constructor(context: Context, appId: String?, appName:
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Constants.REQUEST_QQ_SHARE || requestCode == Constants.REQUEST_QZONE_SHARE) {
-            if (mIUiListenerWrap != null)
-                Tencent.handleResultData(data, mIUiListenerWrap)
+            Tencent.handleResultData(data, mIUiListenerWrap)
         } else if (requestCode == Constants.REQUEST_LOGIN) {
-            mQQLoginHelper?.handleResultData(data)
+            mQQLoginHelper.handleResultData(data)
         }
     }
 
@@ -81,7 +80,7 @@ class QQPlatform internal constructor(context: Context, appId: String?, appName:
             return
         }
         mQQLoginHelper = QQLoginHelper(activity, mTencentApi, listener)
-        mQQLoginHelper!!.login()
+        mQQLoginHelper.login()
     }
 
 
@@ -104,9 +103,9 @@ class QQPlatform internal constructor(context: Context, appId: String?, appName:
     override fun shareOpenApp(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         val rst = SocialGoUtils.openApp(activity, SocialConstants.QQ_PKG)
         if (rst) {
-            mOnShareListener?.onSuccess()
+            mShareListener?.onSuccess()
         } else {
-            mOnShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR, "#shareOpenApp#open app error"))
+            mShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR, "#shareOpenApp#open app error"))
         }
     }
 
@@ -198,7 +197,7 @@ class QQPlatform internal constructor(context: Context, appId: String?, appName:
                     shareWeb(shareTarget, activity, entity)
                 }
                 SocialGoUtils.isExist(entity.getMediaPath()) -> shareVideoByIntent(activity, entity, SocialConstants.QQ_PKG, SocialConstants.QQ_FRIENDS_PAGE)
-                else -> this.mIUiListenerWrap!!.onError(SocialError(SocialError.CODE_FILE_NOT_FOUND))
+                else -> this.mIUiListenerWrap.onError(SocialError(SocialError.CODE_FILE_NOT_FOUND))
             }
         } else if (shareTarget == Target.SHARE_QQ_ZONE) {
             // qq 空间支持本地文件发布
@@ -214,28 +213,28 @@ class QQPlatform internal constructor(context: Context, appId: String?, appName:
                     params.putString(QzonePublish.PUBLISH_TO_QZONE_VIDEO_PATH, entity.getMediaPath())
                     mTencentApi.publishToQzone(activity, params, mIUiListenerWrap)
                 }
-                else -> this.mIUiListenerWrap!!.onError(SocialError(SocialError.CODE_FILE_NOT_FOUND))
+                else -> this.mIUiListenerWrap.onError(SocialError(SocialError.CODE_FILE_NOT_FOUND))
             }
         }
     }
 
 
-    private inner class IUiListenerWrap internal constructor(private val listener: OnShareListener?) : IUiListener {
+    private inner class IUiListenerWrap constructor(private val listener: OnShareListener) : IUiListener {
 
         override fun onComplete(o: Any) {
-            listener?.onSuccess()
+            listener.onSuccess()
         }
 
         override fun onError(uiError: UiError) {
-            listener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#IUiListenerWrap#分享失败 " + parseUiError(uiError)))
+            listener.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "#IUiListenerWrap#分享失败 " + parseUiError(uiError)))
         }
 
         fun onError(e: SocialError) {
-            listener?.onFailure(e)
+            listener.onFailure(e)
         }
 
         override fun onCancel() {
-            listener?.onCancel()
+            listener.onCancel()
         }
     }
 

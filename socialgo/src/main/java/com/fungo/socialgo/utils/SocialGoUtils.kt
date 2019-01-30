@@ -498,22 +498,26 @@ object SocialGoUtils {
         fun onFailure(e: SocialError)
     }
 
-    fun <T> getObject(jsonString: String?, cls: Class<T>): T? {
-        val jsonAdapter = SocialSdk.getJsonAdapter()
-        try {
-            return jsonAdapter.fromJson(jsonString!!, cls)
-        } catch (e: Exception) {
-            SocialLogUtils.e(TAG, e)
+    fun <T> getObject(json: String?, cls: Class<T>): T? {
+        if (json != null) {
+            val jsonAdapter = SocialSdk.getJsonAdapter()
+            try {
+                return jsonAdapter.fromJson(json, cls)
+            } catch (e: Exception) {
+                SocialLogUtils.e(TAG, e)
+            }
         }
         return null
     }
 
     fun getObject2Json(any: Any?): String? {
-        val jsonAdapter = SocialSdk.getJsonAdapter()
-        try {
-            return jsonAdapter.toJson(any)
-        } catch (e: Exception) {
-            SocialLogUtils.e(TAG, e)
+        if (any != null) {
+            val jsonAdapter = SocialSdk.getJsonAdapter()
+            try {
+                return jsonAdapter.toJson(any)
+            } catch (e: Exception) {
+                SocialLogUtils.e(TAG, e)
+            }
         }
         return null
     }

@@ -17,7 +17,7 @@ import com.fungo.socialgo.utils.SocialGoUtils
  */
 abstract class AbsPlatform(protected var appId: String?, protected var appName: String?) : IPlatform {
 
-    protected var mOnShareListener: OnShareListener? = null
+    protected var mShareListener: OnShareListener? = null
     protected var mTarget: Int = 0
 
     fun setTarget(target: Int) {
@@ -29,7 +29,7 @@ abstract class AbsPlatform(protected var appId: String?, protected var appName: 
     }
 
     override fun initOnShareListener(listener: OnShareListener) {
-        this.mOnShareListener = listener
+        this.mShareListener = listener
     }
 
     override fun isInstall(context: Context): Boolean {
@@ -55,18 +55,18 @@ abstract class AbsPlatform(protected var appId: String?, protected var appName: 
     protected fun shareVideoByIntent(activity: Activity, obj: ShareEntity, pkg: String, page: String) {
         val result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page)
         if (result) {
-            this.mOnShareListener?.onSuccess()
+            this.mShareListener?.onSuccess()
         } else {
-            this.mOnShareListener?.onFailure(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareVideo by intent$pkg  $page failure"))
+            this.mShareListener?.onFailure(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareVideo by intent$pkg  $page failure"))
         }
     }
 
     protected fun shareTextByIntent(activity: Activity, entity: ShareEntity, pkg: String, page: String) {
         val result = SocialGoUtils.shareText(activity, entity.getTitle(), entity.getSummary(), pkg, page)
         if (result) {
-            this.mOnShareListener?.onSuccess()
+            this.mShareListener?.onSuccess()
         } else {
-            this.mOnShareListener?.onFailure(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareText by intent$pkg  $page failure"))
+            this.mShareListener?.onFailure(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareText by intent$pkg  $page failure"))
         }
     }
 

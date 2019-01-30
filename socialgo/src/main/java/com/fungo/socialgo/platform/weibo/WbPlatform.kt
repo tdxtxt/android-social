@@ -32,7 +32,7 @@ import java.io.File
  * 文本相同的分享不允许重复发送，会发送不出去
  * 分享支持的检测
  */
-class WbPlatform internal constructor(context: Context, appId: String?, appName: String?, redirectUrl: String?, scope: String?) : AbsPlatform(appId, appName) {
+class WbPlatform constructor(context: Context, appId: String?, appName: String?, redirectUrl: String?, scope: String?) : AbsPlatform(appId, appName) {
 
     private var mShareHandler: WbShareHandler? = null
     private var mLoginHelper: WbLoginHelper? = null
@@ -92,7 +92,7 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
     // 延迟创建 openApi 辅助
     private fun makeOpenApiShareHelper(activity: Activity): OpenApiShareHelper {
         if (mOpenApiShareHelper == null) {
-            mOpenApiShareHelper = OpenApiShareHelper(makeLoginHelper(activity), mOnShareListener)
+            mOpenApiShareHelper = OpenApiShareHelper(makeLoginHelper(activity), mShareListener)
         }
         return mOpenApiShareHelper!!
     }
@@ -102,23 +102,23 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
     }
 
     override fun handleIntent(activity: Activity) {
-        if (mOnShareListener != null && activity is WbShareCallback && mShareHandler != null) {
+        if (mShareListener != null && activity is WbShareCallback && mShareHandler != null) {
             makeWbShareHandler(activity).doResultIntent(activity.intent, activity as WbShareCallback)
         }
     }
 
     override fun onResponse(resp: Any) {
-        if (resp is Int && mOnShareListener != null) {
+        if (resp is Int && mShareListener != null) {
             when (resp) {
                 WBConstants.ErrorCode.ERR_OK ->
                     // 分享成功
-                    mOnShareListener?.onSuccess()
+                    mShareListener?.onSuccess()
                 WBConstants.ErrorCode.ERR_CANCEL ->
                     // 分享取消
-                    mOnShareListener?.onCancel()
+                    mShareListener?.onCancel()
                 WBConstants.ErrorCode.ERR_FAIL ->
                     // 分享失败
-                    mOnShareListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "$TAG#微博分享失败"))
+                    mShareListener?.onFailure(SocialError(SocialError.CODE_SDK_ERROR, "$TAG#微博分享失败"))
             }
         }
     }
@@ -130,9 +130,9 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
     override fun shareOpenApp(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         val rst = SocialGoUtils.openApp(activity, SocialConstants.SINA_PKG)
         if (rst) {
-            mOnShareListener?.onSuccess()
+            mShareListener?.onSuccess()
         } else {
-            mOnShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR, "open app error"))
+            mShareListener?.onFailure(SocialError(SocialError.CODE_CANNOT_OPEN_ERROR, "open app error"))
         }
     }
 
@@ -147,7 +147,7 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
             makeOpenApiShareHelper(activity).post(activity, entity)
         } else {
             SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                    .continueWith(object : ThumbDataContinuation(TAG, "shareImage", mOnShareListener!!) {
+                    .continueWith(object : ThumbDataContinuation(TAG, "shareImage", mShareListener) {
                         override fun onSuccess(thumbData: ByteArray) {
                             val multiMessage = WeiboMultiMessage()
                             multiMessage.imageObject = getImageObj(entity.getThumbImagePath(), thumbData)
@@ -166,7 +166,7 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
 
     public override fun shareWeb(shareTarget: Int, activity: Activity, entity: ShareEntity) {
         SocialGoUtils.getStaticSizeBitmapByteByPathTask(entity.getThumbImagePath(), AbsPlatform.THUMB_IMAGE_SIZE)
-                .continueWith(object : ThumbDataContinuation(TAG, "shareWeb", mOnShareListener!!) {
+                .continueWith(object : ThumbDataContinuation(TAG, "shareWeb", mShareListener) {
                     override fun onSuccess(thumbData: ByteArray) {
                         val multiMessage = WeiboMultiMessage()
                         checkAddTextAndImageObj(multiMessage, entity, thumbData)
@@ -185,7 +185,7 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
         if (SocialGoUtils.isExist(mediaPath)) {
             val multiMessage = WeiboMultiMessage()
             checkAddTextAndImageObj(multiMessage, entity, null)
-            multiMessage.videoSourceObject = getVideoObj(entity, null)
+            multiMessage.videoSourceObject = getVideoObj(entity)
             makeWbShareHandler(activity).shareMessage(multiMessage, false)
         } else {
             shareWeb(shareTarget, activity, entity)
@@ -233,7 +233,7 @@ class WbPlatform internal constructor(context: Context, appId: String?, appName:
     }
 
 
-    private fun getVideoObj(obj: ShareEntity, thumbData: ByteArray?): VideoSourceObject {
+    private fun getVideoObj(obj: ShareEntity): VideoSourceObject {
         val mediaObject = VideoSourceObject()
         mediaObject.videoPath = Uri.fromFile(File(obj.getMediaPath()))
         mediaObject.identify = Utility.generateGUID()

@@ -16,27 +16,25 @@ import org.json.JSONObject
  */
 class WXPay(private val wxApi: IWXAPI) {
 
-    private var mPayParam: String? = null
     private var mListener: OnPayListener? = null
 
     /**
      * 发起微信支付
      */
     fun doPay(param: String, listener: OnPayListener?) {
-        mPayParam = param
         mListener = listener
 
         if (!check()) {
-            mListener?.onError(SocialError(SocialError.CODE_NOT_INSTALL))
+            listener?.onError(SocialError(SocialError.CODE_NOT_INSTALL))
             return
         }
 
         val json: JSONObject
         try {
-            json = JSONObject(mPayParam)
+            json = JSONObject(param)
         } catch (e: JSONException) {
             e.printStackTrace()
-            mListener?.onError(SocialError(SocialError.CODE_PAY_PARAM_ERROR))
+            listener?.onError(SocialError(SocialError.CODE_PAY_PARAM_ERROR))
             return
         }
 
@@ -44,7 +42,7 @@ class WXPay(private val wxApi: IWXAPI) {
                 || TextUtils.isEmpty(json.optString("prepayid")) || TextUtils.isEmpty(json.optString("package")) ||
                 TextUtils.isEmpty(json.optString("noncestr")) || TextUtils.isEmpty(json.optString("timestamp")) ||
                 TextUtils.isEmpty(json.optString("sign"))) {
-            mListener?.onError(SocialError(SocialError.CODE_PAY_PARAM_ERROR))
+            listener?.onError(SocialError(SocialError.CODE_PAY_PARAM_ERROR))
             return
         }
 

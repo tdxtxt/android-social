@@ -10,11 +10,11 @@ class WeChatAccessToken : AccessToken() {
 
     val refresh_token: String? = null//用户刷新access_token。
     val scope: String? = null//用户授权的作用域，使用逗号（,）分隔
-    val errcode: Long = 0
+    val errcode: Int = 0
     val errmsg: String? = null
 
     val isNoError: Boolean
-        get() = errcode == 0L
+        get() = errcode == 0
 
     override fun loginTarget(): Int {
         return Target.LOGIN_WX

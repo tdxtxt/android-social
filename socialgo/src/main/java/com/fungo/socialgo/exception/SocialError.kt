@@ -59,9 +59,10 @@ class SocialError : Exception {
         val sb = StringBuilder()
                 .append("errCode = ").append(errorCode)
                 .append(", errMsg = ").append(errorMsg).append("\n")
-        if (mException != null) {
-            sb.append("其他错误 : ").append(mException!!.message)
-            mException!!.printStackTrace()
+        val exception = mException
+        if (exception != null) {
+            sb.append("其他错误 : ").append(exception.message)
+            exception.printStackTrace()
         }
         return sb.toString()
     }
