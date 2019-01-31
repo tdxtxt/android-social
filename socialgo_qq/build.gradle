@@ -14,18 +14,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.appcompat
-    implementation rootProject.ext.dependencies.kotlin
-    implementation project(':socialgo_core')
+    compileOnly rootProject.ext.dependencies.kotlin
+    compileOnly project(':socialgo_core')
     implementation files('libs/open_sdk_r6019_lite.jar')
 }
 

@@ -17,13 +17,7 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.kotlin
-    implementation project(':socialgo_core')
+    compileOnly rootProject.ext.dependencies.kotlin
+    compileOnly project(':socialgo_core')
     implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
-}
-
-repositories {
-    flatDir {
-        dirs 'libs', rootProject.getAarDirPath()
-    }
 }

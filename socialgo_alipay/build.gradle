@@ -17,9 +17,8 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.appcompat
-    implementation rootProject.ext.dependencies.kotlin
-    implementation project(':socialgo_core')
+    compileOnly rootProject.ext.dependencies.kotlin
+    compileOnly project(':socialgo_core')
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }
 
