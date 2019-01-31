@@ -5,6 +5,7 @@ import com.fungo.imagego.ImageGo
 import com.fungo.imagego.glide.GlideImageStrategy
 import com.fungo.socialgo.SocialGo
 import com.fungo.socialgo.SocialGoConfig
+import com.fungo.socialgo.alipay.AliPlatform
 import com.fungo.socialgo.qq.QQPlatform
 import com.fungo.socialgo.wechat.WxPlatform
 import com.fungo.socialgo.weibo.WbPlatform
@@ -33,6 +34,7 @@ class DemoApplication : Application() {
                 .registerWxPlatform(WxPlatform.Creator())
                 .registerWbPlatform(WbPlatform.Creator())
                 .registerQQPlatform(QQPlatform.Creator())
+                .registerAliPlatform(AliPlatform.Creator())
                 .setJsonAdapter(GsonJsonAdapter())
                 .setRequestAdapter(OkHttpRequestAdapter())
     }

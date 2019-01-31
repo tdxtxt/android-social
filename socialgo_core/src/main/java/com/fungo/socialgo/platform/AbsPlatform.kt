@@ -5,84 +5,74 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
-
-import com.fungo.socialgo.exception.SocialError
 import com.fungo.socialgo.listener.OnLoginListener
+import com.fungo.socialgo.listener.OnPayListener
 import com.fungo.socialgo.listener.OnShareListener
 import com.fungo.socialgo.model.ShareEntity
-import com.fungo.socialgo.utils.SocialGoUtils
+import com.fungo.socialgo.uikit.BaseActionActivity
 
 /**
  * 第三方平台基类
  */
 abstract class AbsPlatform(protected var appId: String?, protected var appName: String?) : IPlatform {
 
-    protected lateinit var mShareListener: OnShareListener
     protected var mTarget: Int = 0
 
     fun setTarget(target: Int) {
         this.mTarget = target
     }
 
-    override fun checkPlatformConfig(): Boolean {
+    protected open fun checkPlatformConfig(): Boolean {
         return !TextUtils.isEmpty(appId) && !TextUtils.isEmpty(appName)
     }
 
-    override fun initOnShareListener(listener: OnShareListener) {
-        this.mShareListener = listener
-    }
-
-    override fun isInstall(context: Context): Boolean {
-        return false
+    override fun getActionClazz(): Class<*> {
+        return BaseActionActivity::class.java
     }
 
     override fun login(activity: Activity, listener: OnLoginListener) {
 
     }
 
-    override fun share(activity: Activity, target: Int, entity: ShareEntity) {
-        when (entity.getShareType()) {
-            ShareEntity.SHARE_OPEN_APP -> shareOpenApp(target, activity, entity)
-            ShareEntity.SHARE_TYPE_TEXT -> shareText(target, activity, entity)
-            ShareEntity.SHARE_TYPE_IMAGE -> shareImage(target, activity, entity)
-            ShareEntity.SHARE_TYPE_APP -> shareApp(target, activity, entity)
-            ShareEntity.SHARE_TYPE_WEB -> shareWeb(target, activity, entity)
-            ShareEntity.SHARE_TYPE_MUSIC -> shareMusic(target, activity, entity)
-            ShareEntity.SHARE_TYPE_VIDEO -> shareVideo(target, activity, entity)
-        }
+    override fun share(activity: Activity, target: Int, entity: ShareEntity, listener: OnShareListener) {
+
     }
 
-    protected fun shareVideoByIntent(activity: Activity, obj: ShareEntity, pkg: String, page: String) {
-        val result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page)
-        if (result) {
-            this.mShareListener.getFunction().onSuccess?.invoke()
-        } else {
-            this.mShareListener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareVideo by intent$pkg  $page failure"))
-        }
+    override fun doPay(context: Context, params: String, listener: OnPayListener) {
     }
 
-    protected fun shareTextByIntent(activity: Activity, entity: ShareEntity, pkg: String, page: String) {
-        val result = SocialGoUtils.shareText(activity, entity.getTitle(), entity.getSummary(), pkg, page)
-        if (result) {
-            this.mShareListener.getFunction().onSuccess?.invoke()
-        } else {
-            this.mShareListener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareText by intent$pkg  $page failure"))
-        }
+    override fun recycle() {
+
     }
 
-    protected abstract fun shareOpenApp(shareTarget: Int, activity: Activity, entity: ShareEntity)
 
-    protected abstract fun shareText(shareTarget: Int, activity: Activity, entity: ShareEntity)
+    //        when (entity.getShareType()) {
+//            ShareEntity.SHARE_OPEN_APP -> shareOpenApp(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_TEXT -> shareText(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_IMAGE -> shareImage(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_APP -> shareApp(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_WEB -> shareWeb(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_MUSIC -> shareMusic(target, activity, entity)
+//            ShareEntity.SHARE_TYPE_VIDEO -> shareVideo(target, activity, entity)
+//        }
 
-    protected abstract fun shareImage(shareTarget: Int, activity: Activity, entity: ShareEntity)
-
-    protected abstract fun shareApp(shareTarget: Int, activity: Activity, entity: ShareEntity)
-
-    protected abstract fun shareWeb(shareTarget: Int, activity: Activity, entity: ShareEntity)
-
-    protected abstract fun shareMusic(shareTarget: Int, activity: Activity, entity: ShareEntity)
-
-    protected abstract fun shareVideo(shareTarget: Int, activity: Activity, entity: ShareEntity)
+//    protected fun shareVideoByIntent(activity: Activity, obj: ShareEntity, pkg: String, page: String) {
+//        val result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page)
+//        if (result) {
+//            this.mShareListener.getFunction().onSuccess?.invoke()
+//        } else {
+//            this.mShareListener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareVideo by intent$pkg  $page failure"))
+//        }
+//    }
+//
+//    protected fun shareTextByIntent(activity: Activity, entity: ShareEntity, pkg: String, page: String) {
+//        val result = SocialGoUtils.shareText(activity, entity.getTitle(), entity.getSummary(), pkg, page)
+//        if (result) {
+//            this.mShareListener.getFunction().onSuccess?.invoke()
+//        } else {
+//            this.mShareListener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SHARE_BY_INTENT_FAIL, "shareText by intent$pkg  $page failure"))
+//        }
+//    }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -100,9 +90,4 @@ abstract class AbsPlatform(protected var appId: String?, protected var appName: 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
     }
-
-    companion object {
-        const val THUMB_IMAGE_SIZE = 32 * 1024
-    }
-
 }

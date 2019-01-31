@@ -26,7 +26,7 @@ import com.fungo.socialgo.model.token.AccessToken
 import com.fungo.socialgo.platform.IPlatform
 import com.fungo.socialgo.platform.PlatformCreator
 import com.fungo.socialgo.platform.Target
-import com.fungo.socialgo.uikit.BaseSocialActivity
+import com.fungo.socialgo.uikit.BaseActionActivity
 import com.fungo.socialgo.utils.SocialGoUtils
 import com.fungo.socialgo.utils.SocialLogUtils
 import java.util.concurrent.ExecutorService
@@ -56,14 +56,14 @@ object SocialGo {
     private const val ACTION_TYPE_PAY = 2
 
     private const val KEY_SHARE_MEDIA_OBJ = "KEY_SHARE_MEDIA_OBJ"  // media obj key
-    const val KEY_ACTION_TYPE = "KEY_ACTION_TYPE"          // action type
     private const val KEY_PAY_PARAMS = "KEY_PAY_PARAMS"            // pay params
     private const val KEY_SHARE_TARGET = "KEY_SHARE_TARGET"        // share target
     private const val KEY_LOGIN_TARGET = "KEY_LOGIN_TARGET"        // login target
+    const val KEY_ACTION_TYPE = "KEY_ACTION_TYPE"                  // action type
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // 初始化配置，并注册平台
+    // 初始化配置
     ///////////////////////////////////////////////////////////////////////////
     fun init(config: SocialGoConfig): SocialGo {
         mSocialSdkConfig = config
@@ -292,8 +292,7 @@ object SocialGo {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             SocialLogUtils.e("没有获取到读存储卡的权限，这可能导致某些分享不能进行")
         }
-        getPlatform()?.initOnShareListener(getShareFinishListener(activity))
-        getPlatform()?.share(activity, shareTarget ?: 0, entity)
+        getPlatform()?.share(activity, shareTarget ?: 0, entity, getShareFinishListener(activity))
     }
 
     /**
@@ -361,7 +360,7 @@ object SocialGo {
                 function.onFailure?.invoke(SocialError(SocialError.CODE_NOT_INSTALL))
                 return
             }
-            val intent = Intent(context, BaseSocialActivity::class.java)
+            val intent = Intent(context, platform.getActionClazz())
             intent.putExtra(KEY_ACTION_TYPE, ACTION_TYPE_PAY)
             intent.putExtra(KEY_PAY_PARAMS, params)
             context.startActivity(intent)

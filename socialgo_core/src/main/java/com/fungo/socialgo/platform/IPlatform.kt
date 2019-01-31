@@ -21,16 +21,6 @@ interface IPlatform : PlatformLifecycle {
     fun getActionClazz(): Class<*>
 
     /**
-     * 检测参数配置
-     */
-    fun checkPlatformConfig(): Boolean
-
-    /**
-     * 初始化分享监听
-     */
-    fun initOnShareListener(listener: OnShareListener)
-
-    /**
      * 是否安装
      */
     fun isInstall(context: Context): Boolean
@@ -43,7 +33,7 @@ interface IPlatform : PlatformLifecycle {
     /**
      * 发起分享
      */
-    fun share(activity: Activity, target: Int, entity: ShareEntity)
+    fun share(activity: Activity, target: Int, entity: ShareEntity, listener: OnShareListener)
 
     /**
      * 支付

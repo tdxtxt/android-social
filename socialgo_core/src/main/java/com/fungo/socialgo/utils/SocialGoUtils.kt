@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException
  */
 object SocialGoUtils {
 
+    private const val THUMB_IMAGE_SIZE = 32 * 1024
     private const val SHARE_REQ_CODE = 0x123
     private const val POINT_GIF = ".gif"
     private const val POINT_JPG = ".jpg"
@@ -212,16 +213,14 @@ object SocialGoUtils {
 
     /**
      * 根据路径获取指定大小的图片
-     *
      * @param path    路径
-     * @param maxSize 最大尺寸
      * @return byte[]
      */
-    fun getStaticSizeBitmapByteByPath(path: String, maxSize: Int): ByteArray? {
-        val srcBitmap = getMaxSizeBitmap(path, maxSize)
+    fun getStaticSizeBitmapByteByPath(path: String): ByteArray? {
+        val srcBitmap = getMaxSizeBitmap(path, THUMB_IMAGE_SIZE)
         var format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG
         if (isPngFile(path)) format = Bitmap.CompressFormat.PNG
-        return getStaticSizeBitmapByteByBitmap(srcBitmap, maxSize, format)
+        return getStaticSizeBitmapByteByBitmap(srcBitmap, THUMB_IMAGE_SIZE, format)
     }
 
 

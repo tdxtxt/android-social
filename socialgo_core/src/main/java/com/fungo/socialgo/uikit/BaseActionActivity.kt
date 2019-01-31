@@ -8,11 +8,10 @@ import android.os.Bundle
 import com.fungo.socialgo.SocialGo
 import com.fungo.socialgo.platform.IPlatform
 
-
 /**
  * 社会化登录分享承载体，用于接收登录和分享响应的结果
  */
-open class BaseSocialActivity : Activity() {
+open class BaseActionActivity : Activity() {
 
     private var mIsNotFirstResume = false
 

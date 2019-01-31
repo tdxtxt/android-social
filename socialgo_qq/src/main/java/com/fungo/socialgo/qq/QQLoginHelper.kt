@@ -71,7 +71,7 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
         }
 
         override fun onError(e: UiError) {
-            listener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SDK_ERROR, "#LoginUiListener#获取用户信息失败 " + QQPlatform.parseUiError(e)))
+            listener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SDK_ERROR, "#LoginUiListener#获取用户信息失败 " + parseUiError(e)))
         }
 
         override fun onCancel() {
@@ -93,7 +93,7 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
             }
 
             override fun onError(e: UiError) {
-                listener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SDK_ERROR, "#getUserInfo#qq获取用户信息失败  " + QQPlatform.parseUiError(e)))
+                listener.getFunction().onFailure?.invoke(SocialError(SocialError.CODE_SDK_ERROR, "#getUserInfo#qq获取用户信息失败  " + parseUiError(e)))
             }
 
             override fun onCancel() {
@@ -108,5 +108,9 @@ class QQLoginHelper(activity: Activity, private val tencentApi: Tencent, private
 
     private fun getToken(): QQAccessToken? {
         return AccessToken.getToken(getContext(), AccessToken.QQ_TOKEN_KEY, QQAccessToken::class.java)
+    }
+
+    private fun parseUiError(e: UiError): String {
+        return "code = " + e.errorCode + " ,msg = " + e.errorMessage + " ,detail=" + e.errorDetail
     }
 }
