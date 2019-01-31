@@ -38,6 +38,7 @@ dependencies {
     implementation project(':socialgo_qq')
     implementation project(':socialgo_wechat')
     implementation project(':socialgo_core')
+    implementation project(':socialgo_weibo')
 
     implementation 'com.google.code.gson:gson:2.8.5'
 }

@@ -17,10 +17,10 @@ android {
 }
 
 dependencies {
-    implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.kotlin
+    implementation project(':socialgo_core')
+    implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
 }
-
 
 repositories {
     flatDir {

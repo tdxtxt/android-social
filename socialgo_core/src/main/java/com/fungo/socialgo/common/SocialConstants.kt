@@ -9,7 +9,7 @@ object SocialConstants {
     const val QQ_CREATOR = "com.fungo.socialgo.platform.qq.QQPlatform\$Creator"
     const val WX_CREATOR = "com.fungo.socialgo.platform.wechat.WxPlatform\$Creator"
     const val WB_CREATOR = "com.fungo.socialgo.platform.weibo.WbPlatform\$Creator"
-    const val ALI_CREATOR = "com.fungo.socialgo.platform.ali.AliPlatform\$Creator"
+    const val ALI_CREATOR = "com.fungo.socialgo.alipay.AliPlatform\$Creator"
 
     const val QQ_PKG = "com.tencent.mobileqq"
     const val WECHAT_PKG = "com.tencent.mm"

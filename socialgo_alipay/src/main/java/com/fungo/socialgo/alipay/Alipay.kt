@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.ali
+package com.fungo.socialgo.alipay
 
 import android.app.Activity
 import android.content.Context

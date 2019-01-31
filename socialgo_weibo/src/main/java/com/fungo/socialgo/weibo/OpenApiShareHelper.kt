@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.weibo
+package com.fungo.socialgo.weibo
 
 import android.app.Activity
 import android.text.TextUtils

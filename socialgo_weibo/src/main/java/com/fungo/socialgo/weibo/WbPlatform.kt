@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.weibo
+package com.fungo.socialgo.weibo
 
 import android.app.Activity
 import android.content.Context
@@ -14,9 +14,9 @@ import com.fungo.socialgo.platform.AbsPlatform
 import com.fungo.socialgo.platform.IPlatform
 import com.fungo.socialgo.platform.PlatformCreator
 import com.fungo.socialgo.platform.Target
-import com.fungo.socialgo.uikit.BaseSocialActivity
 import com.fungo.socialgo.utils.SocialGoUtils
 import com.fungo.socialgo.utils.SocialLogUtils
+import com.fungo.socialgo.weibo.uikit.WbActionActivity
 import com.sina.weibo.sdk.WbSdk
 import com.sina.weibo.sdk.api.*
 import com.sina.weibo.sdk.auth.AuthInfo
@@ -32,10 +32,6 @@ import java.io.File
  * 分享支持的检测
  */
 class WbPlatform constructor(context: Context, appId: String?, appName: String?, redirectUrl: String?, scope: String?) : AbsPlatform(appId, appName) {
-
-    override fun getActionClazz(): Class<*> {
-        return BaseSocialActivity::class.java
-    }
 
     private var mShareHandler: WbShareHandler? = null
     private var mLoginHelper: WbLoginHelper? = null
@@ -73,6 +69,10 @@ class WbPlatform constructor(context: Context, appId: String?, appName: String?,
         mLoginHelper?.recycle()
         mLoginHelper = null
         mOpenApiShareHelper = null
+    }
+
+    override fun getActionClazz(): Class<*> {
+        return WbActionActivity::class.java
     }
 
     // 延迟获取 ShareHandler

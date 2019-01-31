@@ -5,15 +5,14 @@ import com.fungo.imagego.ImageGo
 import com.fungo.imagego.glide.GlideImageStrategy
 import com.fungo.socialgo.SocialGo
 import com.fungo.socialgo.SocialGoConfig
-import com.fungo.socialgo.platform.weibo.WbPlatform
 import com.fungo.socialgo.qq.QQPlatform
 import com.fungo.socialgo.wechat.WxPlatform
+import com.fungo.socialgo.weibo.WbPlatform
 
 
 /**
  * @author Pinger
  * @since 18-7-20 下午4:30
- *
  */
 
 class DemoApplication : Application() {

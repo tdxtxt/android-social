@@ -30,8 +30,3 @@ dependencies {
 }
 
 
-repositories {
-    flatDir {
-        dirs 'libs', rootProject.getAarDirPath()
-    }
-}

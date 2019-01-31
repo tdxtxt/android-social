@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.weibo.model
+package com.fungo.socialgo.weibo.model
 
 import com.fungo.socialgo.model.user.BaseSocialUser
 

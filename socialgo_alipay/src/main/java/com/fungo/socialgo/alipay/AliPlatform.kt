@@ -1,4 +1,4 @@
-package com.fungo.socialgo.platform.ali
+package com.fungo.socialgo.alipay
 
 import android.app.Activity
 import android.content.Context
@@ -15,10 +15,6 @@ import com.fungo.socialgo.uikit.BaseSocialActivity
  * 支付宝支付平台
  */
 class AliPlatform(appId: String?, appName: String?) : AbsPlatform(appId, appName) {
-
-    override fun getActionClazz(): Class<*> {
-        return BaseSocialActivity::class.java
-    }
 
     /**
      * 调起支付接口
@@ -63,5 +59,9 @@ class AliPlatform(appId: String?, appName: String?) : AbsPlatform(appId, appName
 
     override fun recycle() {
 
+    }
+
+    override fun getActionClazz(): Class<*> {
+        return BaseSocialActivity::class.java
     }
 }
