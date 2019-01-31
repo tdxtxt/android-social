@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation rootProject.ext.dependencies.kotlin
+    implementation project(':socialgo_core')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.3.1'
+}
+
+repositories {
+    flatDir {
+        dirs 'libs', rootProject.getAarDirPath()
+    }
+}
+

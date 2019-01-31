@@ -1,1 +1,1 @@
-include ':sample', ':socialgo'
+include ':sample', ':socialgo_core', ':socialgo_qq', ':socialgo_wechat'

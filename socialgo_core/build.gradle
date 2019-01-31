@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation rootProject.ext.dependencies.appcompat
+    implementation rootProject.ext.dependencies.kotlin
+
+    // 微信
+
+    // 微博
+    implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
+    // 支付宝
+    implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+}
+
+
+repositories {
+    flatDir {
+        dirs 'libs', rootProject.getAarDirPath()
+    }
+}

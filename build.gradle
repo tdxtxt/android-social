@@ -5,6 +5,9 @@ apply from:"config.gradle"
 buildscript {
     
     repositories {
+        flatDir {
+            dirs 'libs'
+        }
         google()
         jcenter()
     }
@@ -25,6 +28,10 @@ allprojects {
         // weibo sdk 专用，记得加上，不然远程下载不了
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
     }
+}
+
+def getAarDirPath() {
+    return projectDir.getPath() + "/socialgo_core/libs"
 }
 
 task clean(type: Delete) {

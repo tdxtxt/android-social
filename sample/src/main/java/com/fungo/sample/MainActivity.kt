@@ -7,14 +7,8 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.fungo.socialgo.SocialGo
 import com.fungo.socialgo.exception.SocialError
-import com.fungo.socialgo.listener.OnLoginListener
-import com.fungo.socialgo.listener.OnPayListener
-import com.fungo.socialgo.listener.OnShareListener
-import com.fungo.socialgo.manager.LoginManager
-import com.fungo.socialgo.manager.PayManager
-import com.fungo.socialgo.manager.ShareManager
-import com.fungo.socialgo.model.LoginResult
 import com.fungo.socialgo.model.ShareEntity
 import com.fungo.socialgo.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
@@ -77,110 +71,99 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onQQLogin(view: View) {
-        LoginManager.login(this, Target.LOGIN_QQ, LoginListener())
+        doLogin(Target.LOGIN_QQ)
     }
 
     fun onWxLogin(view: View) {
-        LoginManager.login(this, Target.LOGIN_WX, LoginListener())
+        doLogin(Target.LOGIN_WX)
     }
 
     fun onSinaLogin(view: View) {
-        LoginManager.login(this, Target.LOGIN_WB, LoginListener())
+        doLogin(Target.LOGIN_WB)
     }
 
-    inner class LoginListener : OnLoginListener {
-        override fun onStart() {
-            mProgressDialog.show()
-            tvConsole?.text = "登录开始"
-        }
+    private fun doLogin(@Target.LoginTarget loginTarget: Int) {
+        SocialGo.doLogin(this, loginTarget) {
+            onStart {
+                mProgressDialog.show()
+                tvConsole?.text = "登录开始"
+            }
 
-        override fun onSuccess(loginResult: LoginResult) {
-            mProgressDialog.dismiss()
-            tvConsole?.text = loginResult.socialUser?.toString()
-        }
+            onSuccess {
+                mProgressDialog.dismiss()
+                tvConsole?.text = it.socialUser?.toString()
+            }
 
-        override fun onCancel() {
-            mProgressDialog.dismiss()
-            tvConsole?.text = "登录取消"
-        }
+            onCancel {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "登录取消"
+            }
 
-        override fun onFailure(e: SocialError) {
-            mProgressDialog.dismiss()
-            tvConsole?.text = "登录异常 + ${e?.errorMsg}"
+            onFailure {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "登录异常 + ${it?.errorMsg}"
+            }
         }
     }
-
 
     fun onShare(view: View) {
         mProgressDialog.show()
-        ShareManager.share(this, platformType, shareMedia, object : OnShareListener {
-
-            override fun onFailure(e: SocialError) {
+        SocialGo.doShare(this, platformType, shareMedia) {
+            onFailure {
                 tvConsole?.text = "分享失败"
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (e.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
+                    if (it.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
                         requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
-                    } else if (e.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
+                    } else if (it.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
                         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
                     }
                 }
             }
-
-            override fun onPrepareInBackground(shareTarget: Int, obj: ShareEntity): ShareEntity? {
-                return obj
-            }
-
-
-            override fun onStart(shareTarget: Int, obj: ShareEntity) {
+            onStart { _, _ ->
                 mProgressDialog.dismiss()
                 tvConsole?.text = "分享开始"
             }
-
-
-            override fun onSuccess() {
+            onSuccess {
                 mProgressDialog.dismiss()
                 tvConsole?.text = "分享成功"
             }
-
-            override fun onCancel() {
+            onCancel {
                 tvConsole?.text = "分享取消"
             }
-        })
+        }
     }
-
 
     fun onPayWx(view: View) {
-        PayManager.doPay(this, "xxxxx", Target.PAY_WX, PayListener())
+        doPay(Target.PAY_WX)
     }
-
 
     fun onPayAli(view: View) {
-        PayManager.doPay(this, "xxxxx", Target.PAY_ALI, PayListener())
+        doPay(Target.PAY_ALI)
     }
 
+    private fun doPay(@Target.PayTarget payTarget: Int) {
+        SocialGo.doPay(this, "xxxxx", payTarget) {
 
-    inner class PayListener : OnPayListener {
+            onStart {
+                tvConsole?.text = "支付开始"
+            }
 
-        override fun onStart() {
-            tvConsole?.text = "支付开始"
-        }
+            onSuccess {
+                tvConsole?.text = "支付成功"
+            }
 
-        override fun onSuccess() {
-            tvConsole?.text = "支付成功"
-        }
+            onDealing {
+                tvConsole?.text = "onDealing"
+            }
 
-        override fun onDealing() {
-            tvConsole?.text = "onDealing"
-        }
+            onFailure {
+                tvConsole?.text = "支付异常：${it?.errorMsg}"
+            }
 
-        override fun onError(error: SocialError) {
-            tvConsole?.text = "支付异常：${error?.errorMsg}"
-        }
+            onCancel {
+                tvConsole?.text = "支付取消"
+            }
 
-        override fun onCancel() {
-            tvConsole?.text = "支付取消"
         }
     }
-
-
 }
