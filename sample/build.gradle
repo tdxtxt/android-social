@@ -29,11 +29,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':socialgo_full')
+    implementation project(':socialgo')
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.constraintlayout
     implementation rootProject.ext.dependencies.kotlin
 
-    implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.1.0'
+//    implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 }

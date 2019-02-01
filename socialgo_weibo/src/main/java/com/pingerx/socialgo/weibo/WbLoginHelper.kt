@@ -2,14 +2,14 @@ package com.pingerx.socialgo.weibo
 
 import android.app.Activity
 import android.content.Intent
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnLoginListener
-import com.pingerx.socialgo.listener.Recyclable
-import com.pingerx.socialgo.model.LoginResult
-import com.pingerx.socialgo.model.token.AccessToken
-import com.pingerx.socialgo.platform.Target
-import com.pingerx.socialgo.utils.SocialGoUtils
-import com.pingerx.socialgo.utils.SocialLogUtils
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnLoginListener
+import com.pingerx.socialgo.core.listener.Recyclable
+import com.pingerx.socialgo.core.model.LoginResult
+import com.pingerx.socialgo.core.model.token.AccessToken
+import com.pingerx.socialgo.core.platform.Target
+import com.pingerx.socialgo.core.utils.SocialGoUtils
+import com.pingerx.socialgo.core.utils.SocialLogUtils
 import com.pingerx.socialgo.weibo.model.SinaAccessToken
 import com.pingerx.socialgo.weibo.model.SinaUser
 import com.sina.weibo.sdk.auth.Oauth2AccessToken

@@ -1,10 +1,8 @@
 package com.pingerx.sample
 
 import android.app.Application
-import com.fungo.imagego.ImageGo
-import com.fungo.imagego.glide.GlideImageStrategy
-import com.pingerx.socialgo.SocialGo
-import com.pingerx.socialgo.SocialGoConfig
+import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.SocialGoConfig
 import com.pingerx.socialgo.alipay.AliPlatform
 import com.pingerx.socialgo.qq.QQPlatform
 import com.pingerx.socialgo.wechat.WxPlatform
@@ -20,9 +18,6 @@ class DemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        ImageGo.setStrategy(GlideImageStrategy())
-
         val config = SocialGoConfig.create(this)
                 .debug(true)
                 .qq(AppConstant.QQ_APP_ID)

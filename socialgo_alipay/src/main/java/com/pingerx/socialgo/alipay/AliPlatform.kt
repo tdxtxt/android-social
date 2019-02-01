@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.text.TextUtils
 import com.alipay.sdk.app.PayTask
-import com.pingerx.socialgo.SocialGo
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnPayListener
-import com.pingerx.socialgo.platform.AbsPlatform
-import com.pingerx.socialgo.platform.IPlatform
-import com.pingerx.socialgo.platform.PlatformCreator
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnPayListener
+import com.pingerx.socialgo.core.platform.AbsPlatform
+import com.pingerx.socialgo.core.platform.IPlatform
+import com.pingerx.socialgo.core.platform.PlatformCreator
+import com.pingerx.socialgo.core.platform.Target
 
 /**
  * 支付宝支付平台

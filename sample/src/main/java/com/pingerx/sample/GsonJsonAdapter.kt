@@ -1,6 +1,6 @@
 package com.pingerx.sample
 
-import com.pingerx.socialgo.adapter.IJsonAdapter
+import com.pingerx.socialgo.core.adapter.IJsonAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonPrimitive

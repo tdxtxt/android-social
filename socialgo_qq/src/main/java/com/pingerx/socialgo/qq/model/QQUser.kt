@@ -1,6 +1,6 @@
 package com.pingerx.socialgo.qq.model
 
-import com.pingerx.socialgo.model.user.BaseSocialUser
+import com.pingerx.socialgo.core.model.user.BaseSocialUser
 
 
 /**

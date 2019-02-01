@@ -1,6 +1,6 @@
 package com.pingerx.socialgo.wechat.uikit
 
-import com.pingerx.socialgo.uikit.BaseActionActivity
+import com.pingerx.socialgo.core.uikit.BaseActionActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler

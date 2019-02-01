@@ -1,7 +1,7 @@
 package com.pingerx.sample
 
 import android.text.TextUtils
-import com.pingerx.socialgo.adapter.impl.DefaultRequestAdapter
+import com.pingerx.socialgo.core.adapter.impl.DefaultRequestAdapter
 import okhttp3.*
 import java.io.File
 import java.io.IOException

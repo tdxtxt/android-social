@@ -1,6 +1,6 @@
 package com.pingerx.socialgo.qq.uikit
 
-import com.pingerx.socialgo.uikit.BaseActionActivity
+import com.pingerx.socialgo.core.uikit.BaseActionActivity
 
 /**
  * @author Pinger

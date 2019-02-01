@@ -1,6 +1,6 @@
 package com.pingerx.socialgo.weibo.model
 
-import com.pingerx.socialgo.model.user.BaseSocialUser
+import com.pingerx.socialgo.core.model.user.BaseSocialUser
 
 /**
  * 用户信息结构体

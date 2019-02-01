@@ -3,16 +3,16 @@ package com.pingerx.socialgo.qq
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.pingerx.socialgo.SocialGo
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnLoginListener
-import com.pingerx.socialgo.listener.OnShareListener
-import com.pingerx.socialgo.model.ShareEntity
-import com.pingerx.socialgo.platform.AbsPlatform
-import com.pingerx.socialgo.platform.IPlatform
-import com.pingerx.socialgo.platform.PlatformCreator
+import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnLoginListener
+import com.pingerx.socialgo.core.listener.OnShareListener
+import com.pingerx.socialgo.core.model.ShareEntity
+import com.pingerx.socialgo.core.platform.AbsPlatform
+import com.pingerx.socialgo.core.platform.IPlatform
+import com.pingerx.socialgo.core.platform.PlatformCreator
 import com.pingerx.socialgo.qq.uikit.QQActionActivity
-import com.pingerx.socialgo.utils.SocialGoUtils
+import com.pingerx.socialgo.core.utils.SocialGoUtils
 import com.tencent.connect.common.Constants
 import com.tencent.tauth.Tencent
 

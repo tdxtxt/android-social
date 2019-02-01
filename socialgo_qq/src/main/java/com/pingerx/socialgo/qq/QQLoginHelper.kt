@@ -4,15 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnLoginListener
-import com.pingerx.socialgo.model.LoginResult
-import com.pingerx.socialgo.model.token.AccessToken
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnLoginListener
+import com.pingerx.socialgo.core.model.LoginResult
+import com.pingerx.socialgo.core.model.token.AccessToken
+import com.pingerx.socialgo.core.platform.Target
 import com.pingerx.socialgo.qq.model.QQAccessToken
 import com.pingerx.socialgo.qq.model.QQUser
-import com.pingerx.socialgo.utils.SocialGoUtils
-import com.pingerx.socialgo.utils.SocialLogUtils
+import com.pingerx.socialgo.core.utils.SocialGoUtils
+import com.pingerx.socialgo.core.utils.SocialLogUtils
 import com.tencent.connect.UserInfo
 import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent

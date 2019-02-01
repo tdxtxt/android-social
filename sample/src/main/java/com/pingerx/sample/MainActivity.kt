@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.pingerx.socialgo.SocialGo
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.model.ShareEntity
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.model.ShareEntity
+import com.pingerx.socialgo.core.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

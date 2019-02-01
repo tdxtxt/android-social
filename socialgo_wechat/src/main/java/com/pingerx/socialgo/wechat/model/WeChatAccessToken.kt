@@ -1,7 +1,7 @@
 package com.pingerx.socialgo.wechat.model
 
-import com.pingerx.socialgo.model.token.AccessToken
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.model.token.AccessToken
+import com.pingerx.socialgo.core.platform.Target
 
 /**
  * 微信的AccessToken

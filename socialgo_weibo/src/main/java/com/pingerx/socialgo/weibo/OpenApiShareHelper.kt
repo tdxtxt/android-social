@@ -2,10 +2,10 @@ package com.pingerx.socialgo.weibo
 
 import android.app.Activity
 import android.text.TextUtils
-import com.pingerx.socialgo.SocialGo
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnShareListener
-import com.pingerx.socialgo.model.ShareEntity
+import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnShareListener
+import com.pingerx.socialgo.core.model.ShareEntity
 import com.sina.weibo.sdk.auth.Oauth2AccessToken
 import com.sina.weibo.sdk.auth.WbAuthListener
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage

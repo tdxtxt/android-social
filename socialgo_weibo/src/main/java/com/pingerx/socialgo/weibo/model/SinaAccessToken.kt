@@ -1,7 +1,7 @@
 package com.pingerx.socialgo.weibo.model
 
-import com.pingerx.socialgo.model.token.AccessToken
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.model.token.AccessToken
+import com.pingerx.socialgo.core.platform.Target
 import com.sina.weibo.sdk.auth.Oauth2AccessToken
 
 /**

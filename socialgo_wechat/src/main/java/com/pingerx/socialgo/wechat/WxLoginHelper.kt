@@ -2,15 +2,15 @@ package com.pingerx.socialgo.wechat
 
 import android.content.Context
 
-import com.pingerx.socialgo.exception.SocialError
-import com.pingerx.socialgo.listener.OnLoginListener
-import com.pingerx.socialgo.model.LoginResult
-import com.pingerx.socialgo.model.token.AccessToken
-import com.pingerx.socialgo.platform.Target
+import com.pingerx.socialgo.core.exception.SocialError
+import com.pingerx.socialgo.core.listener.OnLoginListener
+import com.pingerx.socialgo.core.model.LoginResult
+import com.pingerx.socialgo.core.model.token.AccessToken
+import com.pingerx.socialgo.core.platform.Target
 import com.pingerx.socialgo.wechat.model.WeChatAccessToken
 import com.pingerx.socialgo.wechat.model.WxUser
-import com.pingerx.socialgo.utils.SocialGoUtils
-import com.pingerx.socialgo.utils.SocialLogUtils
+import com.pingerx.socialgo.core.utils.SocialGoUtils
+import com.pingerx.socialgo.core.utils.SocialLogUtils
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPI
 

@@ -1,6 +1,6 @@
 package com.pingerx.socialgo.weibo.uikit
 
-import com.pingerx.socialgo.uikit.BaseActionActivity
+import com.pingerx.socialgo.core.uikit.BaseActionActivity
 import com.sina.weibo.sdk.constant.WBConstants
 import com.sina.weibo.sdk.share.WbShareCallback
 
