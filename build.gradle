@@ -4,9 +4,6 @@ apply from: "config.gradle"
 buildscript {
 
     repositories {
-        flatDir {
-            dirs 'libs'
-        }
         google()
         jcenter()
     }
@@ -24,13 +21,10 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url "https://dl.bintray.com/fungo/maven" }
         // weibo sdk 专用，记得加上，不然远程下载不了
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
     }
-}
-
-def getAarDirPath() {
-    return projectDir.getPath() + "/socialgo_alipay/libs"
 }
 
 task clean(type: Delete) {

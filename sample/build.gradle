@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.fungo.sample"
+        applicationId "com.pingerx.sample"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -29,23 +29,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':socialgo_full')
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.constraintlayout
     implementation rootProject.ext.dependencies.kotlin
 
     implementation 'com.github.PingerOne.ImageGo:imagego_glide:2.1.0'
-
-    implementation project(':socialgo_qq')
-    implementation project(':socialgo_wechat')
-    implementation project(':socialgo_core')
-    implementation project(':socialgo_weibo')
-    implementation project(':socialgo_alipay')
-
     implementation 'com.google.code.gson:gson:2.8.5'
-}
-
-repositories {
-    flatDir {
-        dirs 'libs', rootProject.getAarDirPath()
-    }
 }

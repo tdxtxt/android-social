@@ -1,1 +1,1 @@
-include ':sample', ':socialgo_core', ':socialgo_qq', ':socialgo_wechat', ':socialgo_weibo', ':socialgo_alipay'
+include ':sample', ':socialgo_core', ':socialgo_qq', ':socialgo_wechat', ':socialgo_weibo', ':socialgo_alipay', ':socialgo_full'

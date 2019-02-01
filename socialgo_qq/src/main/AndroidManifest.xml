@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fungo.socialgo.qq">
+    package="com.pingerx.socialgo.qq">
 
     <application>
         <!-- QQ、Qzone平台 -->
         <activity
-            android:name=".uikit.QQActionActivity"
+            android:name="com.pingerx.socialgo.qq.uikit.QQActionActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>

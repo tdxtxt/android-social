@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fungo.socialgo.wechat">
+    package="com.pingerx.socialgo.wechat">
 
     <application>
         <!--微信-->
         <activity
-            android:name=".uikit.WxActionActivity"
+            android:name="com.pingerx.socialgo.wechat.uikit.WxActionActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:taskAffinity="${applicationId}"
@@ -19,7 +19,7 @@
             android:name="${applicationId}.wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:targetActivity=".uikit.WxActionActivity"
+            android:targetActivity="com.pingerx.socialgo.wechat.uikit.WxActionActivity"
             android:taskAffinity="${applicationId}"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>

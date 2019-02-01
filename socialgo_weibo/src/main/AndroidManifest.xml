@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fungo.socialgo.weibo">
+    package="com.pingerx.socialgo.weibo">
 
     <application>
         <activity
-            android:name=".uikit.WbActionActivity"
+            android:name="com.pingerx.socialgo.weibo.uikit.WbActionActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

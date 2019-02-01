@@ -19,12 +19,6 @@ android {
 dependencies {
     compileOnly rootProject.ext.dependencies.kotlin
     compileOnly project(':socialgo_core')
-    implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    implementation files('libs/alipaySdk-15.5.9-20181123210601.jar')
 }
 
-
-repositories {
-    flatDir {
-        dirs 'libs', rootProject.getAarDirPath()
-    }
-}
