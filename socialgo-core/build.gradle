@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -6,7 +7,6 @@ android {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -16,14 +16,9 @@ android {
 }
 
 dependencies {
+    compileOnly rootProject.ext.dependencies.appcompat
     compileOnly rootProject.ext.dependencies.kotlin
-    api project(':socialgo-core')
-    api project(':socialgo-qq')
-    api project(':socialgo-wechat')
-    api project(':socialgo-weibo')
-    api project(':socialgo-alipay')
 }
-
 
 
 apply from: '../publish.gradle'
@@ -32,7 +27,7 @@ install {
     repositories.mavenInstaller {
         pom.project {
             groupId rootProject.ext.groupId
-            artifactId 'socialgo'
+            artifactId 'socialgo-core'
             packaging 'aar'
             name rootProject.ext.name
             url rootProject.ext.siteUrl

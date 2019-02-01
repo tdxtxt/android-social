@@ -1,5 +1,4 @@
 ext {
-
     android = [
             compileSdkVersion: 28,
             minSdkVersion    : 14,
@@ -7,7 +6,6 @@ ext {
             versionCode      : 1000,
             versionName      : "1.0.0",
     ]
-
     dependencies = [
             appcompat       : 'androidx.appcompat:appcompat:1.0.2',
             constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',

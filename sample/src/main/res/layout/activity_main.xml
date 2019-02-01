@@ -33,6 +33,7 @@
             android:layout_marginTop="12dp"
             android:text="登录"
             android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvConsole" />
 
         <Button
@@ -43,6 +44,7 @@
             android:layout_marginTop="8dp"
             android:onClick="onQQLogin"
             android:text="QQ登录"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
 
 
@@ -83,6 +85,7 @@
             android:layout_marginTop="12dp"
             android:text="分享"
             android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 
@@ -178,7 +181,6 @@
             app:layout_constraintTop_toBottomOf="@+id/containerPlatform" />
 
 
-
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
@@ -194,8 +196,8 @@
             android:layout_marginTop="12dp"
             android:text="支付"
             android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
 
 
         <Button
@@ -213,13 +215,12 @@
             android:id="@+id/btnPayAli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             android:onClick="onPayAli"
             android:text="支付宝"
-            android:layout_marginLeft="12dp"
             app:layout_constraintStart_toEndOf="@+id/btnPayWx"
             app:layout_constraintTop_toBottomOf="@+id/tvPay" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

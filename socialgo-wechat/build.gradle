@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -17,11 +18,8 @@ android {
 
 dependencies {
     compileOnly rootProject.ext.dependencies.kotlin
-    api project(':socialgo-core')
-    api project(':socialgo-qq')
-    api project(':socialgo-wechat')
-    api project(':socialgo-weibo')
-    api project(':socialgo-alipay')
+    compileOnly project(':socialgo-core')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.3.1'
 }
 
 
@@ -32,7 +30,7 @@ install {
     repositories.mavenInstaller {
         pom.project {
             groupId rootProject.ext.groupId
-            artifactId 'socialgo'
+            artifactId 'socialgo-wechat'
             packaging 'aar'
             name rootProject.ext.name
             url rootProject.ext.siteUrl

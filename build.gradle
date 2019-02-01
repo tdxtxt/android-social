@@ -10,7 +10,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
-
+        // 添加上传到jcenter所需的插件
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -21,12 +23,20 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        maven { url "https://dl.bintray.com/fungo/maven" }
         // weibo sdk 专用，记得加上，不然远程下载不了
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+        maven { url "https://dl.bintray.com/fungo/maven/" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    name = "social-android"
+    version = "1.0.0"
+    groupId = "com.pingerx"
+    siteUrl = "https://github.com/pingerx/social-android"
+    gitUrl = "https://github.com/pingerx/social-android.git"
 }
