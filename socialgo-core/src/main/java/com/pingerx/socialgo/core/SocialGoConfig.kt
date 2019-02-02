@@ -18,9 +18,9 @@ class SocialGoConfig private constructor() {
     private var isOnlyAuthCode: Boolean = false
 
     private var qqAppId: String? = null           // qq 配置
-    private var sinaAppId: String? = null         // 微博配置
-    private var sinaRedirectUrl: String? = null
-    private var sinaScope: String? = null
+    private var weiboAppId: String? = null         // 微博配置
+    private var weiboRedirectUrl: String? = null
+    private var weiboScope: String? = null
 
     private var cacheDir: String? = null         // 存储路径，不允许更改
     private var defImageResId: Int = 0           // 图片默认资源
@@ -43,18 +43,18 @@ class SocialGoConfig private constructor() {
         return this
     }
 
-    fun sina(sinaAppId: String): SocialGoConfig {
-        this.sinaAppId = sinaAppId
+    fun weibo(weiboAppId: String): SocialGoConfig {
+        this.weiboAppId = weiboAppId
         return this
     }
 
-    fun sinaScope(sinaScope: String): SocialGoConfig {
-        this.sinaScope = sinaScope
+    fun weiboScope(weiboScope: String): SocialGoConfig {
+        this.weiboScope = weiboScope
         return this
     }
 
-    fun sinaRedirectUrl(sinaRedirectUrl: String): SocialGoConfig {
-        this.sinaRedirectUrl = sinaRedirectUrl
+    fun weiboRedirectUrl(weiboRedirectUrl: String): SocialGoConfig {
+        this.weiboRedirectUrl = weiboRedirectUrl
         return this
     }
 
@@ -97,16 +97,16 @@ class SocialGoConfig private constructor() {
         return qqAppId
     }
 
-    fun getSinaAppId(): String? {
-        return sinaAppId
+    fun getWeiboAppId(): String? {
+        return weiboAppId
     }
 
-    fun getSinaRedirectUrl(): String? {
-        return sinaRedirectUrl
+    fun getWeiboRedirectUrl(): String? {
+        return weiboRedirectUrl
     }
 
-    fun getSinaScope(): String? {
-        return sinaScope
+    fun getWeiboScope(): String? {
+        return weiboScope
     }
 
     fun isDebug(): Boolean {
@@ -123,9 +123,9 @@ class SocialGoConfig private constructor() {
                 ", wxAppId='" + wxAppId + '\''.toString() +
                 ", wxSecretKey='" + wxSecretKey + '\''.toString() +
                 ", qqAppId='" + qqAppId + '\''.toString() +
-                ", sinaAppId='" + sinaAppId + '\''.toString() +
-                ", sinaRedirectUrl='" + sinaRedirectUrl + '\''.toString() +
-                ", sinaScope='" + sinaScope + '\''.toString() +
+                ", sinaAppId='" + weiboAppId + '\''.toString() +
+                ", sinaRedirectUrl='" + weiboRedirectUrl + '\''.toString() +
+                ", sinaScope='" + weiboScope + '\''.toString() +
                 ", cacheDir='" + cacheDir + '\''.toString() +
                 '}'.toString()
     }
@@ -144,8 +144,8 @@ class SocialGoConfig private constructor() {
             config.cacheDir = shareDir.absolutePath
             // init
             config.appName = "android_app"
-            config.sinaRedirectUrl = SocialConstants.REDIRECT_URL
-            config.sinaScope = SocialConstants.SCOPE
+            config.weiboRedirectUrl = SocialConstants.REDIRECT_URL
+            config.weiboScope = SocialConstants.SCOPE
             config.isDebug = false
             return config
         }

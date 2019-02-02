@@ -36,6 +36,7 @@ dependencies {
     implementation rootProject.ext.dependencies.constraintlayout
     implementation rootProject.ext.dependencies.kotlin
 
+    implementation project(':socialgo')
     implementation 'com.pingerx:socialgo:1.0.1'
 //    implementation 'com.pingerx:social-qq:1.0.0'
 //    implementation 'com.pingerx:social-wechat:1.0.0'

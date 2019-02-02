@@ -1,9 +1,9 @@
 package com.pingerx.sample
 
 import android.app.Application
+import com.pingerx.socialgo.alipay.AliPlatform
 import com.pingerx.socialgo.core.SocialGo
 import com.pingerx.socialgo.core.SocialGoConfig
-import com.pingerx.socialgo.alipay.AliPlatform
 import com.pingerx.socialgo.qq.QQPlatform
 import com.pingerx.socialgo.wechat.WxPlatform
 import com.pingerx.socialgo.weibo.WbPlatform
@@ -22,7 +22,7 @@ class DemoApplication : Application() {
                 .debug(true)
                 .qq(AppConstant.QQ_APP_ID)
                 .wechat(AppConstant.WX_APP_ID, AppConstant.WX_APP_SECRET)
-                .sina(AppConstant.SINA_APP_KEY)
+                .weibo(AppConstant.SINA_APP_KEY)
 
         SocialGo
                 .init(config)

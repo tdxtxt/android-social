@@ -1,4 +1,5 @@
 # 第三方登录分享支付SDK
+ [ ![Download](https://api.bintray.com/packages/fungo/maven/social-android/images/download.svg) ](https://bintray.com/fungo/maven/social-android/_latestVersion)
 
 在项目中经常会用到一些第三方登录分享的组件，大部分项目同时也会用到支付组件。
 登录分享包括最常见的QQ，微信和微博，支付包括微信和支付宝。
@@ -20,25 +21,132 @@
 
 
 ### 添加依赖
+#### 添加所有平台
+* 全平台(QQ、微信、微博、阿里支付)SDK：
+
+      implementation 'com.pingerx:socialgo:1.0.x'
+
+#### 添加单个平台
+* 平台核心库SDK（使用单个平台时必须添加核心库SDK）
+
+      implementation 'com.pingerx:socialgo-core:1.0.x'
+
+* QQ平台SDK
+
+      implementation 'com.pingerx:socialgo-qq:1.0.x'
+
+* 微信平台SDK
+
+      implementation 'com.pingerx:socialgo-wechat:1.0.x'
+
+* 微博平台SDK
+
+      implementation 'com.pingerx:socialgo-weibo:1.0.x'
+
+* 支付宝平台SDK
+
+      implementation 'com.pingerx:socialgo-alipay:1.0.x'
 
 
+### 使用流程
+* 在Application中初始化第三方平台和配置各自的appkey
 
-### 使用
+        val config = SocialGoConfig.create(context)
+                .debug(true)
+                .qq(QQ_APP_ID)
+                .wechat(WX_APP_ID, AppConstant.WX_APP_SECRET)
+                .weibo(WEIBO_APP_KEY)
+
+        SocialGo
+                .init(config)
+                .registerWxPlatform(WxPlatform.Creator())
+                .registerWbPlatform(WbPlatform.Creator())
+                .registerQQPlatform(QQPlatform.Creator())
+                .registerAliPlatform(AliPlatform.Creator())
+                .setJsonAdapter(GsonJsonAdapter())
+                .setRequestAdapter(OkHttpRequestAdapter())
+
+* 登录
+
+        SocialGo.doLogin(this, Target.LOGIN_QQ) {
+            onStart {
+                mProgressDialog.show()
+                tvConsole?.text = "登录开始"
+            }
+
+            onSuccess {
+                mProgressDialog.dismiss()
+                tvConsole?.text = it.socialUser?.toString()
+            }
+
+            onCancel {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "登录取消"
+            }
+
+            onFailure {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "登录异常 + ${it?.errorMsg}"
+            }
+        }
+
+* 分享
+
+         SocialGo.doShare(this, platformType, shareMedia) {
+            onStart { _, _ ->
+                mProgressDialog.show()
+                tvConsole?.text = "分享开始"
+            }
+            onSuccess {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享成功"
+            }
+            onFailure {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享失败"
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (it.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+                    } else if (it.errorCode == SocialError.CODE_STORAGE_WRITE_ERROR) {
+                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+                    }
+                }
+            }
+            onCancel {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享取消"
+            }
+        }
+
+
+* 支付
+
+         SocialGo.doPay(this, params, Target.SHARE_QQ_FRIENDS) {
+            onStart {
+                tvConsole?.text = "支付开始"
+            }
+            onSuccess {
+                tvConsole?.text = "支付成功"
+            }
+            onDealing {
+                tvConsole?.text = "支付Dealing"
+            }
+            onFailure {
+                tvConsole?.text = "支付异常：${it?.errorMsg}"
+            }
+            onCancel {
+                tvConsole?.text = "支付取消"
+            }
+        }
+
+
 
 
 
 
 
 ### 第三方底层SDK版本
-*  QQ
-
-* 微信
-
-* 微博
-
-* 支付宝
-
-
-
-
-
+* QQ：`open_sdk_r6019_lite.jar`
+* 微信：`com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.3.1`
+* 微博：`com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar`
+* 支付宝：`com.pingerx:alipay-sdk:1.0.0`

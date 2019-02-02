@@ -101,15 +101,23 @@ class MainActivity : AppCompatActivity() {
 
             onFailure {
                 mProgressDialog.dismiss()
-                tvConsole?.text = "登录异常 + ${it?.errorMsg}"
+                tvConsole?.text = "登录异常 + ${it.errorMsg}"
             }
         }
     }
 
     fun onShare(view: View) {
-        mProgressDialog.show()
         SocialGo.doShare(this, platformType, shareMedia) {
+            onStart { _, _ ->
+                mProgressDialog.show()
+                tvConsole?.text = "分享开始"
+            }
+            onSuccess {
+                mProgressDialog.dismiss()
+                tvConsole?.text = "分享成功"
+            }
             onFailure {
+                mProgressDialog.dismiss()
                 tvConsole?.text = "分享失败"
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (it.errorCode == SocialError.CODE_STORAGE_READ_ERROR) {
@@ -119,15 +127,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            onStart { _, _ ->
-                mProgressDialog.dismiss()
-                tvConsole?.text = "分享开始"
-            }
-            onSuccess {
-                mProgressDialog.dismiss()
-                tvConsole?.text = "分享成功"
-            }
             onCancel {
+                mProgressDialog.dismiss()
                 tvConsole?.text = "分享取消"
             }
         }
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             onFailure {
-                tvConsole?.text = "支付异常：${it?.errorMsg}"
+                tvConsole?.text = "支付异常：${it.errorMsg}"
             }
 
             onCancel {

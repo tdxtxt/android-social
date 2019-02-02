@@ -32,10 +32,10 @@ class WbPlatform constructor(context: Context, appId: String?, appName: String?,
     class Creator : PlatformCreator {
         override fun create(context: Context, target: Int): IPlatform {
             val config = SocialGo.getConfig()
-            val appId = config.getSinaAppId()
+            val appId = config.getWeiboAppId()
             val appName = config.getAppName()
-            val redirectUrl = config.getSinaRedirectUrl()
-            val scope = config.getSinaScope()
+            val redirectUrl = config.getWeiboRedirectUrl()
+            val scope = config.getWeiboScope()
             if (SocialGoUtils.isAnyEmpty(appId, appName, redirectUrl, scope)) {
                 throw IllegalArgumentException(SocialError.MSG_WB_ID_NULL)
             }
