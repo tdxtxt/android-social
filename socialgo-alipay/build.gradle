@@ -19,7 +19,7 @@ android {
 dependencies {
     compileOnly rootProject.ext.dependencies.kotlin
     compileOnly project(':socialgo-core')
-    implementation files('libs/alipaySdk-15.5.9-20181123210601.jar')
+    implementation 'com.pingerx:alipay-sdk:1.0.0'
 }
 
 

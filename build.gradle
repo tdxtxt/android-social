@@ -35,7 +35,7 @@ task clean(type: Delete) {
 
 ext {
     name = "social-android"
-    version = "1.0.0"
+    version = "1.0.1"
     groupId = "com.pingerx"
     siteUrl = "https://github.com/pingerx/social-android"
     gitUrl = "https://github.com/pingerx/social-android.git"
