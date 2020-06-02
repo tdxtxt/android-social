@@ -18,6 +18,7 @@ android {
 dependencies {
     compileOnly rootProject.ext.dependencies.appcompat
     compileOnly rootProject.ext.dependencies.kotlin
+    compileOnly rootProject.ext.dependencies.gson
 }
 
 

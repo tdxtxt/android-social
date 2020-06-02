@@ -1,6 +1,7 @@
 package com.pingerx.socialgo.core.platform
 
-import androidx.annotation.IntDef
+import android.support.annotation.IntDef
+
 
 /**
  * 第三方平台操作的目标

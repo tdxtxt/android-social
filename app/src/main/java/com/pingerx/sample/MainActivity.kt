@@ -4,9 +4,9 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.pingerx.socialgo.core.SocialGo
 import com.pingerx.socialgo.core.exception.SocialError
 import com.pingerx.socialgo.core.model.ShareEntity
