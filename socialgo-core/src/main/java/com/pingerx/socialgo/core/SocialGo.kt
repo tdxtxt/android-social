@@ -69,6 +69,9 @@ object SocialGo {
         return this
     }
 
+    //判断是否初始化sdk
+    fun isInitSDK() = mSocialSdkConfig != null
+
 
     ///////////////////////////////////////////////////////////////////////////
     // Platform 注册
