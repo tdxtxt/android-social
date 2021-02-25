@@ -25,6 +25,8 @@ interface IShareAction {
 
     fun shareVideo(shareTarget: Int, activity: Activity, entity: ShareEntity)
 
+    fun shareMiniProgram(shareTarget: Int, activity: Activity, entity: ShareEntity)
+
     fun share(activity: Activity, target: Int, entity: ShareEntity, listener: OnShareListener) {
         when (entity.getShareType()) {
             ShareEntity.SHARE_OPEN_APP -> shareOpenApp(target, activity, entity)
@@ -34,6 +36,7 @@ interface IShareAction {
             ShareEntity.SHARE_TYPE_WEB -> shareWeb(target, activity, entity)
             ShareEntity.SHARE_TYPE_MUSIC -> shareMusic(target, activity, entity)
             ShareEntity.SHARE_TYPE_VIDEO -> shareVideo(target, activity, entity)
+            ShareEntity.SHARE_TYPE_MINIPROGRAM -> shareMiniProgram(target, activity, entity)
         }
     }
 }

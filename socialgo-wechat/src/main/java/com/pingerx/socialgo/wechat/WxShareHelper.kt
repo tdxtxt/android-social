@@ -129,6 +129,27 @@ class WxShareHelper(private val wxApi: IWXAPI) : IShareAction {
         }
     }
 
+    override fun shareMiniProgram(shareTarget: Int, activity: Activity, entity: ShareEntity) {
+        SocialGo.getExecutor().execute {
+            val thumbData = SocialGoUtils.getStaticSizeBitmapByteByPath(entity.getThumbImagePath())
+            SocialGo.getHandler().post {
+                if (thumbData == null) {
+                    getThumbImageFailure("shareMiniProgram")
+                } else {
+                    val miniProgram = WXMiniProgramObject()
+                    miniProgram.webpageUrl = entity.getTargetUrl()
+                    miniProgram.miniprogramType =  WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE // 正式版:0，测试版:1，体验版:2
+                    miniProgram.userName = entity.getUserName()
+                    miniProgram.path = entity.getPath()
+                    val msg = WXMediaMessage(miniProgram)
+                    msg.title = entity.getTitle()
+                    msg.description = entity.getSummary()
+                    msg.thumbData = thumbData
+                    sendMsgToWx(msg, shareTarget, "miniProgram")
+                }
+            }
+        }
+    }
 
     private fun shareVideoByIntent(activity: Activity, obj: ShareEntity, pkg: String, page: String) {
         val result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page)

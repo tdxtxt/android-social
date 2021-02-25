@@ -22,6 +22,10 @@ object ShareEntityChecker {
 
     fun checkShareValid(entity: ShareEntity, shareTarget: Int): Boolean {
         when (entity.getShareType()) {
+            // 小程序分享
+            ShareEntity.SHARE_TYPE_MINIPROGRAM -> {
+                return isMinProgramValid(entity)
+            }
             // 文字分享，title,summary 必须有
             ShareEntity.SHARE_TYPE_TEXT -> {
                 return isTitleSummaryValid(entity)
@@ -67,6 +71,14 @@ object ShareEntityChecker {
             }
         }
         return false
+    }
+
+    private fun isMinProgramValid(entity: ShareEntity): Boolean {
+        val valid = !SocialGoUtils.isAnyEmpty(entity.getTitle(), entity.getSummary(), entity.getTargetUrl())
+        if(!valid) {
+            sErrMsgRef = ErrMsgRef("title summary targetUrl不能空", entity)
+        }
+        return valid
     }
 
     private fun isTitleSummaryValid(entity: ShareEntity): Boolean {

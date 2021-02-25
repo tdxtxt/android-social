@@ -121,6 +121,10 @@ class WbShareHelper : IShareAction, Recyclable {
         }
     }
 
+    override fun shareMiniProgram(shareTarget: Int, activity: Activity, entity: ShareEntity) {
+        SocialLogUtils.e("暂未实现")
+    }
+
     /**
      * 根据ShareMediaObj配置来检测是不是添加文字和照片
      */

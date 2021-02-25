@@ -156,6 +156,10 @@ class QQShareHelper(private val tencentApi: Tencent, private val appName: String
         }
     }
 
+    override fun shareMiniProgram(shareTarget: Int, activity: Activity, entity: ShareEntity) {
+        SocialLogUtils.e("暂未实现")
+    }
+
     private fun shareVideoByIntent(activity: Activity, obj: ShareEntity, pkg: String, page: String) {
         val result = SocialGoUtils.shareVideo(activity, obj.getMediaPath(), pkg, page)
         if (result) {

@@ -30,6 +30,9 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
     private var isSinaWithPicture = false
     // 使用本地 intent 打开，分享本地视频用
     private var isShareByIntent = false
+    //小程序跳转路径
+    private var miniProgramUserName: String? = null
+    private var miniProgramPath: String? = null
 
     constructor(parcel: Parcel) : this(parcel.readInt()) {
         title = parcel.readString()
@@ -42,6 +45,8 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
         isSinaWithSummary = parcel.readByte() != 0.toByte()
         isSinaWithPicture = parcel.readByte() != 0.toByte()
         isShareByIntent = parcel.readByte() != 0.toByte()
+        miniProgramUserName = parcel.readString()
+        miniProgramPath = parcel.readString()
     }
 
 
@@ -105,6 +110,14 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
         return isSinaWithSummary
     }
 
+    fun getUserName(): String?{
+        return miniProgramUserName
+    }
+
+    fun getPath(): String?{
+        return miniProgramPath
+    }
+
     override fun toString(): String {
         return "ShareEntity{" +
                 "shareObjType=" + shareObjType +
@@ -130,6 +143,7 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
         const val SHARE_TYPE_MUSIC = 0x45  // 分享音乐
         const val SHARE_TYPE_VIDEO = 0x46  // 分享视频
         const val SHARE_OPEN_APP = 0x99    // 打开 app
+        const val SHARE_TYPE_MINIPROGRAM = 0x88 //分享小程序
 
         // 直接打开对应app
         fun buildOpenAppObj(): ShareEntity {
@@ -170,6 +184,15 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
         fun buildWebObj(title: String, summary: String, thumbImagePath: String, targetUrl: String): ShareEntity {
             val shareMediaObj = ShareEntity(SHARE_TYPE_WEB)
             shareMediaObj.init(title, summary, thumbImagePath, targetUrl)
+            return shareMediaObj
+        }
+
+        // 分享小程序
+        fun buildMiniProgramObj(title: String, summary: String, thumbImagePath: String, targetUrl: String, userName: String, path: String?): ShareEntity {
+            val shareMediaObj = ShareEntity(SHARE_TYPE_MINIPROGRAM)
+            shareMediaObj.init(title, summary, thumbImagePath, targetUrl)
+            shareMediaObj.miniProgramUserName = userName
+            shareMediaObj.miniProgramPath = path
             return shareMediaObj
         }
 
@@ -224,6 +247,8 @@ class ShareEntity(val shareObjType: Int) : Parcelable {
         parcel.writeByte(if (isSinaWithSummary) 1 else 0)
         parcel.writeByte(if (isSinaWithPicture) 1 else 0)
         parcel.writeByte(if (isShareByIntent) 1 else 0)
+        parcel.writeString(miniProgramUserName)
+        parcel.writeString(miniProgramPath)
     }
 
     override fun describeContents(): Int {

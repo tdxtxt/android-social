@@ -4,16 +4,16 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import androidx.fragment.app.FragmentActivity
 import com.pingerx.socialgo.core.SocialGo
 import com.pingerx.socialgo.core.exception.SocialError
 import com.pingerx.socialgo.core.model.ShareEntity
 import com.pingerx.socialgo.core.platform.Target
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity() {
 
     private var platformType: Int = Target.SHARE_QQ_FRIENDS
     private lateinit var shareMedia: ShareEntity
