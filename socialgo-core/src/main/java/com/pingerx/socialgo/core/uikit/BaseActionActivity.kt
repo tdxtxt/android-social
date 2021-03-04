@@ -66,6 +66,10 @@ open class BaseActionActivity : Activity() {
         checkFinish()
     }
 
+    protected fun handleReq(req: Any?){
+        getPlatform()?.onReq(this, req)
+    }
+
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     private fun checkFinish() {
         if (!isFinishing) {

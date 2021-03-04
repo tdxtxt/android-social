@@ -2,8 +2,11 @@ package com.pingerx.socialgo.wechat
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
+import android.widget.Toast
 import com.pingerx.socialgo.core.SocialGo
+import com.pingerx.socialgo.core.SocialGoConfig
 import com.pingerx.socialgo.core.exception.SocialError
 import com.pingerx.socialgo.core.listener.OnLoginListener
 import com.pingerx.socialgo.core.listener.OnPayListener
@@ -15,11 +18,14 @@ import com.pingerx.socialgo.core.platform.IPlatform
 import com.pingerx.socialgo.core.platform.PlatformCreator
 import com.pingerx.socialgo.core.platform.Target
 import com.pingerx.socialgo.core.utils.SocialGoUtils
+import com.pingerx.socialgo.core.utils.SocialLogUtils
 import com.pingerx.socialgo.wechat.uikit.WxActionActivity
 import com.tencent.mm.opensdk.constants.Build
 import com.tencent.mm.opensdk.constants.ConstantsAPI
+import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
+import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import com.tencent.mm.opensdk.modelpay.PayReq
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
@@ -120,6 +126,23 @@ class WxPlatform constructor(context: Context, appId: String?, private val wxSec
                 }
             }
             resp.type == ConstantsAPI.COMMAND_PAY_BY_WX -> onPayResp(resp.errCode)
+        }
+    }
+
+    override fun onReq(activity: Activity, req: Any?) {
+        if (req !is BaseReq) {
+            return
+        }
+        //把消息广播出去
+        if (req.type == ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX && req is ShowMessageFromWX.Req) {
+            val mediaMsg = req.message
+            val extInfo = mediaMsg.messageExt
+
+            SocialLogUtils.e(extInfo)
+
+            val intent = Intent(SocialGo.getConfig().getStartAction())
+            intent.putExtra("extra", extInfo)
+            activity.sendBroadcast(intent)
         }
     }
 

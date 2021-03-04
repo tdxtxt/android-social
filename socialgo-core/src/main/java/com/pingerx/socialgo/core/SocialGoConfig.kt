@@ -14,6 +14,7 @@ class SocialGoConfig private constructor() {
     private var isDebug: Boolean = false            // 调试配置
     private var appName: String? = null             // 应用名
     private var wxAppId: String? = null             // 微信配置
+    private var startAction: String = "com.social.startaction" //微信h5拉起App发送广播Action
     private var wxSecretKey: String? = null
     private var isOnlyAuthCode: Boolean = false
 
@@ -73,6 +74,11 @@ class SocialGoConfig private constructor() {
         return this
     }
 
+    fun startAction(startAction: String): SocialGoConfig {
+        this.startAction = startAction
+        return this
+    }
+
     fun getDefImageResId(): Int {
         return defImageResId
     }
@@ -87,6 +93,10 @@ class SocialGoConfig private constructor() {
 
     fun getWxAppId(): String? {
         return wxAppId
+    }
+
+    fun getStartAction(): String? {
+        return startAction
     }
 
     fun getWxSecretKey(): String? {

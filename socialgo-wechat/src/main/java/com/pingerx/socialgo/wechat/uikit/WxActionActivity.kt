@@ -15,6 +15,11 @@ class WxActionActivity : BaseActionActivity(), IWXAPIEventHandler {
         handleResp(resp)
     }
 
-    override fun onReq(p0: BaseReq?) {
+    /**
+     * 从微信启动App
+     * @param req
+     */
+    override fun onReq(req: BaseReq?) {
+        handleReq(req)
     }
 }

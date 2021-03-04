@@ -87,6 +87,10 @@ abstract class AbsPlatform(protected var appId: String?, protected var appName: 
 
     }
 
+    override fun onReq(activity: Activity, req: Any?) {
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
     }
